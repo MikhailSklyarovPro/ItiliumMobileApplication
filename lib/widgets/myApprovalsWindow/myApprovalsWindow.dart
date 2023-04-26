@@ -1,17 +1,16 @@
 import 'package:flutter/material.dart';
 
-class MyOutfitsWindow extends StatefulWidget {
-  const MyOutfitsWindow({Key? key}) : super(key: key);
+class MyApprovalsWindow extends StatefulWidget {
+  const MyApprovalsWindow({Key? key}) : super(key: key);
 
   @override
-  State<MyOutfitsWindow> createState() => _MyOutfitsWindowState();
+  State<MyApprovalsWindow> createState() => _MyApprovalsWindowState();
 }
 
-class _MyOutfitsWindowState extends State<MyOutfitsWindow> {
-
+class _MyApprovalsWindowState extends State<MyApprovalsWindow> {
   @override
   Widget build(BuildContext context) {
-    int selectedTab = 1;
+    int selectedTab = 2;
     final height = MediaQuery.of(context).size.height;
     final width = MediaQuery.of(context).size.width;
     void onSelectTab(int index) {
@@ -35,13 +34,12 @@ class _MyOutfitsWindowState extends State<MyOutfitsWindow> {
 
     return Scaffold(
       appBar: AppBar(
-        toolbarHeight: height*0.08,
-        backgroundColor: const Color.fromARGB(255, 247, 147, 48),
+        backgroundColor: const Color.fromARGB(255, 51, 156, 48),
         automaticallyImplyLeading: false,
         title: Row(
           children: [
             const Text(
-              'Мои наряды',
+              'Мои согласования',
               style: TextStyle(
                   fontSize: 25,
                   fontWeight: FontWeight.w400,
@@ -84,7 +82,7 @@ class _MyOutfitsWindowState extends State<MyOutfitsWindow> {
       ),
       body: ListView.builder(
         padding: const EdgeInsets.all(8),
-        itemCount: 8,
+        itemCount: 20,
         itemBuilder: (BuildContext context, int index) {
           return Card(
             elevation: 3,
@@ -93,7 +91,7 @@ class _MyOutfitsWindowState extends State<MyOutfitsWindow> {
               borderRadius: BorderRadius.circular(12),
               side: const BorderSide(
                 width: 2,
-                color: Color.fromARGB(255, 247, 147, 48),
+                color: Color.fromARGB(255, 51, 156, 48),
               ),
             ),
             child: Stack(
@@ -102,24 +100,24 @@ class _MyOutfitsWindowState extends State<MyOutfitsWindow> {
                 InkWell(
                   onTap: () {
                     Navigator.pushNamed(
-                        context, '/myOutfitsWindow/detailedOutfit');
+                        context, '/myApprovalsWindow/detailedApprovals');
                   },
-                  highlightColor: Color.fromARGB(110, 247, 147, 48),
+                  highlightColor: Color.fromARGB(140, 60, 160, 50),
                   child: Container(
                     padding: EdgeInsets.only(
                         left: width * 0.06,
                         top: width * 0.03,
                         bottom: width * 0.03,
                         right: width * 0.06),
-                    height: height * 0.45,
+                    height: height * 0.3,
                     child: Column(
                       children: [
                         Row(
                           mainAxisAlignment: MainAxisAlignment.spaceAround,
                           children: [
                             Column(
-                              children: const [
-                                Text(
+                              children: [
+                                const Text(
                                   'Номер',
                                   style: TextStyle(
                                       fontSize: 14,
@@ -127,7 +125,7 @@ class _MyOutfitsWindowState extends State<MyOutfitsWindow> {
                                       color:
                                           Color.fromARGB(255, 163, 164, 174)),
                                 ),
-                                Text(
+                                const Text(
                                   '№030304567',
                                   style: TextStyle(
                                       fontSize: 24,
@@ -142,8 +140,8 @@ class _MyOutfitsWindowState extends State<MyOutfitsWindow> {
                               color: const Color.fromARGB(255, 163, 164, 174),
                             ),
                             Column(
-                              children: const [
-                                Text(
+                              children: [
+                                const Text(
                                   'Дата',
                                   style: TextStyle(
                                       fontSize: 14,
@@ -151,7 +149,7 @@ class _MyOutfitsWindowState extends State<MyOutfitsWindow> {
                                       color:
                                           Color.fromARGB(255, 163, 164, 174)),
                                 ),
-                                Text(
+                                const Text(
                                   '01.03.2030',
                                   style: TextStyle(
                                       fontSize: 24,
@@ -161,6 +159,22 @@ class _MyOutfitsWindowState extends State<MyOutfitsWindow> {
                               ],
                             ),
                           ],
+                        ),
+                        const Divider(
+                            color: Color.fromARGB(255, 163, 164, 174)),
+                        const Text(
+                          'Тема обращения',
+                          style: TextStyle(
+                              fontSize: 14,
+                              fontWeight: FontWeight.w300,
+                              color: Color.fromARGB(255, 163, 164, 174)),
+                        ),
+                        const Text(
+                          'Тема обращения',
+                          style: TextStyle(
+                              fontSize: 24,
+                              fontWeight: FontWeight.w400,
+                              color: Color.fromARGB(255, 0, 0, 0)),
                         ),
                         const Divider(
                             color: Color.fromARGB(255, 163, 164, 174)),
@@ -181,96 +195,14 @@ class _MyOutfitsWindowState extends State<MyOutfitsWindow> {
                         const Divider(
                             color: Color.fromARGB(255, 163, 164, 174)),
                         const Text(
-                          'Услуга',
+                          'Статус согласования',
                           style: TextStyle(
                               fontSize: 14,
                               fontWeight: FontWeight.w300,
                               color: Color.fromARGB(255, 163, 164, 174)),
                         ),
                         const Text(
-                          'Название услуги',
-                          style: TextStyle(
-                              fontSize: 24,
-                              fontWeight: FontWeight.w400,
-                              color: Color.fromARGB(255, 0, 0, 0)),
-                        ),
-                        const Divider(
-                            color: Color.fromARGB(255, 163, 164, 174)),
-                        const Text(
-                          'Состав услуги',
-                          style: TextStyle(
-                              fontSize: 14,
-                              fontWeight: FontWeight.w300,
-                              color: Color.fromARGB(255, 163, 164, 174)),
-                        ),
-                        const Text(
-                          'Состав услуги',
-                          style: TextStyle(
-                              fontSize: 24,
-                              fontWeight: FontWeight.w400,
-                              color: Color.fromARGB(255, 0, 0, 0)),
-                        ),
-                        const Divider(
-                          color: Color.fromARGB(255, 163, 164, 174),
-                        ),
-                        Row(
-                          mainAxisAlignment: MainAxisAlignment.spaceAround,
-                          children: [
-                            Column(
-                              children: const [
-                                Text(
-                                  'Статус наряда',
-                                  style: TextStyle(
-                                      fontSize: 14,
-                                      fontWeight: FontWeight.w300,
-                                      color:
-                                          Color.fromARGB(255, 163, 164, 174)),
-                                ),
-                                Text(
-                                  'Статус наряда',
-                                  style: TextStyle(
-                                      fontSize: 24,
-                                      fontWeight: FontWeight.w400,
-                                      color: Color.fromARGB(255, 0, 0, 0)),
-                                ),
-                              ],
-                            ),
-                            Container(
-                              width: 0.5,
-                              height: height * 0.05,
-                              color: const Color.fromARGB(255, 163, 164, 174),
-                            ),
-                            Column(
-                              children: const [
-                                Text(
-                                  'Состояние',
-                                  style: TextStyle(
-                                      fontSize: 14,
-                                      fontWeight: FontWeight.w300,
-                                      color:
-                                          Color.fromARGB(255, 163, 164, 174)),
-                                ),
-                                Text(
-                                  'Состояние',
-                                  style: TextStyle(
-                                      fontSize: 24,
-                                      fontWeight: FontWeight.w400,
-                                      color: Color.fromARGB(255, 0, 0, 0)),
-                                ),
-                              ],
-                            ),
-                          ],
-                        ),
-                        const Divider(
-                            color: Color.fromARGB(255, 163, 164, 174)),
-                        const Text('Важность заявки',
-                            style: TextStyle(
-                              fontSize: 14,
-                              fontWeight: FontWeight.w300,
-                              color: Color.fromARGB(255, 163, 164, 174),
-                            )),
-                        const Text(
-                          'Низкая',
+                          'Согласовано',
                           style: TextStyle(
                               fontSize: 24,
                               fontWeight: FontWeight.w400,
@@ -295,7 +227,7 @@ class _MyOutfitsWindowState extends State<MyOutfitsWindow> {
         },
       ),
       bottomNavigationBar: BottomNavigationBar(
-        backgroundColor: const Color.fromARGB(255, 247, 147, 48),
+        backgroundColor: const Color.fromARGB(255, 51, 156, 48),
         selectedItemColor: const Color.fromARGB(255, 0, 0, 0),
         unselectedItemColor: const Color.fromARGB(255, 255, 255, 255),
         currentIndex: selectedTab,
