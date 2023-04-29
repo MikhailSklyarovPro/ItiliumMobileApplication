@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 
-class DetailedOutfit extends StatelessWidget {
-  const DetailedOutfit({Key? key}) : super(key: key);
+class DetailedRequest extends StatelessWidget {
+  const DetailedRequest({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -10,13 +10,13 @@ class DetailedOutfit extends StatelessWidget {
     return Scaffold(
         appBar: AppBar(
           toolbarHeight: height * 0.09,
-          backgroundColor: const Color.fromARGB(255, 247, 147, 48),
+          backgroundColor: const Color.fromARGB(255, 51, 156, 255),
           automaticallyImplyLeading: false,
           title: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: const [
               Text(
-                'Наряд №030304567',
+                'Обращение №030304567',
                 style: TextStyle(
                     fontSize: 25,
                     fontWeight: FontWeight.w400,
@@ -39,7 +39,7 @@ class DetailedOutfit extends StatelessWidget {
                   size: width * 0.1,
                 ),
                 onPressed: () {
-                  Navigator.pushNamed(context, '/myOutfitsWindow');
+                  Navigator.pushNamed(context, '/myRequestsWindow');
                 }),
           ],
         ),
@@ -48,174 +48,88 @@ class DetailedOutfit extends StatelessWidget {
             Expanded(
               child: SingleChildScrollView(
                   child: Padding(
-                padding: EdgeInsets.all(width * 0.04),
-                child: Column(
-                  children: [
-                    const Text(
-                      'Инициатор',
-                      style: TextStyle(
-                          fontSize: 14,
-                          fontWeight: FontWeight.w300,
-                          color: Color.fromARGB(185, 0, 0, 0)),
-                    ),
-                    const Text(
-                      'Васильев Василий Васильевич',
-                      textAlign: TextAlign.center,
-                      style: TextStyle(
-                          fontSize: 24,
-                          fontWeight: FontWeight.w400,
-                          color: Color.fromARGB(255, 0, 0, 0)),
-                    ),
-                    const Divider(color: Color.fromARGB(255, 163, 164, 174)),
-                    const Text(
-                      'Организация',
-                      style: TextStyle(
-                          fontSize: 14,
-                          fontWeight: FontWeight.w300,
-                          color: Color.fromARGB(185, 0, 0, 0)),
-                    ),
-                    const Text(
-                      'ОАО Газпром',
-                      textAlign: TextAlign.center,
-                      style: TextStyle(
-                          fontSize: 24,
-                          fontWeight: FontWeight.w400,
-                          color: Color.fromARGB(255, 0, 0, 0)),
-                    ),
-                    const Divider(color: Color.fromARGB(255, 163, 164, 174)),
-                    const Service(),
-                    const Divider(color: Color.fromARGB(255, 163, 164, 174)),
-                    const Application(),
-                    const Divider(color: Color.fromARGB(255, 163, 164, 174)),
-                    const Text(
-                      'Состояние',
-                      style: TextStyle(
-                          fontSize: 14,
-                          fontWeight: FontWeight.w300,
-                          color: Color.fromARGB(185, 0, 0, 0)),
-                    ),
-                    const Text(
-                      'Состояние наряда',
-                      textAlign: TextAlign.center,
-                      style: TextStyle(
-                          fontSize: 24,
-                          fontWeight: FontWeight.w400,
-                          color: Color.fromARGB(255, 0, 0, 0)),
-                    ),
-                    Row(
-                      crossAxisAlignment: CrossAxisAlignment.center,
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: [
-                        IconButton(
-                          onPressed: () {
-                            Navigator.pushNamed(
-                                context, '');
-                          },
-                          icon:
-                              Image.asset('assets/images/buttonIcon/play.png'),
-                          iconSize: width * 0.11,
-                          alignment: Alignment.topRight,
+                    padding: EdgeInsets.all(width * 0.04),
+                    child: Column(
+                      children: const [
+                        Text(
+                          'Состояние',
+                          style: TextStyle(
+                              fontSize: 14,
+                              fontWeight: FontWeight.w300,
+                              color: Color.fromARGB(185, 0, 0, 0)),
                         ),
-                        IconButton(
-                          onPressed: () {
-                            Navigator.pushNamed(
-                                context, '');
-                          },
-                          icon:
-                              Image.asset('assets/images/buttonIcon/pause.png'),
-                          iconSize: width * 0.09,
-                          alignment: Alignment.topRight,
+                        Text(
+                          'Статус обращения',
+                          textAlign: TextAlign.center,
+                          style: TextStyle(
+                              fontSize: 24,
+                              fontWeight: FontWeight.w400,
+                              color: Color.fromARGB(255, 0, 0, 0)),
                         ),
+                        Divider(color: Color.fromARGB(255, 163, 164, 174)),
+                        Service(),
+                        Divider(color: Color.fromARGB(255, 163, 164, 174)),
+                        Text(
+                          'Инициатор',
+                          style: TextStyle(
+                              fontSize: 14,
+                              fontWeight: FontWeight.w300,
+                              color: Color.fromARGB(185, 0, 0, 0)),
+                        ),
+                        Text(
+                          'ФИО инициатора',
+                          textAlign: TextAlign.center,
+                          style: TextStyle(
+                              fontSize: 24,
+                              fontWeight: FontWeight.w400,
+                              color: Color.fromARGB(255, 0, 0, 0)),
+                        ),
+                        Divider(color: Color.fromARGB(255, 163, 164, 174)),
+                        Text(
+                          'Организация',
+                          style: TextStyle(
+                              fontSize: 14,
+                              fontWeight: FontWeight.w300,
+                              color: Color.fromARGB(185, 0, 0, 0)),
+                        ),
+                        Text(
+                          'Организация',
+                          textAlign: TextAlign.center,
+                          style: TextStyle(
+                              fontSize: 24,
+                              fontWeight: FontWeight.w400,
+                              color: Color.fromARGB(255, 0, 0, 0)),
+                        ),
+                        Divider(color: Color.fromARGB(255, 163, 164, 174)),
+                        Application(),
+                        Divider(color: Color.fromARGB(255, 163, 164, 174)),
+                        Text(
+                          'Важность заявки',
+                          style: TextStyle(
+                              fontSize: 14,
+                              fontWeight: FontWeight.w300,
+                              color: Color.fromARGB(185, 0, 0, 0)),
+                        ),
+                        Text(
+                          'Средняя',
+                          textAlign: TextAlign.center,
+                          style: TextStyle(
+                              fontSize: 24,
+                              fontWeight: FontWeight.w400,
+                              color: Color.fromARGB(255, 0, 0, 0)),
+                        ),
+                        Divider(color: Color.fromARGB(255, 163, 164, 174)),
                       ],
                     ),
-                    const Divider(color: Color.fromARGB(255, 163, 164, 174)),
-                    const Text(
-                      'Статус выполнения',
-                      style: TextStyle(
-                          fontSize: 14,
-                          fontWeight: FontWeight.w300,
-                          color: Color.fromARGB(185, 0, 0, 0)),
-                    ),
-                    const Text(
-                      'Статус выполнения',
-                      textAlign: TextAlign.center,
-                      style: TextStyle(
-                          fontSize: 24,
-                          fontWeight: FontWeight.w400,
-                          color: Color.fromARGB(255, 0, 0, 0)),
-                    ),
-                    Row(
-                      crossAxisAlignment: CrossAxisAlignment.center,
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: [
-                        IconButton(
-                          onPressed: () {
-                            Navigator.pushNamed(
-                                context, '');
-                          },
-                          icon: Image.asset(
-                              'assets/images/buttonIcon/checkMark.png'),
-                          iconSize: width * 0.11,
-                          alignment: Alignment.topRight,
-                        ),
-                        IconButton(
-                          onPressed: () {
-                            Navigator.pushNamed(
-                                context, '');
-                          },
-                          icon: Image.asset(
-                              'assets/images/buttonIcon/redClose.png'),
-                          iconSize: width * 0.1,
-                          alignment: Alignment.topRight,
-                        ),
-                        IconButton(
-                          onPressed: () {
-                            Navigator.pushNamed(
-                                context, '');
-                          },
-                          icon: Image.asset(
-                              'assets/images/buttonIcon/blueClose.png'),
-                          iconSize: width * 0.1,
-                          alignment: Alignment.topRight,
-                        ),
-                        IconButton(
-                          onPressed: () {
-                            Navigator.pushNamed(
-                                context, '');
-                          },
-                          icon: Image.asset(
-                              'assets/images/buttonIcon/eraser.png'),
-                          iconSize: width * 0.1,
-                          alignment: Alignment.topRight,
-                        ),
-                      ],
-                    ),
-                    const Divider(color: Color.fromARGB(255, 163, 164, 174)),
-                    const Text(
-                      'Важность заявки',
-                      style: TextStyle(
-                          fontSize: 14,
-                          fontWeight: FontWeight.w300,
-                          color: Color.fromARGB(185, 0, 0, 0)),
-                    ),
-                    const Text(
-                      'Низкая',
-                      textAlign: TextAlign.center,
-                      style: TextStyle(
-                          fontSize: 24,
-                          fontWeight: FontWeight.w400,
-                          color: Color.fromARGB(255, 0, 0, 0)),
-                    ),
-                    const Divider(color: Color.fromARGB(255, 163, 164, 174)),
-                  ],
-                ),
-              )),
+                  )),
             ),
             const ButtonsBottom(),
           ],
         ));
   }
 }
+
+
 
 class ButtonsBottom extends StatefulWidget {
   const ButtonsBottom({Key? key}) : super(key: key);
@@ -241,8 +155,8 @@ class _ButtonsBottomState extends State<ButtonsBottom> {
               style: ElevatedButton.styleFrom(
                   shape: RoundedRectangleBorder(
                       borderRadius: BorderRadius.circular(30)),
-                  backgroundColor: const Color.fromARGB(255, 247, 147, 48),
-                  foregroundColor: const Color.fromARGB(255, 128, 53, 4),
+                  backgroundColor: const Color.fromARGB(255, 51, 156, 255),
+                  foregroundColor: const Color.fromARGB(255, 9, 82, 150),
                   padding: const EdgeInsets.symmetric(vertical: 14)),
               child: SizedBox(
                   width: width * 0.4,
@@ -305,50 +219,50 @@ class _ServiceState extends State<Service> {
     final width = MediaQuery.of(context).size.width;
     return Column(
       children: [
-      Stack(
-      alignment: AlignmentDirectional.center,
-      children: [
-        Container(
-          alignment: Alignment.center,
-          padding: EdgeInsets.only(left: width*0.03, right: width*0.08),
-          child: Column(
-            children: [
-               Padding(
-                padding: EdgeInsets.only(left: width * 0.04),
-                child: const Text(
-                  'Услуга',
-                  textAlign: TextAlign.center,
-                  style: TextStyle(
-                      fontSize: 14,
-                      fontWeight: FontWeight.w300,
-                      color: Color.fromARGB(185, 0, 0, 0)),
-                ),
+        Stack(
+          alignment: AlignmentDirectional.center,
+          children: [
+            Container(
+              alignment: Alignment.center,
+              padding: EdgeInsets.only(left: width*0.03, right: width*0.08),
+              child: Column(
+                children: [
+                  Padding(
+                    padding: EdgeInsets.only(left: width * 0.04),
+                    child: const Text(
+                      'Услуга',
+                      textAlign: TextAlign.center,
+                      style: TextStyle(
+                          fontSize: 14,
+                          fontWeight: FontWeight.w300,
+                          color: Color.fromARGB(185, 0, 0, 0)),
+                    ),
+                  ),
+                  textOverFlow
+                      ?  Text(
+                    textService,
+                    textAlign: TextAlign.center,
+                    overflow: TextOverflow.ellipsis,
+                    style: const TextStyle(
+                        fontSize: 24,
+                        fontWeight: FontWeight.w400,
+                        color: Color.fromARGB(255, 0, 0, 0)),
+                  )
+                      :  Text(
+                    textService,
+                    textAlign: TextAlign.center,
+                    style: const TextStyle(
+                        fontSize: 24,
+                        fontWeight: FontWeight.w400,
+                        color: Color.fromARGB(255, 0, 0, 0)),
+                  ),
+                ],
               ),
-              textOverFlow
-                  ?  Text(
-                textService,
-                textAlign: TextAlign.center,
-                overflow: TextOverflow.ellipsis,
-                style: const TextStyle(
-                    fontSize: 24,
-                    fontWeight: FontWeight.w400,
-                    color: Color.fromARGB(255, 0, 0, 0)),
-              )
-                  :  Text(
-                textService,
-                textAlign: TextAlign.center,
-                style: const TextStyle(
-                    fontSize: 24,
-                    fontWeight: FontWeight.w400,
-                    color: Color.fromARGB(255, 0, 0, 0)),
-              ),
-            ],
-          ),
+            ),
+            changingIcon(width),
+          ],
         ),
-        changingIcon(width),
-      ],
-    ),
-      detailedDescription(width),
+        detailedDescription(width),
       ],
     );
   }
@@ -359,21 +273,21 @@ class _ServiceState extends State<Service> {
       case true:
         widget = Positioned(
           left: width*0.8,
-            child:
-            IconButton(
-              onPressed: () {
-                setState(() {
-                  expend = false;
-                  textOverFlow = true;
-                });
-              },
-              icon: Icon(
-                Icons.arrow_drop_up,
-                size: width * 0.1,
-              ),
-              alignment: Alignment.centerRight,
-              color: const Color.fromARGB(200, 0, 0, 0),
+          child:
+          IconButton(
+            onPressed: () {
+              setState(() {
+                expend = false;
+                textOverFlow = true;
+              });
+            },
+            icon: Icon(
+              Icons.arrow_drop_up,
+              size: width * 0.1,
             ),
+            alignment: Alignment.centerRight,
+            color: const Color.fromARGB(200, 0, 0, 0),
+          ),
         );
         break;
       case false:
@@ -406,7 +320,7 @@ class _ServiceState extends State<Service> {
     switch (expend) {
       case true:
         widget = Container(
-          padding: EdgeInsets.only(top: width*0.02),
+          padding: EdgeInsets.only(top: width*0.02,),
           child: Column(
             children: const [
               Text(
@@ -520,7 +434,7 @@ class _ApplicationState extends State<Application> {
             IconButton(
               onPressed: () {
                 Navigator.pushNamed(
-                    context, '/myOutfitsWindow/detailedOutfit/relatedApprovals');
+                    context, '');
               },
               icon: Image.asset(
                   'assets/images/buttonIcon/relatedApprovals.png'),
@@ -599,34 +513,16 @@ class _ApplicationState extends State<Application> {
         widget = Padding(
           padding: EdgeInsets.only(top: width*0.02),
           child: Column(
-            children:  [
-              const Text(
+            children:  const [
+              Text(
                 'Описание',
                 style: TextStyle(
                     fontSize: 14,
                     fontWeight: FontWeight.w300,
                     color: Color.fromARGB(185, 0, 0, 0)),
               ),
-              const Text(
+              Text(
                 "Равным образом реализация намеченного плана развития напрямую зависит от существующих финансовых и административных условий.",
-                textAlign: TextAlign.center,
-                style: TextStyle(
-                    fontSize: 24,
-                    fontWeight: FontWeight.w400,
-                    color: Color.fromARGB(255, 0, 0, 0)),
-              ),
-              Padding(
-                  padding: EdgeInsets.only(top: width*0.02),
-                child:  const Text(
-                  'Решение',
-                  style: TextStyle(
-                      fontSize: 14,
-                      fontWeight: FontWeight.w300,
-                      color: Color.fromARGB(185, 0, 0, 0)),
-                ),
-              ),
-              const Text(
-                "Дорогие друзья, постоянный количественный рост и сфера нашей активности требует от нас системного анализа системы масштабного изменения ряда параметров",
                 textAlign: TextAlign.center,
                 style: TextStyle(
                     fontSize: 24,

@@ -12,6 +12,7 @@ class _MyOutfitsWindowState extends State<MyOutfitsWindow> {
   @override
   Widget build(BuildContext context) {
     int selectedTab = 1;
+    int numberNotifications = 2;
     final height = MediaQuery.of(context).size.height;
     final width = MediaQuery.of(context).size.width;
     void onSelectTab(int index) {
@@ -49,16 +50,15 @@ class _MyOutfitsWindowState extends State<MyOutfitsWindow> {
             ),
             Container(
                 margin: EdgeInsets.only(left: width * 0.03),
-                width: width * 0.07,
-                height: width * 0.07,
+                padding: EdgeInsets.only(left: width * 0.02, right: width*0.02, top: width*0.01, bottom: width*0.01),
                 decoration: BoxDecoration(
                     border: Border.all(
                         color: const Color.fromARGB(255, 255, 255, 255),
                         width: 1.5),
                     borderRadius: const BorderRadius.all(Radius.circular(4))),
-                child: const Center(
+                child:  Center(
                   child: Text(
-                    '1',
+                    '${numberNotifications}',
                     style: TextStyle(
                         fontSize: 19,
                         fontWeight: FontWeight.w500,
@@ -84,7 +84,7 @@ class _MyOutfitsWindowState extends State<MyOutfitsWindow> {
       ),
       body: ListView.builder(
         padding: const EdgeInsets.all(8),
-        itemCount: 8,
+        itemCount: numberNotifications,
         itemBuilder: (BuildContext context, int index) {
           return Card(
             elevation: 3,
@@ -300,8 +300,8 @@ class _MyOutfitsWindowState extends State<MyOutfitsWindow> {
       ),
       bottomNavigationBar: BottomNavigationBar(
         backgroundColor: const Color.fromARGB(255, 247, 147, 48),
-        selectedItemColor: const Color.fromARGB(255, 0, 0, 0),
-        unselectedItemColor: const Color.fromARGB(255, 255, 255, 255),
+        selectedItemColor: const Color.fromARGB(255, 255, 255, 255),
+        unselectedItemColor: const Color.fromARGB(150, 255, 255, 255),
         currentIndex: selectedTab,
         items: [
           BottomNavigationBarItem(
