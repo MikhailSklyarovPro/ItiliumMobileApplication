@@ -11,6 +11,7 @@ class _MyRequestsWindowState extends State<MyRequestsWindow> {
   @override
   Widget build(BuildContext context) {
     int selectedTab = 0;
+    int numberNotifications = 6;
     final height = MediaQuery.of(context).size.height;
     final width = MediaQuery.of(context).size.width;
     void onSelectTab(int index) {
@@ -33,6 +34,7 @@ class _MyRequestsWindowState extends State<MyRequestsWindow> {
     }
     return Scaffold(
       appBar: AppBar(
+        toolbarHeight: height*0.08,
         backgroundColor: const Color.fromARGB(255, 51, 156, 255),
         automaticallyImplyLeading: false,
         title: Row(
@@ -46,15 +48,14 @@ class _MyRequestsWindowState extends State<MyRequestsWindow> {
             ),
             Container(
                 margin: EdgeInsets.only(left: width * 0.03),
-                width: width * 0.07,
-                height: width * 0.07,
+                padding: EdgeInsets.only(left: width * 0.02, right: width*0.02, top: width*0.01, bottom: width*0.01),
                 decoration: BoxDecoration(
                     border: Border.all(
                         color: const Color.fromARGB(255, 255, 255, 255), width: 1.5),
                     borderRadius: const BorderRadius.all(Radius.circular(4))),
-                child: const Center(
+                child:  Center(
                   child: Text(
-                    '1',
+                    '${numberNotifications}',
                     style: TextStyle(
                         fontSize: 19,
                         fontWeight: FontWeight.w500,
@@ -80,7 +81,7 @@ class _MyRequestsWindowState extends State<MyRequestsWindow> {
       ),
       body: ListView.builder(
         padding: const EdgeInsets.all(8),
-        itemCount: 20,
+        itemCount: numberNotifications,
         itemBuilder: (BuildContext context, int index) {
           return Card(
             elevation: 3,
@@ -95,153 +96,160 @@ class _MyRequestsWindowState extends State<MyRequestsWindow> {
             child:    Stack(
               alignment: Alignment.topRight,
               children: [
-                Container(
-                  padding: EdgeInsets.only(left: width * 0.06, top: width * 0.03, bottom: width * 0.03, right:width * 0.06 ),
-                  height: height * 0.52,
-                  child: Column(
-                    children: [
+                InkWell(
+                  onTap: () {
+                    Navigator.pushNamed(
+                        context, "/myOutfitsWindow/detailedORequest");
+                  },
+                  highlightColor: Color.fromARGB(130, 51, 156, 255),
+                  child: Container(
+                    padding: EdgeInsets.only(left: width * 0.06, top: width * 0.03, bottom: width * 0.03, right:width * 0.06 ),
+                    height: height * 0.52,
+                    child: Column(
+                      children: [
 
-                      Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceAround,
-                        children: [
-                          Column(
-                            children: [
-                              const Text('Номер', style: TextStyle(
-                                  fontSize: 14,
-                                  fontWeight: FontWeight.w300,
-                                  color: Color.fromARGB(255, 163, 164, 174)),),
-                              const Text('№030304567',style: TextStyle(
-                                  fontSize: 24,
-                                  fontWeight: FontWeight.w400,
-                                  color: Color.fromARGB(255, 0, 0, 0)),),
-                            ],
-                          ),
-                          Container(
-                            width: 0.5,
-                            height: height*0.05,
-                            color:const Color.fromARGB(255, 163, 164, 174),
-                          ),
-                          Column(
-                            children: [
-                              const Text('Дата', style: TextStyle(
-                                  fontSize: 14,
-                                  fontWeight: FontWeight.w300,
-                                  color: Color.fromARGB(255, 163, 164, 174)),),
-                              const Text('01.03.2030',style: TextStyle(
-                                  fontSize: 24,
-                                  fontWeight: FontWeight.w400,
-                                  color: Color.fromARGB(255, 0, 0, 0)),),
-                            ],
-                          ),
-                        ],
-                      ),
-                      const Divider(color:Color.fromARGB(255, 163, 164, 174)),
+                        Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceAround,
+                          children: [
+                            Column(
+                              children: [
+                                const Text('Номер', style: TextStyle(
+                                    fontSize: 14,
+                                    fontWeight: FontWeight.w300,
+                                    color: Color.fromARGB(255, 163, 164, 174)),),
+                                const Text('№030304567',style: TextStyle(
+                                    fontSize: 24,
+                                    fontWeight: FontWeight.w400,
+                                    color: Color.fromARGB(255, 0, 0, 0)),),
+                              ],
+                            ),
+                            Container(
+                              width: 0.5,
+                              height: height*0.05,
+                              color:const Color.fromARGB(255, 163, 164, 174),
+                            ),
+                            Column(
+                              children: [
+                                const Text('Дата', style: TextStyle(
+                                    fontSize: 14,
+                                    fontWeight: FontWeight.w300,
+                                    color: Color.fromARGB(255, 163, 164, 174)),),
+                                const Text('01.03.2030',style: TextStyle(
+                                    fontSize: 24,
+                                    fontWeight: FontWeight.w400,
+                                    color: Color.fromARGB(255, 0, 0, 0)),),
+                              ],
+                            ),
+                          ],
+                        ),
+                        const Divider(color:Color.fromARGB(255, 163, 164, 174)),
 
-                      const Text('Тема обращения',
-                        style: TextStyle(
-                            fontSize: 14,
-                            fontWeight: FontWeight.w300,
-                            color: Color.fromARGB(255, 163, 164, 174)),),
-                      const Text(
-                        'Тема обращения',
-                        style: TextStyle(
-                            fontSize: 24,
-                            fontWeight: FontWeight.w400,
-                            color: Color.fromARGB(255, 0, 0, 0)),
-                      ),
-                      const Divider(color:Color.fromARGB(255, 163, 164, 174)),
-
-                      const Text('Услуга',
-                        style: TextStyle(
-                            fontSize: 14,
-                            fontWeight: FontWeight.w300,
-                            color: Color.fromARGB(255, 163, 164, 174)),),
-                      const Text(
-                        'Название услуги',
-                        style: TextStyle(
-                            fontSize: 24,
-                            fontWeight: FontWeight.w400,
-                            color: Color.fromARGB(255, 0, 0, 0)),
-                      ),
-                      const Divider(color: Color.fromARGB(255, 163, 164, 174)),
-
-                      const Text('Состав услуги',
-                        style: TextStyle(
-                            fontSize: 14,
-                            fontWeight: FontWeight.w300,
-                            color: Color.fromARGB(255, 163, 164, 174)),),
-                      const Text(
-                        'Состав услуги',
-                        style: TextStyle(
-                            fontSize: 24,
-                            fontWeight: FontWeight.w400,
-                            color: Color.fromARGB(255, 0, 0, 0)),
-                      ),
-                      const Divider(color: Color.fromARGB(255, 163, 164, 174),),
-
-                      const Text('Инициатор',
-                        style: TextStyle(
-                            fontSize: 14,
-                            fontWeight: FontWeight.w300,
-                            color: Color.fromARGB(255, 163, 164, 174)),),
-                      const Text(
-                        'ФИО Инициатора',
-                        style: TextStyle(
-                            fontSize: 24,
-                            fontWeight: FontWeight.w400,
-                            color: Color.fromARGB(255, 0, 0, 0)),
-                      ),
-                      const Divider(color: Color.fromARGB(255, 163, 164, 174),),
-
-                      Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceAround,
-                        children: [
-                          Column(
-                            children: [
-                              const Text('Должность', style: TextStyle(
-                                  fontSize: 14,
-                                  fontWeight: FontWeight.w300,
-                                  color: Color.fromARGB(255, 163, 164, 174)),),
-                              const Text('Должность',style: TextStyle(
-                                  fontSize: 24,
-                                  fontWeight: FontWeight.w400,
-                                  color: Color.fromARGB(255, 0, 0, 0)),),
-                            ],
-                          ),
-                          Container(
-                            width: 0.5,
-                            height: height*0.05,
-                            color:const Color.fromARGB(255, 163, 164, 174),
-                          ),
-                          Column(
-                            children: [
-                              const Text('Организация', style: TextStyle(
-                                  fontSize: 14,
-                                  fontWeight: FontWeight.w300,
-                                  color: Color.fromARGB(255, 163, 164, 174)),),
-                              const Text('Организация',style: TextStyle(
-                                  fontSize: 24,
-                                  fontWeight: FontWeight.w400,
-                                  color: Color.fromARGB(255, 0, 0, 0)),),
-                            ],
-                          ),
-                        ],
-                      ),
-                      const Divider(color:Color.fromARGB(255, 163, 164, 174)),
-
-                      const Text('Важность заявки',
+                        const Text('Тема обращения',
                           style: TextStyle(
-                            fontSize: 14,
-                            fontWeight: FontWeight.w300,
-                            color: Color.fromARGB(255, 163, 164, 174),)),
-                      const Text(
-                        'Низкая',
-                        style: TextStyle(
-                            fontSize: 24,
-                            fontWeight: FontWeight.w400,
-                            color: Color.fromARGB(255, 0, 0, 0)),
-                      ),
-                    ],
+                              fontSize: 14,
+                              fontWeight: FontWeight.w300,
+                              color: Color.fromARGB(255, 163, 164, 174)),),
+                        const Text(
+                          'Тема обращения',
+                          style: TextStyle(
+                              fontSize: 24,
+                              fontWeight: FontWeight.w400,
+                              color: Color.fromARGB(255, 0, 0, 0)),
+                        ),
+                        const Divider(color:Color.fromARGB(255, 163, 164, 174)),
+
+                        const Text('Услуга',
+                          style: TextStyle(
+                              fontSize: 14,
+                              fontWeight: FontWeight.w300,
+                              color: Color.fromARGB(255, 163, 164, 174)),),
+                        const Text(
+                          'Название услуги',
+                          style: TextStyle(
+                              fontSize: 24,
+                              fontWeight: FontWeight.w400,
+                              color: Color.fromARGB(255, 0, 0, 0)),
+                        ),
+                        const Divider(color: Color.fromARGB(255, 163, 164, 174)),
+
+                        const Text('Состав услуги',
+                          style: TextStyle(
+                              fontSize: 14,
+                              fontWeight: FontWeight.w300,
+                              color: Color.fromARGB(255, 163, 164, 174)),),
+                        const Text(
+                          'Состав услуги',
+                          style: TextStyle(
+                              fontSize: 24,
+                              fontWeight: FontWeight.w400,
+                              color: Color.fromARGB(255, 0, 0, 0)),
+                        ),
+                        const Divider(color: Color.fromARGB(255, 163, 164, 174),),
+
+                        const Text('Инициатор',
+                          style: TextStyle(
+                              fontSize: 14,
+                              fontWeight: FontWeight.w300,
+                              color: Color.fromARGB(255, 163, 164, 174)),),
+                        const Text(
+                          'ФИО Инициатора',
+                          style: TextStyle(
+                              fontSize: 24,
+                              fontWeight: FontWeight.w400,
+                              color: Color.fromARGB(255, 0, 0, 0)),
+                        ),
+                        const Divider(color: Color.fromARGB(255, 163, 164, 174),),
+
+                        Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceAround,
+                          children: [
+                            Column(
+                              children: [
+                                const Text('Должность', style: TextStyle(
+                                    fontSize: 14,
+                                    fontWeight: FontWeight.w300,
+                                    color: Color.fromARGB(255, 163, 164, 174)),),
+                                const Text('Должность',style: TextStyle(
+                                    fontSize: 24,
+                                    fontWeight: FontWeight.w400,
+                                    color: Color.fromARGB(255, 0, 0, 0)),),
+                              ],
+                            ),
+                            Container(
+                              width: 0.5,
+                              height: height*0.05,
+                              color:const Color.fromARGB(255, 163, 164, 174),
+                            ),
+                            Column(
+                              children: [
+                                const Text('Организация', style: TextStyle(
+                                    fontSize: 14,
+                                    fontWeight: FontWeight.w300,
+                                    color: Color.fromARGB(255, 163, 164, 174)),),
+                                const Text('Организация',style: TextStyle(
+                                    fontSize: 24,
+                                    fontWeight: FontWeight.w400,
+                                    color: Color.fromARGB(255, 0, 0, 0)),),
+                              ],
+                            ),
+                          ],
+                        ),
+                        const Divider(color:Color.fromARGB(255, 163, 164, 174)),
+
+                        const Text('Важность заявки',
+                            style: TextStyle(
+                              fontSize: 14,
+                              fontWeight: FontWeight.w300,
+                              color: Color.fromARGB(255, 163, 164, 174),)),
+                        const Text(
+                          'Низкая',
+                          style: TextStyle(
+                              fontSize: 24,
+                              fontWeight: FontWeight.w400,
+                              color: Color.fromARGB(255, 0, 0, 0)),
+                        ),
+                      ],
+                    ),
                   ),
                 ),
                 IconButton(onPressed: (){}, icon: Icon(Icons.push_pin_outlined, size: width*0.1,), alignment: Alignment.topRight,color: const Color.fromARGB(200  , 163, 164, 174),),
@@ -252,8 +260,8 @@ class _MyRequestsWindowState extends State<MyRequestsWindow> {
       ),
       bottomNavigationBar: BottomNavigationBar(
         backgroundColor: const Color.fromARGB(255, 51, 156, 255),
-        selectedItemColor: const Color.fromARGB(255, 0, 0, 0),
-        unselectedItemColor: const Color.fromARGB(255, 255, 255, 255),
+        selectedItemColor: const Color.fromARGB(255, 255, 255, 255),
+        unselectedItemColor: const Color.fromARGB(150, 255, 255, 255),
         currentIndex: selectedTab,
         items: [
           BottomNavigationBarItem(

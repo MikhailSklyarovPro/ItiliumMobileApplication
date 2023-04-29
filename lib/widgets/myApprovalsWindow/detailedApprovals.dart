@@ -8,45 +8,46 @@ class DetailedApprovals extends StatelessWidget {
     final height = MediaQuery.of(context).size.height;
     final width = MediaQuery.of(context).size.width;
     return Scaffold(
-      appBar: AppBar(
-        toolbarHeight: height * 0.09,
-        backgroundColor: const Color.fromARGB(255, 51, 156, 48),
-        automaticallyImplyLeading: false,
-        title: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: const [
-            Text(
-              'Согласование №030304567',
-              style: TextStyle(
-                  fontSize: 24,
-                  fontWeight: FontWeight.w400,
-                  color: Color.fromARGB(255, 255, 255, 255)),
-            ),
-            Text(
-              'от 01.03.2030 00:00:02',
-              style: TextStyle(
-                  fontSize: 24,
-                  fontWeight: FontWeight.w400,
-                  color: Color.fromARGB(255, 255, 255, 255)),
-            ),
+        appBar: AppBar(
+          toolbarHeight: height * 0.09,
+          backgroundColor: const Color.fromARGB(255, 51, 156, 48),
+          automaticallyImplyLeading: false,
+          title: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: const [
+              Text(
+                'Согласование №030304567',
+                style: TextStyle(
+                    fontSize: 24,
+                    fontWeight: FontWeight.w400,
+                    color: Color.fromARGB(255, 255, 255, 255)),
+              ),
+              Text(
+                'от 01.03.2030 00:00:02',
+                style: TextStyle(
+                    fontSize: 24,
+                    fontWeight: FontWeight.w400,
+                    color: Color.fromARGB(255, 255, 255, 255)),
+              ),
+            ],
+          ),
+          actions: [
+            IconButton(
+                padding: EdgeInsets.only(right: width * 0.05),
+                icon: Icon(
+                  Icons.close,
+                  size: width * 0.1,
+                ),
+                onPressed: () {
+                  Navigator.pushNamed(context, '/myApprovalsWindow');
+                }),
           ],
         ),
-        actions: [
-          IconButton(
-              padding: EdgeInsets.only(right: width * 0.05),
-              icon: Icon(
-                Icons.close,
-                size: width * 0.1,
-              ),
-              onPressed: () {
-                Navigator.pushNamed(context, '/myApprovalsWindow');
-              }),
-        ],
-      ),
-      body: Column(
-        children: [
-          Expanded(child:SingleChildScrollView(
-              child: Padding(
+        body: Column(
+          children: [
+            Expanded(
+              child: SingleChildScrollView(
+                  child: Padding(
                 padding: EdgeInsets.all(width * 0.03),
                 child: Column(
                   children: const [
@@ -59,6 +60,7 @@ class DetailedApprovals extends StatelessWidget {
                     ),
                     Text(
                       'ФИО Инициатора',
+                      textAlign: TextAlign.center,
                       style: TextStyle(
                           fontSize: 24,
                           fontWeight: FontWeight.w400,
@@ -74,30 +76,24 @@ class DetailedApprovals extends StatelessWidget {
                     ),
                     Text(
                       'Организация',
+                      textAlign: TextAlign.center,
                       style: TextStyle(
                           fontSize: 24,
                           fontWeight: FontWeight.w400,
                           color: Color.fromARGB(255, 0, 0, 0)),
                     ),
                     Divider(color: Color.fromARGB(255, 163, 164, 174)),
-                    Application(),
-                    Divider(color: Color.fromARGB(255, 163, 164, 174)),
-                    Text(
-                      'Коментарий',
-                      style: TextStyle(
-                          fontSize: 14,
-                          fontWeight: FontWeight.w300,
-                          color: Color.fromARGB(185, 0, 0, 0)),
-                    ),
                     Service(),
+                    Divider(color: Color.fromARGB(255, 163, 164, 174)),
+                    Comment(),
                     Divider(color: Color.fromARGB(255, 163, 164, 174)),
                   ],
                 ),
-              )),),
-          const ButtonsBottom(),
-        ],
-      )
-    );
+              )),
+            ),
+            const ButtonsBottom(),
+          ],
+        ));
   }
 }
 
@@ -115,113 +111,124 @@ class _ButtonsBottomState extends State<ButtonsBottom> {
     final width = MediaQuery.of(context).size.width;
     return Container(
       alignment: Alignment.bottomCenter,
-      padding: EdgeInsets.only(bottom: height*0.02, top: height*0.02,),
+      padding: EdgeInsets.only(
+        bottom: height * 0.02,
+        top: height * 0.02,
+      ),
       child: Row(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            ElevatedButton(
-                onPressed: () {
-                  Navigator.pushNamed(context, '/myOutfitsWindow');
-                },
-                style: ElevatedButton.styleFrom(
-                    shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(30)),
-                    backgroundColor:
-                    const Color.fromARGB(255, 51, 156, 48),
-                    foregroundColor: const Color.fromARGB(255, 11, 59, 12),
-                    padding: const EdgeInsets.symmetric(vertical: 14)),
-                child:  SizedBox(
-                    width: width*0.4,
-                    child: const Center(
-                      child: Text(
-                        'Записать',
-                        style: TextStyle(
-                            fontSize: 20,
-                            fontFamily: "Segue",
-                            color: Color.fromARGB(255, 255, 255, 255),
-                            fontWeight: FontWeight.w400),
-                      ),
-                    )
-                )),
-            SizedBox(
-              width: width*0.06,
-            ),
-            ElevatedButton(
+        mainAxisAlignment: MainAxisAlignment.center,
+        children: [
+          ElevatedButton(
               onPressed: () {
-                setState(() {
-
-                });
+                Navigator.pushNamed(context, '');
               },
               style: ElevatedButton.styleFrom(
                   shape: RoundedRectangleBorder(
                       borderRadius: BorderRadius.circular(30)),
-                  backgroundColor:
-                  const Color.fromARGB(255, 230, 235, 240),
-                  foregroundColor: const Color.fromARGB(255, 190, 195, 200),
+                  backgroundColor: const Color.fromARGB(255, 51, 156, 48),
+                  foregroundColor: const Color.fromARGB(255, 11, 59, 12),
                   padding: const EdgeInsets.symmetric(vertical: 14)),
               child: SizedBox(
-                  width: width*0.4,
+                  width: width * 0.4,
                   child: const Center(
                     child: Text(
-                      'Отмена',
+                      'Согласовать',
                       style: TextStyle(
                           fontSize: 20,
                           fontFamily: "Segue",
-                          color: Color.fromARGB(255, 0, 0, 0),
+                          color: Color.fromARGB(255, 255, 255, 255),
                           fontWeight: FontWeight.w400),
                     ),
-                  )
-              ),),
-          ],
-        ),
+                  ))),
+          SizedBox(
+            width: width * 0.06,
+          ),
+          ElevatedButton(
+            onPressed: () {
+              setState(() {});
+            },
+            style: ElevatedButton.styleFrom(
+                shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(30)),
+                backgroundColor: const Color.fromARGB(255, 230, 235, 240),
+                foregroundColor: const Color.fromARGB(255, 190, 195, 200),
+                padding: const EdgeInsets.symmetric(vertical: 14)),
+            child: SizedBox(
+                width: width * 0.4,
+                child: const Center(
+                  child: Text(
+                    'Отклонить',
+                    style: TextStyle(
+                        fontSize: 20,
+                        fontFamily: "Segue",
+                        color: Color.fromARGB(255, 0, 0, 0),
+                        fontWeight: FontWeight.w400),
+                  ),
+                )),
+          ),
+        ],
+      ),
     );
   }
 }
 
-class Service extends StatefulWidget {
-  const Service({Key? key}) : super(key: key);
+class Comment extends StatefulWidget {
+  const Comment({Key? key}) : super(key: key);
 
   @override
-  State<Service> createState() => _ServiceState();
+  State<Comment> createState() => _CommentState();
 }
 
-class _ServiceState extends State<Service> {
+class _CommentState extends State<Comment> {
   bool expend = false;
   bool textOverFlow = true;
+  String textComment = "Повседневная практика показывает, что повышение уровня гражданского сознания позволяет выполнить важнейшие задания по разработке существующих финансовых и административных условий! Разнообразный и богатый опыт повышение уровня гражданского сознания играет важную роль в формировании экономической целесообразности принимаемых решений?";
 
   @override
   Widget build(BuildContext context) {
     final width = MediaQuery.of(context).size.width;
     return Column(
       children: [
-        Row(
+        Stack(
+          alignment: AlignmentDirectional.center,
           children: [
-            Flexible(child: Container(
-              padding: EdgeInsets.only(bottom: width * 0.02),
-              width: width,
-              alignment: AlignmentDirectional.center,
+            Container(
+              alignment: Alignment.center,
+              padding: EdgeInsets.only(left: width*0.03, right: width*0.08),
               child: Column(
-                children:  [
+                children: [
+                  Padding(
+                    padding: EdgeInsets.only(left: width * 0.04),
+                    child: const Text(
+                      'Коментарий',
+                      textAlign: TextAlign.center,
+                      style: TextStyle(
+                          fontSize: 14,
+                          fontWeight: FontWeight.w300,
+                          color: Color.fromARGB(185, 0, 0, 0)),
+                    ),
+                  ),
                   textOverFlow
-                      ? Text(
-                    'Коментарий к заявке очень большой настолько большой что его даже никто никогда не будет читать',
+                      ?  Text(
+                    textComment,
+                    textAlign: TextAlign.center,
                     overflow: TextOverflow.ellipsis,
-                    style: TextStyle(
+                    style: const TextStyle(
                         fontSize: 24,
                         fontWeight: FontWeight.w400,
                         color: Color.fromARGB(255, 0, 0, 0)),
                   )
-                      : Text(
-                    'Коментарий к заявке очень большой настолько большой что его даже никто никогда не будет читать Коментарий к заявке очень большой настолько большой что его даже никто никогда не будет Коментарий к заявке очень большой настолько большой что его даже никто никогда не будет читатьКоментарий к заявке очень большой настолько большой что его даже никто никогда не будет читатьКоментарий к заявке очень большой настолько большой что его даже никто никогда не будет читать',
-                    //overflow: TextOverflow.ellipsis,
-                    style: TextStyle(
+                      :  Text(
+                    textComment,
+                    textAlign: TextAlign.center,
+                    style: const TextStyle(
                         fontSize: 24,
                         fontWeight: FontWeight.w400,
                         color: Color.fromARGB(255, 0, 0, 0)),
                   ),
                 ],
               ),
-            ),),
+            ),
             changingIcon(width),
           ],
         ),
@@ -229,30 +236,35 @@ class _ServiceState extends State<Service> {
     );
   }
 
-  Widget changingIcon(double width,) {
+  Widget changingIcon(
+    double width,
+  ) {
     Widget widget;
     switch (expend) {
       case true:
-        widget = Container(child:Positioned(
-          left: width * 0.8,
-          child: IconButton(
-            onPressed: () {
-              setState(() {
-                expend = false;
-                textOverFlow = true;
-              });
-            },
-            icon: Icon(
-              Icons.arrow_drop_up,
-              size: width * 0.1,
-            ),
+        widget = Container(
             alignment: Alignment.topRight,
-            color: const Color.fromARGB(200, 0, 0, 0),
-          ),
-        ));
+            child: Positioned(
+              left: width * 0.8,
+              child: IconButton(
+                onPressed: () {
+                  setState(() {
+                    expend = false;
+                    textOverFlow = true;
+                  });
+                },
+                icon: Icon(
+                  Icons.arrow_drop_up,
+                  size: width * 0.1,
+                ),
+                alignment: Alignment.topRight,
+                color: const Color.fromARGB(200, 0, 0, 0),
+              ),
+            ));
         break;
       case false:
-        widget = Container(child: Positioned(
+        widget = Container(
+            child: Positioned(
           left: width * 0.8,
           child: IconButton(
             onPressed: () {
@@ -275,19 +287,19 @@ class _ServiceState extends State<Service> {
     }
     return widget;
   }
-
 }
 
-
-class Application extends StatefulWidget {
-  const Application({Key? key}) : super(key: key);
+class Service extends StatefulWidget {
+  const Service({Key? key}) : super(key: key);
 
   @override
-  State<Application> createState() => _ApplicationState();
+  State<Service> createState() => _ServiceState();
 }
 
-class _ApplicationState extends State<Application> {
+class _ServiceState extends State<Service> {
   bool expend = false;
+  bool textOverFlow = true;
+  String textApplication = "Тема обращения тестирую длинную тему";
 
   @override
   Widget build(BuildContext context) {
@@ -295,58 +307,68 @@ class _ApplicationState extends State<Application> {
     return Column(
       children: [
         Stack(
-          alignment: AlignmentDirectional.centerEnd,
+          alignment: AlignmentDirectional.center,
           children: [
             Container(
-              padding: EdgeInsets.only(bottom: width * 0.02),
-              width: width,
-              alignment: AlignmentDirectional.center,
+              alignment: Alignment.center,
+              padding: EdgeInsets.only(left: width * 0.03, right: width * 0.08),
               child: Column(
                 children: [
-                  const Text(
-                    'Заявка',
-                    style: TextStyle(
-                        fontSize: 14,
-                        fontWeight: FontWeight.w300,
-                        color: Color.fromARGB(185, 0, 0, 0)),
+                  Padding(
+                    padding: EdgeInsets.only(left: width * 0.04),
+                    child: const Text(
+                      'Заявка',
+                      textAlign: TextAlign.center,
+                      style: TextStyle(
+                          fontSize: 14,
+                          fontWeight: FontWeight.w300,
+                          color: Color.fromARGB(185, 0, 0, 0)),
+                    ),
                   ),
-                  const Text(
-                    'Тема обращения',
-                    style: TextStyle(
-                        fontSize: 24,
-                        fontWeight: FontWeight.w400,
-                        color: Color.fromARGB(255, 0, 0, 0)),
-                  ),
-                  Row(
-                    crossAxisAlignment: CrossAxisAlignment.center,
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: [
-                      IconButton(
-                        onPressed: () {
-                          Navigator.pushNamed(
-                              context, '/myOutfitsWindow/detailedOutfit');
-                        },
-                        icon: Image.asset(
-                            'assets/images/buttonIcon/relatedDocument.png'),
-                        iconSize: width * 0.1,
-                        alignment: Alignment.topRight,
-                      ),
-                      IconButton(
-                        onPressed: () {
-                          Navigator.pushNamed(
-                              context, '/myOutfitsWindow/detailedOutfit');
-                        },
-                        icon: Image.asset(
-                            'assets/images/buttonIcon/attachedFiles.png'),
-                        iconSize: width * 0.1,
-                        alignment: Alignment.topRight,
-                      ),
-                    ],
-                  ),
+                  textOverFlow
+                      ? Text(
+                          textApplication,
+                          textAlign: TextAlign.center,
+                          overflow: TextOverflow.ellipsis,
+                          style: const TextStyle(
+                              fontSize: 24,
+                              fontWeight: FontWeight.w400,
+                              color: Color.fromARGB(255, 0, 0, 0)),
+                        )
+                      : Text(
+                          textApplication,
+                          textAlign: TextAlign.center,
+                          style: const TextStyle(
+                              fontSize: 24,
+                              fontWeight: FontWeight.w400,
+                              color: Color.fromARGB(255, 0, 0, 0)),
+                        ),
                 ],
               ),
             ),
             changingIcon(width),
+          ],
+        ),
+        Row(
+          crossAxisAlignment: CrossAxisAlignment.center,
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            IconButton(
+              onPressed: () {
+                Navigator.pushNamed(context, '');
+              },
+              icon: Image.asset('assets/images/buttonIcon/relatedDocument.png'),
+              iconSize: width * 0.1,
+              alignment: Alignment.topRight,
+            ),
+            IconButton(
+              onPressed: () {
+                Navigator.pushNamed(context, '');
+              },
+              icon: Image.asset('assets/images/buttonIcon/attachedFiles.png'),
+              iconSize: width * 0.1,
+              alignment: Alignment.topRight,
+            ),
           ],
         ),
         detailedDescription(width),
@@ -364,6 +386,7 @@ class _ApplicationState extends State<Application> {
             onPressed: () {
               setState(() {
                 expend = false;
+                textOverFlow = true;
               });
             },
             icon: Icon(
@@ -382,6 +405,7 @@ class _ApplicationState extends State<Application> {
             onPressed: () {
               setState(() {
                 expend = true;
+                textOverFlow = false;
               });
             },
             icon: Icon(
@@ -414,6 +438,7 @@ class _ApplicationState extends State<Application> {
             ),
             Text(
               "Описание заявки",
+              textAlign: TextAlign.center,
               style: TextStyle(
                   fontSize: 24,
                   fontWeight: FontWeight.w400,

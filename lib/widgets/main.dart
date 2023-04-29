@@ -1,4 +1,6 @@
+import 'package:firstapp/widgets/myRequestsWindow/detailedRequest.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 
 import 'authorization/authorization.dart';
 import 'myApprovalsWindow/detailedApprovals.dart';
@@ -17,6 +19,9 @@ class Application extends StatelessWidget {
   const Application({Key? key}) : super(key: key);
   @override
   Widget build(BuildContext context) {
+    SystemChrome.setPreferredOrientations([
+      DeviceOrientation.portraitUp,
+    ]);
     return MaterialApp(
       debugShowCheckedModeBanner: false,
       initialRoute: '/',
@@ -26,6 +31,7 @@ class Application extends StatelessWidget {
         '/myRequestsWindow': (context) => const MyRequestsWindow(),
         '/myApprovalsWindow': (context) => const MyApprovalsWindow(),
         '/myOutfitsWindow/detailedOutfit': (context) => const DetailedOutfit(),
+        '/myOutfitsWindow/detailedORequest': (context) => const DetailedRequest(),
         '/myApprovalsWindow/detailedApprovals': (context) => const DetailedApprovals(),
         '/myOutfitsWindow/detailedOutfit/relatedApprovals': (context) => const RelatedApprovals(),
       },

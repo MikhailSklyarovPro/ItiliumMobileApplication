@@ -10,6 +10,7 @@ class MyApprovalsWindow extends StatefulWidget {
 class _MyApprovalsWindowState extends State<MyApprovalsWindow> {
   @override
   Widget build(BuildContext context) {
+    int numberNotifications = 5;
     int selectedTab = 2;
     final height = MediaQuery.of(context).size.height;
     final width = MediaQuery.of(context).size.width;
@@ -34,6 +35,7 @@ class _MyApprovalsWindowState extends State<MyApprovalsWindow> {
 
     return Scaffold(
       appBar: AppBar(
+        toolbarHeight: height*0.08,
         backgroundColor: const Color.fromARGB(255, 51, 156, 48),
         automaticallyImplyLeading: false,
         title: Row(
@@ -46,17 +48,16 @@ class _MyApprovalsWindowState extends State<MyApprovalsWindow> {
                   color: Color.fromARGB(255, 255, 255, 255)),
             ),
             Container(
-                margin: EdgeInsets.only(left: width * 0.03),
-                width: width * 0.07,
-                height: width * 0.07,
+                margin: EdgeInsets.only(left: width * 0.016),
+                padding: EdgeInsets.only(left: width * 0.017, right: width*0.017, top: width*0.01, bottom: width*0.01),
                 decoration: BoxDecoration(
                     border: Border.all(
                         color: const Color.fromARGB(255, 255, 255, 255),
                         width: 1.5),
                     borderRadius: const BorderRadius.all(Radius.circular(4))),
-                child: const Center(
+                child:  Center(
                   child: Text(
-                    '1',
+                    '${numberNotifications}',
                     style: TextStyle(
                         fontSize: 19,
                         fontWeight: FontWeight.w500,
@@ -82,7 +83,7 @@ class _MyApprovalsWindowState extends State<MyApprovalsWindow> {
       ),
       body: ListView.builder(
         padding: const EdgeInsets.all(8),
-        itemCount: 20,
+        itemCount: numberNotifications,
         itemBuilder: (BuildContext context, int index) {
           return Card(
             elevation: 3,
@@ -228,8 +229,8 @@ class _MyApprovalsWindowState extends State<MyApprovalsWindow> {
       ),
       bottomNavigationBar: BottomNavigationBar(
         backgroundColor: const Color.fromARGB(255, 51, 156, 48),
-        selectedItemColor: const Color.fromARGB(255, 0, 0, 0),
-        unselectedItemColor: const Color.fromARGB(255, 255, 255, 255),
+        selectedItemColor: const Color.fromARGB(255, 255, 255, 255),
+        unselectedItemColor: const Color.fromARGB(150, 255, 255, 255),
         currentIndex: selectedTab,
         items: [
           BottomNavigationBarItem(
