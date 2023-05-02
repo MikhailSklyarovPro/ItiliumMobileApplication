@@ -83,7 +83,7 @@ class DetailedApprovals extends StatelessWidget {
                           color: Color.fromARGB(255, 0, 0, 0)),
                     ),
                     Divider(color: Color.fromARGB(255, 163, 164, 174)),
-                    Service(),
+                    Application(),
                     Divider(color: Color.fromARGB(255, 163, 164, 174)),
                     Comment(),
                     Divider(color: Color.fromARGB(255, 163, 164, 174)),
@@ -289,14 +289,14 @@ class _CommentState extends State<Comment> {
   }
 }
 
-class Service extends StatefulWidget {
-  const Service({Key? key}) : super(key: key);
+class Application extends StatefulWidget {
+  const Application({Key? key}) : super(key: key);
 
   @override
-  State<Service> createState() => _ServiceState();
+  State<Application> createState() => _ApplicationState();
 }
 
-class _ServiceState extends State<Service> {
+class _ApplicationState extends State<Application> {
   bool expend = false;
   bool textOverFlow = true;
   String textApplication = "Тема обращения тестирую длинную тему";
@@ -325,19 +325,10 @@ class _ServiceState extends State<Service> {
                           color: Color.fromARGB(185, 0, 0, 0)),
                     ),
                   ),
-                  textOverFlow
-                      ? Text(
+                  Text(
                           textApplication,
                           textAlign: TextAlign.center,
-                          overflow: TextOverflow.ellipsis,
-                          style: const TextStyle(
-                              fontSize: 24,
-                              fontWeight: FontWeight.w400,
-                              color: Color.fromARGB(255, 0, 0, 0)),
-                        )
-                      : Text(
-                          textApplication,
-                          textAlign: TextAlign.center,
+                          overflow: textOverFlow ? TextOverflow.ellipsis : null,
                           style: const TextStyle(
                               fontSize: 24,
                               fontWeight: FontWeight.w400,
@@ -355,7 +346,7 @@ class _ServiceState extends State<Service> {
           children: [
             IconButton(
               onPressed: () {
-                Navigator.pushNamed(context, '');
+                Navigator.pushNamed(context, '/myApprovalsWindow/detailedApprovals/relatedDocuments');
               },
               icon: Image.asset('assets/images/buttonIcon/relatedDocument.png'),
               iconSize: width * 0.1,
@@ -363,7 +354,7 @@ class _ServiceState extends State<Service> {
             ),
             IconButton(
               onPressed: () {
-                Navigator.pushNamed(context, '');
+                Navigator.pushNamed(context, '/myApprovalsWindow/detailedApprovals/attachedFiles');
               },
               icon: Image.asset('assets/images/buttonIcon/attachedFiles.png'),
               iconSize: width * 0.1,
