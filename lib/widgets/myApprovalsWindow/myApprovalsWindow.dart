@@ -110,7 +110,6 @@ class _MyApprovalsWindowState extends State<MyApprovalsWindow> {
                         top: width * 0.03,
                         bottom: width * 0.03,
                         right: width * 0.06),
-                    height: height * 0.3,
                     child: Column(
                       children: [
                         Row(

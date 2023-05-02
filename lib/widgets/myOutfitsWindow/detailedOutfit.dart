@@ -324,19 +324,10 @@ class _ServiceState extends State<Service> {
                       color: Color.fromARGB(185, 0, 0, 0)),
                 ),
               ),
-              textOverFlow
-                  ?  Text(
+             Text(
                 textService,
                 textAlign: TextAlign.center,
-                overflow: TextOverflow.ellipsis,
-                style: const TextStyle(
-                    fontSize: 24,
-                    fontWeight: FontWeight.w400,
-                    color: Color.fromARGB(255, 0, 0, 0)),
-              )
-                  :  Text(
-                textService,
-                textAlign: TextAlign.center,
+                overflow: textOverFlow ? TextOverflow.ellipsis : null,
                 style: const TextStyle(
                     fontSize: 24,
                     fontWeight: FontWeight.w400,
@@ -479,19 +470,10 @@ class _ApplicationState extends State<Application> {
                           color: Color.fromARGB(185, 0, 0, 0)),
                     ),
                   ),
-                  textOverFlow
-                      ?  Text(
+                  Text(
                     textApplication,
                     textAlign: TextAlign.center,
-                    overflow: TextOverflow.ellipsis,
-                    style: const TextStyle(
-                        fontSize: 24,
-                        fontWeight: FontWeight.w400,
-                        color: Color.fromARGB(255, 0, 0, 0)),
-                  )
-                      :  Text(
-                    textApplication,
-                    textAlign: TextAlign.center,
+                    overflow: textOverFlow ? TextOverflow.ellipsis : null,
                     style: const TextStyle(
                         fontSize: 24,
                         fontWeight: FontWeight.w400,
