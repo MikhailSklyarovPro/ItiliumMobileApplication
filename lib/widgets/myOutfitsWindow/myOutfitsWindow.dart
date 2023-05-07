@@ -1,3 +1,4 @@
+import 'package:firstapp/globalVariable/Global.dart';
 import 'package:flutter/material.dart';
 
 class MyOutfitsWindow extends StatefulWidget {
@@ -8,11 +9,9 @@ class MyOutfitsWindow extends StatefulWidget {
 }
 
 class _MyOutfitsWindowState extends State<MyOutfitsWindow> {
-
   @override
   Widget build(BuildContext context) {
     int selectedTab = 1;
-    int numberNotifications = 2;
     final height = MediaQuery.of(context).size.height;
     final width = MediaQuery.of(context).size.width;
     void onSelectTab(int index) {
@@ -36,7 +35,7 @@ class _MyOutfitsWindowState extends State<MyOutfitsWindow> {
 
     return Scaffold(
       appBar: AppBar(
-        toolbarHeight: height*0.08,
+        toolbarHeight: height * 0.08,
         backgroundColor: const Color.fromARGB(255, 247, 147, 48),
         automaticallyImplyLeading: false,
         title: Row(
@@ -50,16 +49,20 @@ class _MyOutfitsWindowState extends State<MyOutfitsWindow> {
             ),
             Container(
                 margin: EdgeInsets.only(left: width * 0.03),
-                padding: EdgeInsets.only(left: width * 0.02, right: width*0.02, top: width*0.01, bottom: width*0.01),
+                padding: EdgeInsets.only(
+                    left: width * 0.02,
+                    right: width * 0.02,
+                    top: width * 0.01,
+                    bottom: width * 0.01),
                 decoration: BoxDecoration(
                     border: Border.all(
                         color: const Color.fromARGB(255, 255, 255, 255),
                         width: 1.5),
                     borderRadius: const BorderRadius.all(Radius.circular(4))),
-                child:  Center(
+                child: Center(
                   child: Text(
-                    '${numberNotifications}',
-                    style: TextStyle(
+                    '${Global.orders.length}',
+                    style: const TextStyle(
                         fontSize: 19,
                         fontWeight: FontWeight.w500,
                         color: Color.fromARGB(255, 255, 255, 255)),
@@ -82,222 +85,259 @@ class _MyOutfitsWindowState extends State<MyOutfitsWindow> {
               onPressed: () {}),
         ],
       ),
-      body: ListView.builder(
-        padding: const EdgeInsets.all(8),
-        itemCount: numberNotifications,
-        itemBuilder: (BuildContext context, int index) {
-          return Card(
-            elevation: 3,
-            color: const Color.fromARGB(255, 255, 255, 255),
-            shape: RoundedRectangleBorder(
-              borderRadius: BorderRadius.circular(12),
-              side: const BorderSide(
-                width: 2,
-                color: Color.fromARGB(255, 247, 147, 48),
-              ),
-            ),
-            child: Stack(
-              alignment: Alignment.topRight,
-              children: [
-                InkWell(
-                  onTap: () {
-                    Navigator.pushNamed(
-                        context, '/myOutfitsWindow/detailedOutfit');
-                  },
-                  highlightColor: Color.fromARGB(110, 247, 147, 48),
-                  child: Container(
-                    padding: EdgeInsets.only(
-                        left: width * 0.06,
-                        top: width * 0.03,
-                        bottom: width * 0.03,
-                        right: width * 0.06),
-                    child: Column(
-                      children: [
-                        Row(
-                          mainAxisAlignment: MainAxisAlignment.spaceAround,
-                          children: [
-                            Column(
-                              children: const [
-                                Text(
-                                  'Номер',
-                                  style: TextStyle(
-                                      fontSize: 14,
-                                      fontWeight: FontWeight.w300,
-                                      color:
-                                          Color.fromARGB(255, 163, 164, 174)),
-                                ),
-                                Text(
-                                  '№030304567',
-                                  style: TextStyle(
-                                      fontSize: 24,
-                                      fontWeight: FontWeight.w400,
-                                      color: Color.fromARGB(255, 0, 0, 0)),
-                                ),
-                              ],
-                            ),
-                            Container(
-                              width: 0.5,
-                              height: height * 0.05,
-                              color: const Color.fromARGB(255, 163, 164, 174),
-                            ),
-                            Column(
-                              children: const [
-                                Text(
-                                  'Дата',
-                                  style: TextStyle(
-                                      fontSize: 14,
-                                      fontWeight: FontWeight.w300,
-                                      color:
-                                          Color.fromARGB(255, 163, 164, 174)),
-                                ),
-                                Text(
-                                  '01.03.2030',
-                                  style: TextStyle(
-                                      fontSize: 24,
-                                      fontWeight: FontWeight.w400,
-                                      color: Color.fromARGB(255, 0, 0, 0)),
-                                ),
-                              ],
-                            ),
-                          ],
-                        ),
-                        const Divider(
-                            color: Color.fromARGB(255, 163, 164, 174)),
-                        const Text(
-                          'Инициатор',
-                          style: TextStyle(
-                              fontSize: 14,
-                              fontWeight: FontWeight.w300,
-                              color: Color.fromARGB(255, 163, 164, 174)),
-                        ),
-                        Text(
-                          'Скляров Михаил Дмитриеивич',
-                          textAlign: TextAlign.center,
-                          style: TextStyle(
-                              fontSize: 24,
-                              fontWeight: FontWeight.w400,
-                              color: Color.fromARGB(255, 0, 0, 0)),
-                        ),
-                        const Divider(
-                            color: Color.fromARGB(255, 163, 164, 174)),
-                        const Text(
-                          'Услуга',
-                          style: TextStyle(
-                              fontSize: 14,
-                              fontWeight: FontWeight.w300,
-                              color: Color.fromARGB(255, 163, 164, 174)),
-                        ),
-                        const Text(
-                          'Название услуги',
-                          textAlign: TextAlign.center,
-                          style: TextStyle(
-                              fontSize: 24,
-                              fontWeight: FontWeight.w400,
-                              color: Color.fromARGB(255, 0, 0, 0)),
-                        ),
-                        const Divider(
-                            color: Color.fromARGB(255, 163, 164, 174)),
-                        const Text(
-                          'Состав услуги',
-                          style: TextStyle(
-                              fontSize: 14,
-                              fontWeight: FontWeight.w300,
-                              color: Color.fromARGB(255, 163, 164, 174)),
-                        ),
-                        const Text(
-                          'Состав услуги',
-                          textAlign: TextAlign.center,
-                          style: TextStyle(
-                              fontSize: 24,
-                              fontWeight: FontWeight.w400,
-                              color: Color.fromARGB(255, 0, 0, 0)),
-                        ),
-                        const Divider(
-                          color: Color.fromARGB(255, 163, 164, 174),
-                        ),
-                        Row(
-                          mainAxisAlignment: MainAxisAlignment.spaceAround,
-                          children: [
-                            Column(
-                              children: const [
-                                Text(
-                                  'Статус наряда',
-                                  style: TextStyle(
-                                      fontSize: 14,
-                                      fontWeight: FontWeight.w300,
-                                      color:
-                                          Color.fromARGB(255, 163, 164, 174)),
-                                ),
-                                Text(
-                                  'Статус наряда',
-                                  textAlign: TextAlign.center,
-                                  style: TextStyle(
-                                      fontSize: 24,
-                                      fontWeight: FontWeight.w400,
-                                      color: Color.fromARGB(255, 0, 0, 0)),
-                                ),
-                              ],
-                            ),
-                            Container(
-                              width: 0.5,
-                              height: height * 0.05,
-                              color: const Color.fromARGB(255, 163, 164, 174),
-                            ),
-                            Column(
-                              children: const [
-                                Text(
-                                  'Состояние',
-                                  style: TextStyle(
-                                      fontSize: 14,
-                                      fontWeight: FontWeight.w300,
-                                      color:
-                                          Color.fromARGB(255, 163, 164, 174)),
-                                ),
-                                Text(
-                                  'Состояние',
-                                  textAlign: TextAlign.center,
-                                  style: TextStyle(
-                                      fontSize: 24,
-                                      fontWeight: FontWeight.w400,
-                                      color: Color.fromARGB(255, 0, 0, 0)),
-                                ),
-                              ],
-                            ),
-                          ],
-                        ),
-                        const Divider(
-                            color: Color.fromARGB(255, 163, 164, 174)),
-                        const Text('Важность заявки',
-                            style: TextStyle(
-                              fontSize: 14,
-                              fontWeight: FontWeight.w300,
-                              color: Color.fromARGB(255, 163, 164, 174),
-                            )),
-                        const Text(
-                          'Низкая',
-                          style: TextStyle(
-                              fontSize: 24,
-                              fontWeight: FontWeight.w400,
-                              color: Color.fromARGB(255, 0, 0, 0)),
-                        ),
-                      ],
+      body: Global.orders.isNotEmpty
+          ? ListView.builder(
+              padding: const EdgeInsets.all(8),
+              itemCount: Global.orders.length,
+              itemBuilder: (BuildContext context, int index) {
+                return Card(
+                  elevation: 3,
+                  color: const Color.fromARGB(255, 255, 255, 255),
+                  shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(12),
+                    side: const BorderSide(
+                      width: 2,
+                      color: Color.fromARGB(255, 247, 147, 48),
                     ),
                   ),
-                ),
-                IconButton(
-                  onPressed: () {},
-                  icon: Icon(
-                    Icons.push_pin_outlined,
-                    size: width * 0.1,
+                  child: Stack(
+                    alignment: Alignment.topRight,
+                    children: [
+                      InkWell(
+                        onTap: () {
+                          Navigator.pushNamed(
+                              context, '/myOutfitsWindow/detailedOutfit',
+                              arguments: Global.orders[index]['numberOrder']);
+                        },
+                        highlightColor: const Color.fromARGB(110, 247, 147, 48),
+                        child: Container(
+                          padding: EdgeInsets.only(
+                              left: width * 0.06,
+                              top: width * 0.03,
+                              bottom: width * 0.03,
+                              right: width * 0.06),
+                          child: Column(
+                            children: [
+                              Row(
+                                mainAxisAlignment:
+                                    MainAxisAlignment.spaceAround,
+                                children: [
+                                  Column(
+                                    children: [
+                                      const Text(
+                                        'Номер',
+                                        style: TextStyle(
+                                            fontSize: 14,
+                                            fontWeight: FontWeight.w300,
+                                            color: Color.fromARGB(
+                                                255, 163, 164, 174)),
+                                      ),
+                                      Text(
+                                        "${Global.orders[index]['numberOrder']}",
+                                        style: const TextStyle(
+                                            fontSize: 24,
+                                            fontWeight: FontWeight.w400,
+                                            color:
+                                                Color.fromARGB(255, 0, 0, 0)),
+                                      ),
+                                    ],
+                                  ),
+                                  Container(
+                                    width: 0.5,
+                                    height: height * 0.05,
+                                    color: const Color.fromARGB(
+                                        255, 163, 164, 174),
+                                  ),
+                                  Column(
+                                    children: [
+                                      const Text(
+                                        'Дата',
+                                        style: TextStyle(
+                                            fontSize: 14,
+                                            fontWeight: FontWeight.w300,
+                                            color: Color.fromARGB(
+                                                255, 163, 164, 174)),
+                                      ),
+                                      Text(
+                                        Global.convertDate(
+                                            DateTime.fromMillisecondsSinceEpoch(
+                                                Global.orders[index]
+                                                    ['dataTime'])),
+                                        style: const TextStyle(
+                                            fontSize: 24,
+                                            fontWeight: FontWeight.w400,
+                                            color:
+                                                Color.fromARGB(255, 0, 0, 0)),
+                                      ),
+                                    ],
+                                  ),
+                                ],
+                              ),
+                              const Divider(
+                                  color: Color.fromARGB(255, 163, 164, 174)),
+                              const Text(
+                                'Инициатор',
+                                style: TextStyle(
+                                    fontSize: 14,
+                                    fontWeight: FontWeight.w300,
+                                    color: Color.fromARGB(255, 163, 164, 174)),
+                              ),
+                              Text(
+                                "${Global.orders[index]['surname']} ${Global.orders[index]['name']} ${Global.orders[index]['middleName']}",
+                                textAlign: TextAlign.center,
+                                style: const TextStyle(
+                                    fontSize: 24,
+                                    fontWeight: FontWeight.w400,
+                                    color: Color.fromARGB(255, 0, 0, 0)),
+                              ),
+                              const Divider(
+                                  color: Color.fromARGB(255, 163, 164, 174)),
+                              const Text(
+                                'Услуга',
+                                style: TextStyle(
+                                    fontSize: 14,
+                                    fontWeight: FontWeight.w300,
+                                    color: Color.fromARGB(255, 163, 164, 174)),
+                              ),
+                              Text(
+                                "${Global.orders[index]['service']}",
+                                textAlign: TextAlign.center,
+                                style: const TextStyle(
+                                    fontSize: 24,
+                                    fontWeight: FontWeight.w400,
+                                    color: Color.fromARGB(255, 0, 0, 0)),
+                              ),
+                              const Divider(
+                                  color: Color.fromARGB(255, 163, 164, 174)),
+                              const Text(
+                                'Состав услуги',
+                                style: TextStyle(
+                                    fontSize: 14,
+                                    fontWeight: FontWeight.w300,
+                                    color: Color.fromARGB(255, 163, 164, 174)),
+                              ),
+                              Text(
+                                "${Global.orders[index]['compositionService']}",
+                                textAlign: TextAlign.center,
+                                style: const TextStyle(
+                                    fontSize: 24,
+                                    fontWeight: FontWeight.w400,
+                                    color: Color.fromARGB(255, 0, 0, 0)),
+                              ),
+                              const Divider(
+                                color: Color.fromARGB(255, 163, 164, 174),
+                              ),
+                              Row(
+                                mainAxisAlignment:
+                                    MainAxisAlignment.spaceAround,
+                                children: [
+                                  SizedBox(
+                                    width: width * 0.35,
+                                    child: Column(
+                                      children: [
+                                        const Text(
+                                          'Статус наряда',
+                                          overflow: TextOverflow.ellipsis,
+                                          style: TextStyle(
+                                              fontSize: 14,
+                                              fontWeight: FontWeight.w300,
+                                              color: Color.fromARGB(
+                                                  255, 163, 164, 174)),
+                                        ),
+                                        Text(
+                                          "${Global.orders[index]['status']}",
+                                          textAlign: TextAlign.center,
+                                          overflow: TextOverflow.ellipsis,
+                                          style: const TextStyle(
+                                              fontSize: 24,
+                                              fontWeight: FontWeight.w400,
+                                              color:
+                                                  Color.fromARGB(255, 0, 0, 0)),
+                                        ),
+                                      ],
+                                    ),
+                                  ),
+                                  Container(
+                                    margin: EdgeInsets.symmetric(
+                                        horizontal: width * 0.03),
+                                    width: 0.5,
+                                    height: height * 0.05,
+                                    color: const Color.fromARGB(
+                                        255, 163, 164, 174),
+                                  ),
+                                  SizedBox(
+                                    width: width * 0.4,
+                                    child: Column(
+                                      children: [
+                                        const Text(
+                                          'Состояние',
+                                          textAlign: TextAlign.center,
+                                          softWrap: true,
+                                          overflow: TextOverflow.ellipsis,
+                                          style: TextStyle(
+                                              fontSize: 14,
+                                              fontWeight: FontWeight.w300,
+                                              color: Color.fromARGB(
+                                                  255, 163, 164, 174)),
+                                        ),
+                                        Text(
+                                          "${Global.orders[index]['executionStatus']}",
+                                          textAlign: TextAlign.center,
+                                          //softWrap: true,
+                                          overflow: TextOverflow.ellipsis,
+                                          style: const TextStyle(
+                                              fontSize: 24,
+                                              fontWeight: FontWeight.w400,
+                                              color:
+                                                  Color.fromARGB(255, 0, 0, 0)),
+                                        ),
+                                      ],
+                                    ),
+                                  ),
+                                ],
+                              ),
+                              const Divider(
+                                  color: Color.fromARGB(255, 163, 164, 174)),
+                              const Text('Важность заявки',
+                                  style: TextStyle(
+                                    fontSize: 14,
+                                    fontWeight: FontWeight.w300,
+                                    color: Color.fromARGB(255, 163, 164, 174),
+                                  )),
+                              Text(
+                                "${Global.orders[index]['importanceApplication']}",
+                                style: const TextStyle(
+                                    fontSize: 24,
+                                    fontWeight: FontWeight.w400,
+                                    color: Color.fromARGB(255, 0, 0, 0)),
+                              ),
+                            ],
+                          ),
+                        ),
+                      ),
+                      IconButton(
+                        onPressed: () {},
+                        icon: Icon(
+                          Icons.push_pin_outlined,
+                          size: width * 0.1,
+                        ),
+                        alignment: Alignment.topRight,
+                        color: const Color.fromARGB(200, 163, 164, 174),
+                      ),
+                    ],
                   ),
-                  alignment: Alignment.topRight,
-                  color: const Color.fromARGB(200, 163, 164, 174),
-                ),
-              ],
+                );
+              },
+            )
+          : const Center(
+              child: Text(
+                'У вас нет нарядов!\nМожете отдыхать)',
+                style: TextStyle(
+                    fontSize: 25,
+                    fontWeight: FontWeight.w400,
+                    color: Color.fromARGB(255, 0, 0, 0)),
+              ),
             ),
-          );
-        },
-      ),
       bottomNavigationBar: BottomNavigationBar(
         backgroundColor: const Color.fromARGB(255, 247, 147, 48),
         selectedItemColor: const Color.fromARGB(255, 255, 255, 255),

@@ -1,10 +1,12 @@
+import 'package:firstapp/globalVariable/Global.dart';
 import 'package:flutter/material.dart';
 
 class DetailedOutfit extends StatelessWidget {
   const DetailedOutfit({Key? key}) : super(key: key);
-
   @override
   Widget build(BuildContext context) {
+    final numberOrder = ModalRoute.of(context)!.settings.arguments as int; //Получаем аргументы с предыдущего окна
+    Map order = Global.orders.firstWhere((order) => order['numberOrder'] == numberOrder);
     final height = MediaQuery.of(context).size.height;
     final width = MediaQuery.of(context).size.width;
     return Scaffold(
@@ -14,17 +16,17 @@ class DetailedOutfit extends StatelessWidget {
           automaticallyImplyLeading: false,
           title: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
-            children: const [
+            children:  [
               Text(
-                'Наряд №030304567',
-                style: TextStyle(
+                'Наряд №$numberOrder',
+                style: const TextStyle(
                     fontSize: 25,
                     fontWeight: FontWeight.w400,
                     color: Color.fromARGB(255, 255, 255, 255)),
               ),
-              Text(
-                'от 01.03.2030 00:00:02',
-                style: TextStyle(
+               Text(
+                "от ${Global.convertTime(DateTime.fromMillisecondsSinceEpoch(order["dataTime"]))}",
+                style: const TextStyle(
                     fontSize: 25,
                     fontWeight: FontWeight.w400,
                     color: Color.fromARGB(255, 255, 255, 255)),
@@ -58,10 +60,10 @@ class DetailedOutfit extends StatelessWidget {
                           fontWeight: FontWeight.w300,
                           color: Color.fromARGB(185, 0, 0, 0)),
                     ),
-                    const Text(
-                      'Васильев Василий Васильевич',
+                    Text(
+                      '${order['surname']} ${order['name']} ${order['middleName']}',
                       textAlign: TextAlign.center,
-                      style: TextStyle(
+                      style: const TextStyle(
                           fontSize: 24,
                           fontWeight: FontWeight.w400,
                           color: Color.fromARGB(255, 0, 0, 0)),
@@ -74,18 +76,18 @@ class DetailedOutfit extends StatelessWidget {
                           fontWeight: FontWeight.w300,
                           color: Color.fromARGB(185, 0, 0, 0)),
                     ),
-                    const Text(
-                      'ОАО Газпром',
+                    Text(
+                      '${order['organization']}',
                       textAlign: TextAlign.center,
-                      style: TextStyle(
+                      style: const TextStyle(
                           fontSize: 24,
                           fontWeight: FontWeight.w400,
                           color: Color.fromARGB(255, 0, 0, 0)),
                     ),
                     const Divider(color: Color.fromARGB(255, 163, 164, 174)),
-                    const Service(),
+                    Service(numberOrder: numberOrder),
                     const Divider(color: Color.fromARGB(255, 163, 164, 174)),
-                    const Application(),
+                    Application(numberOrder: numberOrder),
                     const Divider(color: Color.fromARGB(255, 163, 164, 174)),
                     const Text(
                       'Состояние',
@@ -94,10 +96,10 @@ class DetailedOutfit extends StatelessWidget {
                           fontWeight: FontWeight.w300,
                           color: Color.fromARGB(185, 0, 0, 0)),
                     ),
-                    const Text(
-                      'Состояние наряда',
+                    Text(
+                      order['status'],
                       textAlign: TextAlign.center,
-                      style: TextStyle(
+                      style: const TextStyle(
                           fontSize: 24,
                           fontWeight: FontWeight.w400,
                           color: Color.fromARGB(255, 0, 0, 0)),
@@ -136,10 +138,10 @@ class DetailedOutfit extends StatelessWidget {
                           fontWeight: FontWeight.w300,
                           color: Color.fromARGB(185, 0, 0, 0)),
                     ),
-                    const Text(
-                      'Статус выполнения',
+                    Text(
+                      order['executionStatus'],
                       textAlign: TextAlign.center,
-                      style: TextStyle(
+                      style: const TextStyle(
                           fontSize: 24,
                           fontWeight: FontWeight.w400,
                           color: Color.fromARGB(255, 0, 0, 0)),
@@ -198,10 +200,10 @@ class DetailedOutfit extends StatelessWidget {
                           fontWeight: FontWeight.w300,
                           color: Color.fromARGB(185, 0, 0, 0)),
                     ),
-                    const Text(
-                      'Низкая',
+                    Text(
+                      order['importanceApplication'],
                       textAlign: TextAlign.center,
-                      style: TextStyle(
+                      style: const TextStyle(
                           fontSize: 24,
                           fontWeight: FontWeight.w400,
                           color: Color.fromARGB(255, 0, 0, 0)),
@@ -289,8 +291,8 @@ class _ButtonsBottomState extends State<ButtonsBottom> {
 }
 
 class Service extends StatefulWidget {
-  const Service({Key? key}) : super(key: key);
-
+  const Service({Key? key, required this.numberOrder}):super(key: key);
+  final int numberOrder;
   @override
   State<Service> createState() => _ServiceState();
 }
@@ -298,10 +300,9 @@ class Service extends StatefulWidget {
 class _ServiceState extends State<Service> {
   bool expend = false;
   bool textOverFlow = true;
-  String textService = "Название услуги";
-
   @override
   Widget build(BuildContext context) {
+    Map order = Global.orders.firstWhere((order) => order['numberOrder'] == widget.numberOrder);
     final width = MediaQuery.of(context).size.width;
     return Column(
       children: [
@@ -315,7 +316,7 @@ class _ServiceState extends State<Service> {
             children: [
                Padding(
                 padding: EdgeInsets.only(left: width * 0.04),
-                child: const Text(
+                child:  const Text(
                   'Услуга',
                   textAlign: TextAlign.center,
                   style: TextStyle(
@@ -325,7 +326,7 @@ class _ServiceState extends State<Service> {
                 ),
               ),
              Text(
-                textService,
+                order['service'],
                 textAlign: TextAlign.center,
                 overflow: textOverFlow ? TextOverflow.ellipsis : null,
                 style: const TextStyle(
@@ -339,7 +340,7 @@ class _ServiceState extends State<Service> {
         changingIcon(width),
       ],
     ),
-      detailedDescription(width),
+      detailedDescription(width,order['compositionService']),
       ],
     );
   }
@@ -392,15 +393,15 @@ class _ServiceState extends State<Service> {
     return widget;
   }
 
-  Widget detailedDescription(double width) {
+  Widget detailedDescription(double width, String compositionService) {
     Widget widget;
     switch (expend) {
       case true:
         widget = Container(
           padding: EdgeInsets.only(top: width*0.02),
           child: Column(
-            children: const [
-              Text(
+            children:  [
+              const Text(
                 'Состав услуги',
                 style: TextStyle(
                     fontSize: 14,
@@ -408,12 +409,9 @@ class _ServiceState extends State<Service> {
                     color: Color.fromARGB(185, 0, 0, 0)),
               ),
               Text(
-                "1)Анализ предметной области\n"
-                    "2)Сбор требований у заказчика\n"
-                    "3)Формирование и утверждение требований\n"
-                    "4)Написание технической документации",
+                compositionService,
                 textAlign: TextAlign.center,
-                style: TextStyle(
+                style: const TextStyle(
                     fontSize: 24,
                     fontWeight: FontWeight.w400,
                     color: Color.fromARGB(255, 0, 0, 0)),
@@ -435,8 +433,8 @@ class _ServiceState extends State<Service> {
 }
 
 class Application extends StatefulWidget {
-  const Application({Key? key}) : super(key: key);
-
+  const Application({Key? key, required this.numberOrder}) : super(key: key);
+  final int numberOrder;
   @override
   State<Application> createState() => _ApplicationState();
 }
@@ -444,10 +442,10 @@ class Application extends StatefulWidget {
 class _ApplicationState extends State<Application> {
   bool expend = false;
   bool textOverFlow = true;
-  String textApplication= "Тема обращения";
 
   @override
   Widget build(BuildContext context) {
+    Map order = Global.orders.firstWhere((order) => order['numberOrder'] == widget.numberOrder);
     final width = MediaQuery.of(context).size.width;
     return  Column(
       children: [
@@ -471,7 +469,7 @@ class _ApplicationState extends State<Application> {
                     ),
                   ),
                   Text(
-                    textApplication,
+                    order['application'],
                     textAlign: TextAlign.center,
                     overflow: textOverFlow ? TextOverflow.ellipsis : null,
                     style: const TextStyle(
@@ -521,7 +519,7 @@ class _ApplicationState extends State<Application> {
             ),
           ],
         ),
-        detailedDescription(width),
+        detailedDescription(width, order['description'], order['solution']),
       ],
     );
   }
@@ -574,7 +572,7 @@ class _ApplicationState extends State<Application> {
     return widget;
   }
 
-  Widget detailedDescription(double width) {
+  Widget detailedDescription(double width, String description, String solution) {
     Widget widget;
     switch (expend) {
       case true:
@@ -589,10 +587,10 @@ class _ApplicationState extends State<Application> {
                     fontWeight: FontWeight.w300,
                     color: Color.fromARGB(185, 0, 0, 0)),
               ),
-              const Text(
-                "Равным образом реализация намеченного плана развития напрямую зависит от существующих финансовых и административных условий.",
+               Text(
+                 description,
                 textAlign: TextAlign.center,
-                style: TextStyle(
+                style: const TextStyle(
                     fontSize: 24,
                     fontWeight: FontWeight.w400,
                     color: Color.fromARGB(255, 0, 0, 0)),
@@ -607,10 +605,10 @@ class _ApplicationState extends State<Application> {
                       color: Color.fromARGB(185, 0, 0, 0)),
                 ),
               ),
-              const Text(
-                "Дорогие друзья, постоянный количественный рост и сфера нашей активности требует от нас системного анализа системы масштабного изменения ряда параметров",
+               Text(
+                solution,
                 textAlign: TextAlign.center,
-                style: TextStyle(
+                style: const TextStyle(
                     fontSize: 24,
                     fontWeight: FontWeight.w400,
                     color: Color.fromARGB(255, 0, 0, 0)),

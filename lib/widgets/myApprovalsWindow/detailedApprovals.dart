@@ -1,3 +1,4 @@
+import 'package:firstapp/globalVariable/Global.dart';
 import 'package:flutter/material.dart';
 
 class DetailedApprovals extends StatelessWidget {
@@ -5,6 +6,11 @@ class DetailedApprovals extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final numberApproval = ModalRoute.of(context)!.settings.arguments as int;
+    print(numberApproval);
+    Map approval = Global.approvals
+        .firstWhere((approval) => approval['numberApproval'] == numberApproval);
+    print(approval);
     final height = MediaQuery.of(context).size.height;
     final width = MediaQuery.of(context).size.width;
     return Scaffold(
@@ -14,17 +20,17 @@ class DetailedApprovals extends StatelessWidget {
           automaticallyImplyLeading: false,
           title: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
-            children: const [
+            children: [
               Text(
-                'Согласование №030304567',
-                style: TextStyle(
+                'Согласование №${approval['numberApproval']}',
+                style: const TextStyle(
                     fontSize: 24,
                     fontWeight: FontWeight.w400,
                     color: Color.fromARGB(255, 255, 255, 255)),
               ),
               Text(
-                'от 01.03.2030 00:00:02',
-                style: TextStyle(
+                'от ${Global.convertTime(DateTime.fromMillisecondsSinceEpoch(approval['dataTime']))}',
+                style: const TextStyle(
                     fontSize: 24,
                     fontWeight: FontWeight.w400,
                     color: Color.fromARGB(255, 255, 255, 255)),
@@ -50,8 +56,8 @@ class DetailedApprovals extends StatelessWidget {
                   child: Padding(
                 padding: EdgeInsets.all(width * 0.03),
                 child: Column(
-                  children: const [
-                    Text(
+                  children: [
+                    const Text(
                       'Инициатор',
                       style: TextStyle(
                           fontSize: 14,
@@ -59,15 +65,15 @@ class DetailedApprovals extends StatelessWidget {
                           color: Color.fromARGB(185, 0, 0, 0)),
                     ),
                     Text(
-                      'ФИО Инициатора',
+                      '${approval['surname']} ${approval['name']} ${approval['middleName']}',
                       textAlign: TextAlign.center,
-                      style: TextStyle(
+                      style: const TextStyle(
                           fontSize: 24,
                           fontWeight: FontWeight.w400,
                           color: Color.fromARGB(255, 0, 0, 0)),
                     ),
-                    Divider(color: Color.fromARGB(255, 163, 164, 174)),
-                    Text(
+                    const Divider(color: Color.fromARGB(255, 163, 164, 174)),
+                    const Text(
                       'Организация',
                       style: TextStyle(
                           fontSize: 14,
@@ -75,18 +81,18 @@ class DetailedApprovals extends StatelessWidget {
                           color: Color.fromARGB(185, 0, 0, 0)),
                     ),
                     Text(
-                      'Организация',
+                      "${approval['organization']}",
                       textAlign: TextAlign.center,
-                      style: TextStyle(
+                      style: const TextStyle(
                           fontSize: 24,
                           fontWeight: FontWeight.w400,
                           color: Color.fromARGB(255, 0, 0, 0)),
                     ),
-                    Divider(color: Color.fromARGB(255, 163, 164, 174)),
-                    Application(),
-                    Divider(color: Color.fromARGB(255, 163, 164, 174)),
-                    Comment(),
-                    Divider(color: Color.fromARGB(255, 163, 164, 174)),
+                    const Divider(color: Color.fromARGB(255, 163, 164, 174)),
+                    Application(numberApproval: numberApproval),
+                    const Divider(color: Color.fromARGB(255, 163, 164, 174)),
+                    Comment(numberApproval: numberApproval),
+                    const Divider(color: Color.fromARGB(255, 163, 164, 174)),
                   ],
                 ),
               )),
@@ -173,28 +179,22 @@ class _ButtonsBottomState extends State<ButtonsBottom> {
 }
 
 class Comment extends StatefulWidget {
-  const Comment({Key? key}) : super(key: key);
+  const Comment({Key? key, required this.numberApproval}) : super(key: key);
+  final int numberApproval;
 
   @override
   State<Comment> createState() => _CommentState();
 }
 
 class _CommentState extends State<Comment> {
-  bool expend = false;
-  bool textOverFlow = true;
-  String textComment = "Повседневная практика показывает, что повышение уровня гражданского сознания позволяет выполнить важнейшие задания по разработке существующих финансовых и административных условий! Разнообразный и богатый опыт повышение уровня гражданского сознания играет важную роль в формировании экономической целесообразности принимаемых решений?";
 
   @override
   Widget build(BuildContext context) {
+    Map approval = Global.approvals.firstWhere((approval) => approval['numberApproval'] == widget.numberApproval);
     final width = MediaQuery.of(context).size.width;
-    return Column(
-      children: [
-        Stack(
-          alignment: AlignmentDirectional.center,
-          children: [
-            Container(
+    return Container(
               alignment: Alignment.center,
-              padding: EdgeInsets.only(left: width*0.03, right: width*0.08),
+              padding: EdgeInsets.only(left: width * 0.03, right: width * 0.08),
               child: Column(
                 children: [
                   Padding(
@@ -208,89 +208,24 @@ class _CommentState extends State<Comment> {
                           color: Color.fromARGB(185, 0, 0, 0)),
                     ),
                   ),
-                  textOverFlow
-                      ?  Text(
-                    textComment,
+                  Text(
+                    approval['comment'],
                     textAlign: TextAlign.center,
-                    overflow: TextOverflow.ellipsis,
                     style: const TextStyle(
                         fontSize: 24,
                         fontWeight: FontWeight.w400,
                         color: Color.fromARGB(255, 0, 0, 0)),
                   )
-                      :  Text(
-                    textComment,
-                    textAlign: TextAlign.center,
-                    style: const TextStyle(
-                        fontSize: 24,
-                        fontWeight: FontWeight.w400,
-                        color: Color.fromARGB(255, 0, 0, 0)),
-                  ),
                 ],
               ),
-            ),
-            changingIcon(width),
-          ],
-        ),
-      ],
-    );
+            );
   }
 
-  Widget changingIcon(
-    double width,
-  ) {
-    Widget widget;
-    switch (expend) {
-      case true:
-        widget = Container(
-            alignment: Alignment.topRight,
-            child: Positioned(
-              left: width * 0.8,
-              child: IconButton(
-                onPressed: () {
-                  setState(() {
-                    expend = false;
-                    textOverFlow = true;
-                  });
-                },
-                icon: Icon(
-                  Icons.arrow_drop_up,
-                  size: width * 0.1,
-                ),
-                alignment: Alignment.topRight,
-                color: const Color.fromARGB(200, 0, 0, 0),
-              ),
-            ));
-        break;
-      case false:
-        widget = Container(
-            child: Positioned(
-          left: width * 0.8,
-          child: IconButton(
-            onPressed: () {
-              setState(() {
-                expend = true;
-                textOverFlow = false;
-              });
-            },
-            icon: Icon(
-              Icons.arrow_drop_down,
-              size: width * 0.1,
-            ),
-            alignment: Alignment.topRight,
-            color: const Color.fromARGB(200, 0, 0, 0),
-          ),
-        ));
-        break;
-      default:
-        widget = Container();
-    }
-    return widget;
-  }
 }
 
 class Application extends StatefulWidget {
-  const Application({Key? key}) : super(key: key);
+  const Application({Key? key, required this.numberApproval}) : super(key: key);
+  final int numberApproval;
 
   @override
   State<Application> createState() => _ApplicationState();
@@ -299,10 +234,11 @@ class Application extends StatefulWidget {
 class _ApplicationState extends State<Application> {
   bool expend = false;
   bool textOverFlow = true;
-  String textApplication = "Тема обращения тестирую длинную тему";
 
   @override
   Widget build(BuildContext context) {
+    Map approval = Global.approvals.firstWhere(
+        (approval) => approval['numberApproval'] == widget.numberApproval);
     final width = MediaQuery.of(context).size.width;
     return Column(
       children: [
@@ -326,14 +262,14 @@ class _ApplicationState extends State<Application> {
                     ),
                   ),
                   Text(
-                          textApplication,
-                          textAlign: TextAlign.center,
-                          overflow: textOverFlow ? TextOverflow.ellipsis : null,
-                          style: const TextStyle(
-                              fontSize: 24,
-                              fontWeight: FontWeight.w400,
-                              color: Color.fromARGB(255, 0, 0, 0)),
-                        ),
+                    approval['application'],
+                    textAlign: TextAlign.center,
+                    overflow: textOverFlow ? TextOverflow.ellipsis : null,
+                    style: const TextStyle(
+                        fontSize: 24,
+                        fontWeight: FontWeight.w400,
+                        color: Color.fromARGB(255, 0, 0, 0)),
+                  ),
                 ],
               ),
             ),
@@ -346,7 +282,8 @@ class _ApplicationState extends State<Application> {
           children: [
             IconButton(
               onPressed: () {
-                Navigator.pushNamed(context, '/myApprovalsWindow/detailedApprovals/relatedDocuments');
+                Navigator.pushNamed(context,
+                    '/myApprovalsWindow/detailedApprovals/relatedDocuments');
               },
               icon: Image.asset('assets/images/buttonIcon/relatedDocument.png'),
               iconSize: width * 0.1,
@@ -354,7 +291,8 @@ class _ApplicationState extends State<Application> {
             ),
             IconButton(
               onPressed: () {
-                Navigator.pushNamed(context, '/myApprovalsWindow/detailedApprovals/attachedFiles');
+                Navigator.pushNamed(context,
+                    '/myApprovalsWindow/detailedApprovals/attachedFiles');
               },
               icon: Image.asset('assets/images/buttonIcon/attachedFiles.png'),
               iconSize: width * 0.1,
@@ -362,7 +300,7 @@ class _ApplicationState extends State<Application> {
             ),
           ],
         ),
-        detailedDescription(width),
+        detailedDescription(width, approval['description']),
       ],
     );
   }
@@ -414,13 +352,13 @@ class _ApplicationState extends State<Application> {
     return widget;
   }
 
-  Widget detailedDescription(double width) {
+  Widget detailedDescription(double width, String description) {
     Widget widget;
     switch (expend) {
       case true:
         widget = Column(
-          children: const [
-            Text(
+          children: [
+            const Text(
               'Описание',
               style: TextStyle(
                   fontSize: 14,
@@ -428,9 +366,9 @@ class _ApplicationState extends State<Application> {
                   color: Color.fromARGB(185, 0, 0, 0)),
             ),
             Text(
-              "Описание заявки",
+              description,
               textAlign: TextAlign.center,
-              style: TextStyle(
+              style: const TextStyle(
                   fontSize: 24,
                   fontWeight: FontWeight.w400,
                   color: Color.fromARGB(255, 0, 0, 0)),
