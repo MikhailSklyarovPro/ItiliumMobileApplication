@@ -1,3 +1,4 @@
+import 'package:firstapp/globalVariable/Global.dart';
 import 'package:flutter/material.dart';
 
 class DetailedRequest extends StatelessWidget {
@@ -5,6 +6,8 @@ class DetailedRequest extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final numberRequest = ModalRoute.of(context)!.settings.arguments as int;
+    Map request = Global.requests.firstWhere((request) => request['numberRequest'] == numberRequest);
     final height = MediaQuery.of(context).size.height;
     final width = MediaQuery.of(context).size.width;
     return Scaffold(
@@ -14,17 +17,18 @@ class DetailedRequest extends StatelessWidget {
           automaticallyImplyLeading: false,
           title: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
-            children: const [
+            children: [
               Text(
-                'Обращение №030304567',
-                style: TextStyle(
+                'Обращение №$numberRequest',
+                style: const TextStyle(
                     fontSize: 25,
                     fontWeight: FontWeight.w400,
                     color: Color.fromARGB(255, 255, 255, 255)),
               ),
               Text(
-                'от 01.03.2030 00:00:02',
-                style: TextStyle(
+                Global.convertTime(
+                    DateTime.fromMillisecondsSinceEpoch(request['dataTime'])),
+                style: const TextStyle(
                     fontSize: 25,
                     fontWeight: FontWeight.w400,
                     color: Color.fromARGB(255, 255, 255, 255)),
@@ -48,88 +52,102 @@ class DetailedRequest extends StatelessWidget {
             Expanded(
               child: SingleChildScrollView(
                   child: Padding(
-                    padding: EdgeInsets.all(width * 0.04),
-                    child: Column(
-                      children: const [
-                        Text(
-                          'Состояние',
-                          style: TextStyle(
-                              fontSize: 14,
-                              fontWeight: FontWeight.w300,
-                              color: Color.fromARGB(185, 0, 0, 0)),
-                        ),
-                        Text(
-                          'Статус обращения',
-                          textAlign: TextAlign.center,
-                          style: TextStyle(
-                              fontSize: 24,
-                              fontWeight: FontWeight.w400,
-                              color: Color.fromARGB(255, 0, 0, 0)),
-                        ),
-                        Divider(color: Color.fromARGB(255, 163, 164, 174)),
-                        Service(),
-                        Divider(color: Color.fromARGB(255, 163, 164, 174)),
-                        Text(
-                          'Инициатор',
-                          style: TextStyle(
-                              fontSize: 14,
-                              fontWeight: FontWeight.w300,
-                              color: Color.fromARGB(185, 0, 0, 0)),
-                        ),
-                        Text(
-                          'ФИО инициатора',
-                          textAlign: TextAlign.center,
-                          style: TextStyle(
-                              fontSize: 24,
-                              fontWeight: FontWeight.w400,
-                              color: Color.fromARGB(255, 0, 0, 0)),
-                        ),
-                        Divider(color: Color.fromARGB(255, 163, 164, 174)),
-                        Text(
-                          'Организация',
-                          style: TextStyle(
-                              fontSize: 14,
-                              fontWeight: FontWeight.w300,
-                              color: Color.fromARGB(185, 0, 0, 0)),
-                        ),
-                        Text(
-                          'Организация',
-                          textAlign: TextAlign.center,
-                          style: TextStyle(
-                              fontSize: 24,
-                              fontWeight: FontWeight.w400,
-                              color: Color.fromARGB(255, 0, 0, 0)),
-                        ),
-                        Divider(color: Color.fromARGB(255, 163, 164, 174)),
-                        Application(),
-                        Divider(color: Color.fromARGB(255, 163, 164, 174)),
-                        Text(
-                          'Важность заявки',
-                          style: TextStyle(
-                              fontSize: 14,
-                              fontWeight: FontWeight.w300,
-                              color: Color.fromARGB(185, 0, 0, 0)),
-                        ),
-                        Text(
-                          'Средняя',
-                          textAlign: TextAlign.center,
-                          style: TextStyle(
-                              fontSize: 24,
-                              fontWeight: FontWeight.w400,
-                              color: Color.fromARGB(255, 0, 0, 0)),
-                        ),
-                        Divider(color: Color.fromARGB(255, 163, 164, 174)),
-                      ],
+                padding: EdgeInsets.all(width * 0.04),
+                child: Column(
+                  children: [
+                    const Text(
+                      'Состояние',
+                      style: TextStyle(
+                          fontSize: 14,
+                          fontWeight: FontWeight.w300,
+                          color: Color.fromARGB(185, 0, 0, 0)),
                     ),
-                  )),
+                    Text(
+                      "${request['status']}",
+                      textAlign: TextAlign.center,
+                      style: const TextStyle(
+                          fontSize: 24,
+                          fontWeight: FontWeight.w400,
+                          color: Color.fromARGB(255, 0, 0, 0)),
+                    ),
+                    const Divider(color: Color.fromARGB(255, 163, 164, 174)),
+                    Service(numberRequest: numberRequest),
+                    const Divider(color: Color.fromARGB(255, 163, 164, 174)),
+                    const Text(
+                      'Инициатор',
+                      style: TextStyle(
+                          fontSize: 14,
+                          fontWeight: FontWeight.w300,
+                          color: Color.fromARGB(185, 0, 0, 0)),
+                    ),
+                    Text(
+                      "${request['surname']} ${request['name']} ${request['middleName']}",
+                      textAlign: TextAlign.center,
+                      style: const TextStyle(
+                          fontSize: 24,
+                          fontWeight: FontWeight.w400,
+                          color: Color.fromARGB(255, 0, 0, 0)),
+                    ),
+                    const Divider(color: Color.fromARGB(255, 163, 164, 174)),
+                    const Text(
+                      'Должность',
+                      style: TextStyle(
+                          fontSize: 14,
+                          fontWeight: FontWeight.w300,
+                          color: Color.fromARGB(185, 0, 0, 0)),
+                    ),
+                    Text(
+                      "${request['post']}",
+                      textAlign: TextAlign.center,
+                      style: const TextStyle(
+                          fontSize: 24,
+                          fontWeight: FontWeight.w400,
+                          color: Color.fromARGB(255, 0, 0, 0)),
+                    ),
+                    const Divider(color: Color.fromARGB(255, 163, 164, 174)),
+                    const Text(
+                      'Организация',
+                      style: TextStyle(
+                          fontSize: 14,
+                          fontWeight: FontWeight.w300,
+                          color: Color.fromARGB(185, 0, 0, 0)),
+                    ),
+                    Text(
+                      "${request['organization']}",
+                      textAlign: TextAlign.center,
+                      style: const TextStyle(
+                          fontSize: 24,
+                          fontWeight: FontWeight.w400,
+                          color: Color.fromARGB(255, 0, 0, 0)),
+                    ),
+                    const Divider(color: Color.fromARGB(255, 163, 164, 174)),
+                    Application(numberRequest: numberRequest),
+                    const Divider(color: Color.fromARGB(255, 163, 164, 174)),
+                    const Text(
+                      'Важность заявки',
+                      style: TextStyle(
+                          fontSize: 14,
+                          fontWeight: FontWeight.w300,
+                          color: Color.fromARGB(185, 0, 0, 0)),
+                    ),
+                    Text(
+                      "${request['importanceApplication']}",
+                      textAlign: TextAlign.center,
+                      style: const TextStyle(
+                          fontSize: 24,
+                          fontWeight: FontWeight.w400,
+                          color: Color.fromARGB(255, 0, 0, 0)),
+                    ),
+                    const Divider(color: Color.fromARGB(255, 163, 164, 174)),
+                  ],
+                ),
+              )),
             ),
             const ButtonsBottom(),
           ],
         ));
   }
 }
-
-
 
 class ButtonsBottom extends StatefulWidget {
   const ButtonsBottom({Key? key}) : super(key: key);
@@ -203,7 +221,8 @@ class _ButtonsBottomState extends State<ButtonsBottom> {
 }
 
 class Service extends StatefulWidget {
-  const Service({Key? key}) : super(key: key);
+  const Service({Key? key, required this.numberRequest}) : super(key: key);
+  final int numberRequest;
 
   @override
   State<Service> createState() => _ServiceState();
@@ -212,10 +231,11 @@ class Service extends StatefulWidget {
 class _ServiceState extends State<Service> {
   bool expend = false;
   bool textOverFlow = true;
-  String textService = "Название услуги";
 
   @override
   Widget build(BuildContext context) {
+    Map request = Global.requests.firstWhere(
+        (request) => request['numberRequest'] == widget.numberRequest);
     final width = MediaQuery.of(context).size.width;
     return Column(
       children: [
@@ -224,7 +244,7 @@ class _ServiceState extends State<Service> {
           children: [
             Container(
               alignment: Alignment.center,
-              padding: EdgeInsets.only(left: width*0.03, right: width*0.08),
+              padding: EdgeInsets.only(left: width * 0.03, right: width * 0.08),
               child: Column(
                 children: [
                   Padding(
@@ -239,7 +259,7 @@ class _ServiceState extends State<Service> {
                     ),
                   ),
                   Text(
-                    textService,
+                    request['service'],
                     textAlign: TextAlign.center,
                     overflow: textOverFlow ? TextOverflow.ellipsis : null,
                     style: const TextStyle(
@@ -253,7 +273,7 @@ class _ServiceState extends State<Service> {
             changingIcon(width),
           ],
         ),
-        detailedDescription(width),
+        detailedDescription(width, request['compositionService']),
       ],
     );
   }
@@ -263,9 +283,8 @@ class _ServiceState extends State<Service> {
     switch (expend) {
       case true:
         widget = Positioned(
-          left: width*0.8,
-          child:
-          IconButton(
+          left: width * 0.8,
+          child: IconButton(
             onPressed: () {
               setState(() {
                 expend = false;
@@ -306,15 +325,17 @@ class _ServiceState extends State<Service> {
     return widget;
   }
 
-  Widget detailedDescription(double width) {
+  Widget detailedDescription(double width, String compositionService) {
     Widget widget;
     switch (expend) {
       case true:
         widget = Container(
-          padding: EdgeInsets.only(top: width*0.02,),
+          padding: EdgeInsets.only(
+            top: width * 0.02,
+          ),
           child: Column(
-            children: const [
-              Text(
+            children: [
+              const Text(
                 'Состав услуги',
                 style: TextStyle(
                     fontSize: 14,
@@ -322,12 +343,9 @@ class _ServiceState extends State<Service> {
                     color: Color.fromARGB(185, 0, 0, 0)),
               ),
               Text(
-                "1)Анализ предметной области\n"
-                    "2)Сбор требований у заказчика\n"
-                    "3)Формирование и утверждение требований\n"
-                    "4)Написание технической документации",
+                compositionService,
                 textAlign: TextAlign.center,
-                style: TextStyle(
+                style: const TextStyle(
                     fontSize: 24,
                     fontWeight: FontWeight.w400,
                     color: Color.fromARGB(255, 0, 0, 0)),
@@ -349,7 +367,8 @@ class _ServiceState extends State<Service> {
 }
 
 class Application extends StatefulWidget {
-  const Application({Key? key}) : super(key: key);
+  const Application({Key? key, required this.numberRequest}) : super(key: key);
+  final int numberRequest;
 
   @override
   State<Application> createState() => _ApplicationState();
@@ -358,19 +377,20 @@ class Application extends StatefulWidget {
 class _ApplicationState extends State<Application> {
   bool expend = false;
   bool textOverFlow = true;
-  String textApplication= "Тема обращения";
 
   @override
   Widget build(BuildContext context) {
+    Map request = Global.requests.firstWhere(
+        (request) => request['numberRequest'] == widget.numberRequest);
     final width = MediaQuery.of(context).size.width;
-    return  Column(
+    return Column(
       children: [
         Stack(
           alignment: AlignmentDirectional.center,
           children: [
             Container(
               alignment: Alignment.center,
-              padding: EdgeInsets.only(left: width*0.03, right: width*0.08),
+              padding: EdgeInsets.only(left: width * 0.03, right: width * 0.08),
               child: Column(
                 children: [
                   Padding(
@@ -385,7 +405,7 @@ class _ApplicationState extends State<Application> {
                     ),
                   ),
                   Text(
-                    textApplication,
+                    request['application'],
                     textAlign: TextAlign.center,
                     overflow: textOverFlow ? TextOverflow.ellipsis : null,
                     style: const TextStyle(
@@ -405,37 +425,32 @@ class _ApplicationState extends State<Application> {
           children: [
             IconButton(
               onPressed: () {
-                Navigator.pushNamed(
-                    context, '');
+                Navigator.pushNamed(context, '');
               },
-              icon: Image.asset(
-                  'assets/images/buttonIcon/relatedDocument.png'),
+              icon: Image.asset('assets/images/buttonIcon/relatedDocument.png'),
               iconSize: width * 0.1,
               alignment: Alignment.topRight,
             ),
             IconButton(
               onPressed: () {
-                Navigator.pushNamed(
-                    context, '');
+                Navigator.pushNamed(context, '');
               },
-              icon: Image.asset(
-                  'assets/images/buttonIcon/relatedApprovals.png'),
+              icon:
+                  Image.asset('assets/images/buttonIcon/relatedApprovals.png'),
               iconSize: width * 0.1,
               alignment: Alignment.topRight,
             ),
             IconButton(
               onPressed: () {
-                Navigator.pushNamed(
-                    context, '');
+                Navigator.pushNamed(context, '');
               },
-              icon: Image.asset(
-                  'assets/images/buttonIcon/attachedFiles.png'),
+              icon: Image.asset('assets/images/buttonIcon/attachedFiles.png'),
               iconSize: width * 0.1,
               alignment: Alignment.topRight,
             ),
           ],
         ),
-        detailedDescription(width),
+        detailedDescription(width, request['description']),
       ],
     );
   }
@@ -445,9 +460,8 @@ class _ApplicationState extends State<Application> {
     switch (expend) {
       case true:
         widget = Positioned(
-          left: width*0.8,
-          child:
-          IconButton(
+          left: width * 0.8,
+          child: IconButton(
             onPressed: () {
               setState(() {
                 expend = false;
@@ -488,15 +502,15 @@ class _ApplicationState extends State<Application> {
     return widget;
   }
 
-  Widget detailedDescription(double width) {
+  Widget detailedDescription(double width, String description) {
     Widget widget;
     switch (expend) {
       case true:
         widget = Padding(
-          padding: EdgeInsets.only(top: width*0.02),
+          padding: EdgeInsets.only(top: width * 0.02),
           child: Column(
-            children:  const [
-              Text(
+            children: [
+              const Text(
                 'Описание',
                 style: TextStyle(
                     fontSize: 14,
@@ -504,9 +518,9 @@ class _ApplicationState extends State<Application> {
                     color: Color.fromARGB(185, 0, 0, 0)),
               ),
               Text(
-                "Равным образом реализация намеченного плана развития напрямую зависит от существующих финансовых и административных условий.",
+                description,
                 textAlign: TextAlign.center,
-                style: TextStyle(
+                style: const TextStyle(
                     fontSize: 24,
                     fontWeight: FontWeight.w400,
                     color: Color.fromARGB(255, 0, 0, 0)),
