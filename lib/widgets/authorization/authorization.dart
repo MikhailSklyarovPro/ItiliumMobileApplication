@@ -12,6 +12,8 @@ class AuthorizationForm extends StatefulWidget {
 class _AuthorizationFormState extends State<AuthorizationForm> {
   DataBase dataBase = DataBase();
   bool _obscurePassword = true;
+  bool _checkLogin = false;
+  bool _checkPassword = false;
   final  _loginController = TextEditingController();
   final  _passwordController = TextEditingController();
 
@@ -24,7 +26,7 @@ class _AuthorizationFormState extends State<AuthorizationForm> {
   @override
   Widget build(BuildContext context) {
     return Container(
-      height: 370,
+      height: 400,
       padding: const EdgeInsets.only(top: 10, left: 50, right: 50, bottom: 10),
       decoration: BoxDecoration(
         color: const Color.fromARGB(255, 255, 255, 255),
@@ -53,22 +55,28 @@ class _AuthorizationFormState extends State<AuthorizationForm> {
             ),
           ),
           const SizedBox(height: 15),
-           TextFormField(
+           TextField(
             controller: _loginController,
-            decoration: const InputDecoration(
-              counterText: "",
-              border: OutlineInputBorder(
-                borderRadius: BorderRadius.all(Radius.circular(9.0)),
+            decoration:  InputDecoration(
+              enabledBorder:  OutlineInputBorder(
+                borderRadius: const BorderRadius.all(Radius.circular(9.0)),
+                borderSide: BorderSide(
+                  color: _checkLogin ? const Color.fromARGB(255, 191, 0, 0): const Color.fromARGB(127, 0, 0, 0),
+                )
               ),
-              hintStyle: TextStyle(color: Color.fromARGB(127, 0, 0, 0)),
-              hintText: "Логин",
-              focusedBorder: OutlineInputBorder(
-                borderRadius: BorderRadius.all(Radius.circular(20)),
+              focusedBorder:  OutlineInputBorder(
+                borderRadius: const BorderRadius.all(Radius.circular(20)),
                 borderSide:
-                    BorderSide(color: Color.fromARGB(255, 247, 147, 48)),
+                BorderSide(color: _checkLogin ? const Color.fromARGB(255, 191, 0, 0): const Color.fromARGB(255, 247, 147, 48),),
               ),
-              focusColor: Color.fromARGB(255, 247, 147, 48),
-
+              disabledBorder: OutlineInputBorder(
+                borderRadius: const BorderRadius.all(Radius.circular(9)),
+                borderSide:
+                BorderSide(color: _checkLogin ? const Color.fromARGB(255, 191, 0, 0): const Color.fromARGB(127, 0, 0, 0),),
+              ),
+              counterText: "",
+              hintStyle: const TextStyle(color: Color.fromARGB(127, 0, 0, 0)),
+              hintText: "Логин",
             ),
             cursorColor: const Color.fromARGB(255, 247, 147, 48),
             maxLength: 40,
@@ -77,25 +85,32 @@ class _AuthorizationFormState extends State<AuthorizationForm> {
                 fontWeight: FontWeight.w400,
                 color: Color.fromARGB(255, 0, 0, 0)),
           ),
-          const SizedBox(height: 20),
+          _checkLogin ? checkLogin() : const SizedBox(height: 20),
           SizedBox(
             height: 60,
             child: TextFormField(
               controller: _passwordController,
               obscureText: _obscurePassword,
               decoration: InputDecoration(
-                counterText: "",
-                border: const OutlineInputBorder(
-                  borderRadius: BorderRadius.all(Radius.circular(9.0)),
+                enabledBorder:  OutlineInputBorder(
+                    borderRadius: const BorderRadius.all(Radius.circular(9.0)),
+                    borderSide: BorderSide(
+                      color: _checkPassword ? const Color.fromARGB(255, 191, 0, 0): const Color.fromARGB(127, 0, 0, 0),
+                    )
                 ),
+                focusedBorder:  OutlineInputBorder(
+                  borderRadius: const BorderRadius.all(Radius.circular(20)),
+                  borderSide:
+                  BorderSide(color: _checkPassword ? const Color.fromARGB(255, 191, 0, 0): const Color.fromARGB(255, 247, 147, 48),),
+                ),
+                disabledBorder: OutlineInputBorder(
+                  borderRadius: const BorderRadius.all(Radius.circular(9)),
+                  borderSide:
+                  BorderSide(color: _checkPassword ? const Color.fromARGB(255, 191, 0, 0): const Color.fromARGB(127, 0, 0, 0),),
+                ),
+                counterText: "",
                 hintStyle: const TextStyle(color: Color.fromARGB(127, 0, 0, 0)),
                 hintText: "Пароль",
-                focusedBorder: const OutlineInputBorder(
-                  borderRadius: BorderRadius.all(Radius.circular(20)),
-                  borderSide:
-                      BorderSide(color: Color.fromARGB(255, 247, 147, 48)),
-                ),
-                focusColor: const Color.fromARGB(255, 247, 147, 48),
                 suffix: IconButton(
                   padding: const EdgeInsets.all(0),
                   iconSize: 20.0,
@@ -117,25 +132,42 @@ class _AuthorizationFormState extends State<AuthorizationForm> {
                   color: Color.fromARGB(255, 0, 0, 0)),
             ),
           ),
-          const SizedBox(height: 25),
+          _checkPassword ? checkPassword() : const SizedBox(height: 25),
           ElevatedButton(
               onPressed: () async{
-                if(_loginController.text ==  (await dataBase.readData("SELECT login FROM 'user'")).first['login'] && _passwordController.text ==  (await dataBase.readData("SELECT password FROM 'user'")).first['password'])
-                  {
-                    Global.orders =  await dataBase.read("order");
-                    Global.requests =  await dataBase.read("request");
-                    Global.approvals =  await dataBase.read("approval");
-                    //Global.files =  await dataBase.read("file");
-                    print("${Global.orders}");// для отладки
-                    print("${Global.requests}");// для отладки
-                    print("${Global.approvals}");// для отладки
-                    //print("${Global.files}");// для отладки
-                    Navigator.pushNamed(context, '/myOutfitsWindow');
-                  }
+                if(_loginController.text ==  (await dataBase.readData("SELECT login FROM 'user'")).first['login']&&_passwordController.text ==  (await dataBase.readData("SELECT password FROM 'user'")).first['password']){
+                  Global.orders =  await dataBase.read("order");
+                  Global.requests =  await dataBase.read("request");
+                  Global.approvals =  await dataBase.read("approval");
+                  //Global.files =  await dataBase.read("file");
+                  print("${Global.orders}");// для отладки
+                  print("${Global.requests}");// для отладки
+                  print("${Global.approvals}");// для отладки
+                  //print("${Global.files}");// для отладки
+                  Navigator.pushNamed(context, '/myRequestsWindow');
+                }
                 else{
-                  setState(() {
-                    //error
-                  });
+                  if(_passwordController.text ==  (await dataBase.readData("SELECT password FROM 'user'")).first['password']) {
+                    setState(() {
+                      _checkPassword = false;
+                    });
+                  }
+                  else{
+                    setState(() {
+                      _checkPassword = true;
+                    });
+                  }
+                  if(_loginController.text ==  (await dataBase.readData("SELECT login FROM 'user'")).first['login'])
+                  {
+                    setState(() {
+                      _checkLogin = false;
+                    });
+                  }
+                  else{
+                    setState(() {
+                      _checkLogin = true;
+                    });
+                  }
                 }
               },
               style: ElevatedButton.styleFrom(
@@ -172,7 +204,7 @@ class _AuthorizationFormState extends State<AuthorizationForm> {
   }
 
   initField() async{
-    //int responseDelete = await dataBase.deleteData('DELETE FROM "approval" WHERE id = 2');
+    //int responseDelete = await dataBase.deleteData('DELETE FROM "approval" WHERE id = 1');
     //int responseInsert =  await dataBase.insertData(
     //    "INSERT INTO 'order' (numberOrder,dataTime,name,surname,middleName,organization,service,compositionService,application,description,solution,status,executionStatus,importanceApplication,belong)"
     //      " VALUES ('866754329','1683300000000','Ольга','Степанидина','Викторовна','Иркутскэнерго','Ребрендинг сайта','Разработать новую концепцию дизайна сайта','Доработка сайта','В связи с изменением логотипа компании и цветовой схемы необходимо изменить внешний вид сайта','На сайте были заменены логотип компании и цветовая схева в соотвествии с требованием заказчика','Приостановлен','Не выполнен','Высокая','0')"
@@ -183,12 +215,41 @@ class _AuthorizationFormState extends State<AuthorizationForm> {
     //);
     //int responseInsert =  await dataBase.insertData(
     //  "INSERT INTO 'approval' (numberApproval,dataTime,name,surname,middleName,organization,application,description,approvalStatus,comment,belong)"
-    //     " VALUES ('126358573','1681000000000','Михаил','Скляров','Дмитриевич','Эн+ диджитал','Разработка окна ваторизации','Необходимо разработать окно авторизации для мобильного приложения Итилиум','Не согласовано','Дизайн окна авторизации находится на утверждении','0')"
+    //    " VALUES ('126358573','1681000000000','Михаил','Скляров','Дмитриевич','Эн+ диджитал','Разработка окна ваторизации','Необходимо разработать окно авторизации для мобильного приложения Итилиум','Не согласовано','Дизайн окна авторизации находится на утверждении','0')"
     //);
     List<Map> responseAuthorization =  await dataBase.read("user");
     _loginController.text = responseAuthorization.first['login'];
     _passwordController.text = responseAuthorization.first['password'];
     print("$responseAuthorization");
+  }
+
+  Widget checkLogin() {
+    return const Padding(
+        padding: EdgeInsets.only(bottom: 15),
+      child: Text(
+        'Пользователь не найден!',
+        textAlign: TextAlign.center,
+        style: TextStyle(
+            fontSize: 14,
+            fontFamily: "Segue",
+            color: Color.fromARGB(191, 200, 0, 0),
+            fontWeight: FontWeight.w400),
+      ),
+    );
+  }
+  Widget checkPassword() {
+    return const Padding(
+      padding: EdgeInsets.only(bottom: 15),
+      child: Text(
+        'Неверный пароль!',
+        textAlign: TextAlign.center,
+        style: TextStyle(
+            fontSize: 14,
+            fontFamily: "Segue",
+            color: Color.fromARGB(255, 191, 0, 0),
+            fontWeight: FontWeight.w400),
+      ),
+    );
   }
 }
 

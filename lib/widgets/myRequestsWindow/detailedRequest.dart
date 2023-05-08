@@ -26,8 +26,8 @@ class DetailedRequest extends StatelessWidget {
                     color: Color.fromARGB(255, 255, 255, 255)),
               ),
               Text(
-                Global.convertTime(
-                    DateTime.fromMillisecondsSinceEpoch(request['dataTime'])),
+                "от ${Global.convertTime(
+                    DateTime.fromMillisecondsSinceEpoch(request['dataTime']))}",
                 style: const TextStyle(
                     fontSize: 25,
                     fontWeight: FontWeight.w400,
@@ -143,82 +143,11 @@ class DetailedRequest extends StatelessWidget {
                 ),
               )),
             ),
-            const ButtonsBottom(),
           ],
         ));
   }
 }
 
-class ButtonsBottom extends StatefulWidget {
-  const ButtonsBottom({Key? key}) : super(key: key);
-
-  @override
-  State<ButtonsBottom> createState() => _ButtonsBottomState();
-}
-
-class _ButtonsBottomState extends State<ButtonsBottom> {
-  @override
-  Widget build(BuildContext context) {
-    final height = MediaQuery.of(context).size.height;
-    final width = MediaQuery.of(context).size.width;
-    return Container(
-      padding: EdgeInsets.only(top: height * 0.02, bottom: height * 0.02),
-      child: Row(
-        mainAxisAlignment: MainAxisAlignment.center,
-        children: [
-          ElevatedButton(
-              onPressed: () {
-                Navigator.pushNamed(context, '');
-              },
-              style: ElevatedButton.styleFrom(
-                  shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(30)),
-                  backgroundColor: const Color.fromARGB(255, 51, 156, 255),
-                  foregroundColor: const Color.fromARGB(255, 9, 82, 150),
-                  padding: const EdgeInsets.symmetric(vertical: 14)),
-              child: SizedBox(
-                  width: width * 0.4,
-                  child: const Center(
-                    child: Text(
-                      'Записать',
-                      style: TextStyle(
-                          fontSize: 20,
-                          fontFamily: "Segue",
-                          color: Color.fromARGB(255, 255, 255, 255),
-                          fontWeight: FontWeight.w400),
-                    ),
-                  ))),
-          SizedBox(
-            width: width * 0.06,
-          ),
-          ElevatedButton(
-            onPressed: () {
-              setState(() {});
-            },
-            style: ElevatedButton.styleFrom(
-                shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(30)),
-                backgroundColor: const Color.fromARGB(255, 230, 235, 240),
-                foregroundColor: const Color.fromARGB(255, 190, 195, 200),
-                padding: const EdgeInsets.symmetric(vertical: 14)),
-            child: SizedBox(
-                width: width * 0.4,
-                child: const Center(
-                  child: Text(
-                    'Отмена',
-                    style: TextStyle(
-                        fontSize: 20,
-                        fontFamily: "Segue",
-                        color: Color.fromARGB(255, 0, 0, 0),
-                        fontWeight: FontWeight.w400),
-                  ),
-                )),
-          ),
-        ],
-      ),
-    );
-  }
-}
 
 class Service extends StatefulWidget {
   const Service({Key? key, required this.numberRequest}) : super(key: key);
