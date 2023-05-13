@@ -6,7 +6,7 @@ class DetailedApprovals extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final numberApproval = ModalRoute.of(context)!.settings.arguments as int;
+    final numberApproval = ModalRoute.of(context)!.settings.arguments as String;
     print(numberApproval);
     Map approval = Global.approvals
         .firstWhere((approval) => approval['numberApproval'] == numberApproval);
@@ -65,7 +65,7 @@ class DetailedApprovals extends StatelessWidget {
                           color: Color.fromARGB(185, 0, 0, 0)),
                     ),
                     Text(
-                      '${approval['surname']} ${approval['name']} ${approval['middleName']}',
+                      '${approval['initiator']}',
                       textAlign: TextAlign.center,
                       style: const TextStyle(
                           fontSize: 24,
@@ -180,7 +180,7 @@ class _ButtonsBottomState extends State<ButtonsBottom> {
 
 class Comment extends StatefulWidget {
   const Comment({Key? key, required this.numberApproval}) : super(key: key);
-  final int numberApproval;
+  final String numberApproval;
 
   @override
   State<Comment> createState() => _CommentState();
@@ -225,7 +225,7 @@ class _CommentState extends State<Comment> {
 
 class Application extends StatefulWidget {
   const Application({Key? key, required this.numberApproval}) : super(key: key);
-  final int numberApproval;
+  final String numberApproval;
 
   @override
   State<Application> createState() => _ApplicationState();
@@ -274,30 +274,6 @@ class _ApplicationState extends State<Application> {
               ),
             ),
             changingIcon(width),
-          ],
-        ),
-        Row(
-          crossAxisAlignment: CrossAxisAlignment.center,
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            IconButton(
-              onPressed: () {
-                Navigator.pushNamed(context,
-                    '/myApprovalsWindow/detailedApprovals/relatedDocuments');
-              },
-              icon: Image.asset('assets/images/buttonIcon/relatedDocument.png'),
-              iconSize: width * 0.1,
-              alignment: Alignment.topRight,
-            ),
-            IconButton(
-              onPressed: () {
-                Navigator.pushNamed(context,
-                    '/myApprovalsWindow/detailedApprovals/attachedFiles');
-              },
-              icon: Image.asset('assets/images/buttonIcon/attachedFiles.png'),
-              iconSize: width * 0.1,
-              alignment: Alignment.topRight,
-            ),
           ],
         ),
         detailedDescription(width, approval['description']),

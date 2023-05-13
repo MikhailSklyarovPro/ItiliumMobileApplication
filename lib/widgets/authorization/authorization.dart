@@ -135,19 +135,33 @@ class _AuthorizationFormState extends State<AuthorizationForm> {
           _checkPassword ? checkPassword() : const SizedBox(height: 25),
           ElevatedButton(
               onPressed: () async{
-                if(_loginController.text ==  (await dataBase.readData("SELECT login FROM 'user'")).first['login']&&_passwordController.text ==  (await dataBase.readData("SELECT password FROM 'user'")).first['password']){
-                  Global.orders =  await dataBase.read("order");
-                  Global.requests =  await dataBase.read("request");
-                  Global.approvals =  await dataBase.read("approval");
+                if(_loginController.text ==  (await Global.dataBase.readData("SELECT login FROM 'user'")).first['login']&&_passwordController.text ==  (await Global.dataBase.readData("SELECT password FROM 'user'")).first['password']){
+                  Global.orders =  await Global.dataBase.readData("SELECT * FROM 'order' WHERE linked='false'");
+                  Global.linkedOrders =  await Global.dataBase.readData("SELECT * FROM 'order'");
+
+                  Global.requests =  await Global.dataBase.readData("SELECT * FROM 'request' WHERE linked='false'");
+                  Global.linkedRequests =  await Global.dataBase.readData("SELECT * FROM 'request'");
+
+                  Global.approvals =  await Global.dataBase.readData("SELECT * FROM 'approval' WHERE linked='false'");
+                  Global.linkedApprovals =  await Global.dataBase.readData("SELECT * FROM 'approval'");
+
+                  Global.linkedDocuments =  await Global.dataBase.read("linkedDocuments");
+
+                  Global.width = MediaQuery.of(context).size.width;
+                  Global.width = MediaQuery.of(context).size.height;
+
                   //Global.files =  await dataBase.read("file");
-                  print("${Global.orders}");// для отладки
-                  print("${Global.requests}");// для отладки
-                  print("${Global.approvals}");// для отладки
+                  //print("${Global.orders}");// для отладки
+                  //print("Количество нарядов:${Global.linkedOrders.length}");// для отладки
+                  //print("${Global.linkedOrders}");
+                  //print("${Global.linkedDocuments}");
+                  //print("${Global.requests}");// для отладки
+                  //print("${Global.approvals}");// для отладки
                   //print("${Global.files}");// для отладки
                   Navigator.pushNamed(context, '/myRequestsWindow');
                 }
                 else{
-                  if(_passwordController.text ==  (await dataBase.readData("SELECT password FROM 'user'")).first['password']) {
+                  if(_passwordController.text ==  (await Global.dataBase.readData("SELECT password FROM 'user'")).first['password']) {
                     setState(() {
                       _checkPassword = false;
                     });
@@ -157,7 +171,7 @@ class _AuthorizationFormState extends State<AuthorizationForm> {
                       _checkPassword = true;
                     });
                   }
-                  if(_loginController.text ==  (await dataBase.readData("SELECT login FROM 'user'")).first['login'])
+                  if(_loginController.text ==  (await Global.dataBase.readData("SELECT login FROM 'user'")).first['login'])
                   {
                     setState(() {
                       _checkLogin = false;
@@ -204,21 +218,45 @@ class _AuthorizationFormState extends State<AuthorizationForm> {
   }
 
   initField() async{
-    //int responseDelete = await dataBase.deleteData('DELETE FROM "approval" WHERE id = 1');
+    //dataBase.deleteDataBase();
+
+    //int responseDelete = await dataBase.deleteData('DELETE FROM "order" WHERE id = 2');
+    //int responseDelete1 = await dataBase.deleteData('DELETE FROM "order" WHERE id = 3');
     //int responseInsert =  await dataBase.insertData(
-    //    "INSERT INTO 'order' (numberOrder,dataTime,name,surname,middleName,organization,service,compositionService,application,description,solution,status,executionStatus,importanceApplication,belong)"
-    //      " VALUES ('866754329','1683300000000','Ольга','Степанидина','Викторовна','Иркутскэнерго','Ребрендинг сайта','Разработать новую концепцию дизайна сайта','Доработка сайта','В связи с изменением логотипа компании и цветовой схемы необходимо изменить внешний вид сайта','На сайте были заменены логотип компании и цветовая схева в соотвествии с требованием заказчика','Приостановлен','Не выполнен','Высокая','0')"
+    //    "INSERT INTO 'order' (numberOrder,dataTime,initiator,organization,service,compositionService,application,description,solution,status,executionStatus,priority,linked)"
+    //     " VALUES ('122236004','1682990000000','Ланцов Прохор Николаевич','Русал','Интеграция ПО','Интегрировать ПО с установкой','Необходимо поставить связать ПО и установку','Для установки было разработано дополнительное ПО, которое необходимо интегрировать с установкой','ПО было интегрировано с установкой','В работе','Не выполнен','Высокая', 'true')"
     //);
-    //int responseInsert =  await dataBase.insertData(
-    //   "INSERT INTO 'request' (numberRequest,dataTime,name,surname,middleName,organization,service,compositionService,application,description,status,post,importanceApplication,belong)"
-    //     " VALUES ('809564371','1683000000000','Михаил','Скляров','Дмитриевич','Эн+ диджитал','Корпоративная  услуга','Разработать ТЗ на разработку мобльного приложения для Итилиума','Составление ТЗ','Появилась потребность в разработки мобильного приложения для сотрудников для повышения их мобильности','В работе','Разработчик веб и мобильных приложений','Очень высокая','0')"
+
+    //int responseInsert2 =  await dataBase.insertData(
+    //    "INSERT INTO 'order' (numberOrder,dataTime,initiator,organization,service,compositionService,application,description,solution,status,executionStatus,priority,linked)"
+    //        " VALUES ('666661111','1682588000000','Иванов Иванович','Эн+ диджитал','Ремонт сетей','Устранение неполадок в работе сети','Комьютеры не видят сеть','После установки новых маршрутизаторов пропала сеть','Настроил маршрутизаторы и подключил компьютеры к сети','В работе','Не выполнен','Средняя', 'false')"
     //);
-    //int responseInsert =  await dataBase.insertData(
-    //  "INSERT INTO 'approval' (numberApproval,dataTime,name,surname,middleName,organization,application,description,approvalStatus,comment,belong)"
-    //    " VALUES ('126358573','1681000000000','Михаил','Скляров','Дмитриевич','Эн+ диджитал','Разработка окна ваторизации','Необходимо разработать окно авторизации для мобильного приложения Итилиум','Не согласовано','Дизайн окна авторизации находится на утверждении','0')"
+
+    //print("$responseInsert");
+    //int responseUser=  await dataBase.insertData(
+    // "INSERT INTO 'user' (password,login,role)"
+    //     " VALUES ('12345','Скляров Михаил Дмитриевич','Исполнитель')"
     //);
+    //print("$responseUser");
+
+   // int responseInsert =  await dataBase.insertData(
+   //    "INSERT INTO 'request' (numberRequest,dataTime,initiator,organization,service,compositionService,application,description,status,post,priority,linked)"
+   //      " VALUES ('009564371','1683000000000','Храмцов Константин Иванович','Эн+ диджитал','Корпоративная  услуга','Разработать ТЗ на разработку мобльного приложения для Итилиума','Составление ТЗ','Появилась потребность в разработки мобильного приложения для сотрудников для повышения их мобильности','В работе','Разработчик веб и мобильных приложений','Очень высокая','false')"
+   // );
+
+    //int response =  await dataBase.insertData(
+    //  "INSERT INTO 'approval' (numberApproval,dataTime,initiator,organization,application,description,approvalStatus,comment,linked)"
+    //    " VALUES ('126358573','1681000000000','Прихода Виталий Анатольевич','Эн+ диджитал','Разработка окна ваторизации','Необходимо разработать окно авторизации для мобильного приложения Итилиум','Не согласовано','Дизайн окна авторизации находится на утверждении','false')"
+    //);
+
+    //int response =  await dataBase.insertData(
+    //  "INSERT INTO 'linkedDocuments' (typeDocument,numberDocument,typeLinkedDocument,numberLinkedDocument)"
+    //    " VALUES ('Согласование','126358573','Обращение','009564371')"
+    //);
+
+    Global.dataBase = dataBase;
     List<Map> responseAuthorization =  await dataBase.read("user");
-    _loginController.text = responseAuthorization.first['login'];
+   _loginController.text = responseAuthorization.first['login'];
     _passwordController.text = responseAuthorization.first['password'];
     print("$responseAuthorization");
   }

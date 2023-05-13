@@ -30,6 +30,8 @@ environment:
 dependencies:
   flutter:
     sdk: flutter
+  http: ^0.13.5
+  xml_map_converter: ^1.0.0+1
   sqflite:
   path:
   pedantic_mono: any

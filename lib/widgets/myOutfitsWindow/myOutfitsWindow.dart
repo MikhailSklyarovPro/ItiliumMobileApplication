@@ -183,7 +183,7 @@ class _MyOutfitsWindowState extends State<MyOutfitsWindow> {
                                     color: Color.fromARGB(255, 163, 164, 174)),
                               ),
                               Text(
-                                "${Global.orders[index]['surname']} ${Global.orders[index]['name']} ${Global.orders[index]['middleName']}",
+                                "${Global.orders[index]['initiator']}",
                                 textAlign: TextAlign.center,
                                 style: const TextStyle(
                                     fontSize: 24,
@@ -305,7 +305,7 @@ class _MyOutfitsWindowState extends State<MyOutfitsWindow> {
                                     color: Color.fromARGB(255, 163, 164, 174),
                                   )),
                               Text(
-                                "${Global.orders[index]['importanceApplication']}",
+                                "${Global.orders[index]['priority']}",
                                 style: const TextStyle(
                                     fontSize: 24,
                                     fontWeight: FontWeight.w400,

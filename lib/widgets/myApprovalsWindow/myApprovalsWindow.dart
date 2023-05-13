@@ -197,7 +197,7 @@ class _MyApprovalsWindowState extends State<MyApprovalsWindow> {
                                     color: Color.fromARGB(255, 163, 164, 174)),
                               ),
                               Text(
-                                '${Global.approvals[index]['surname']} ${Global.approvals[index]['name']} ${Global.approvals[index]['middleName']}',
+                                '${Global.approvals[index]['initiator']}',
                                 textAlign: TextAlign.center,
                                 style: const TextStyle(
                                     fontSize: 24,
