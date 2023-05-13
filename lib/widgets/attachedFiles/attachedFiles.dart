@@ -1,8 +1,10 @@
+import 'package:firstapp/globalVariable/Global.dart';
 import 'package:flutter/material.dart';
 
 class AttachedFiles extends StatelessWidget {
-  const AttachedFiles({Key? key}) : super(key: key);
-
+  const AttachedFiles({Key? key,  required this.id, required this.typeDocument}): super(key: key);
+  final int id;
+  final String typeDocument;
   @override
   Widget build(BuildContext context) {
     int numberFiles = 6;
@@ -33,8 +35,6 @@ class AttachedFiles extends StatelessWidget {
                 size: width * 0.1,
               ),
               onPressed: () {
-                Navigator.pushNamed(
-                    context, '/myApprovalsWindow/detailedApprovals');
               }),
         ],
       ),
@@ -56,7 +56,6 @@ class AttachedFiles extends StatelessWidget {
                 InkWell(
                   borderRadius: BorderRadius.circular(12),
                   onTap: () {
-                    Navigator.pushNamed(context, '');
                   },
                   highlightColor: const Color.fromARGB(140, 60, 160, 50),
                   child: Container(

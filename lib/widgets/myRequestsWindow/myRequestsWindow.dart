@@ -105,7 +105,7 @@ class _MyRequestsWindowState extends State<MyRequestsWindow> {
                     children: [
                       InkWell(
                         onTap: () {
-                          Navigator.pushNamed(context, "/myOutfitsWindow/detailedORequest", arguments: Global.requests[index]['numberRequest']);
+                          Navigator.pushNamed(context, "/myRequestsWindow/detailedORequest", arguments: Global.requests[index]['numberRequest']);
                         },
                         highlightColor: const Color.fromARGB(130, 51, 156, 255),
                         child: Container(
@@ -234,7 +234,7 @@ class _MyRequestsWindowState extends State<MyRequestsWindow> {
                                     color: Color.fromARGB(255, 163, 164, 174)),
                               ),
                               Text(
-                                "${Global.requests[index]['surname']} ${Global.requests[index]['name']} ${Global.requests[index]['middleName']}",
+                                "${Global.requests[index]['initiator']}",
                                 textAlign: TextAlign.center,
                                 style: const TextStyle(
                                     fontSize: 24,
@@ -316,7 +316,7 @@ class _MyRequestsWindowState extends State<MyRequestsWindow> {
                                     color: Color.fromARGB(255, 163, 164, 174),
                                   )),
                               Text(
-                                "${Global.requests[index]['importanceApplication']}",
+                                "${Global.requests[index]['priority']}",
                                 textAlign: TextAlign.center,
                                 style: const TextStyle(
                                     fontSize: 24,

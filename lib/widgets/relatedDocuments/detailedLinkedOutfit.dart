@@ -1,34 +1,31 @@
 import 'package:firstapp/globalVariable/Global.dart';
-import 'package:firstapp/widgets/relatedDocuments/relatedDocuments.dart';
 import 'package:flutter/material.dart';
 
-class DetailedRequest extends StatelessWidget {
-  const DetailedRequest({Key? key}) : super(key: key);
-
+class DetailedLinkedOrder extends StatelessWidget {
+  const DetailedLinkedOrder({Key? key}) : super(key: key);
   @override
   Widget build(BuildContext context) {
-    final numberRequest = ModalRoute.of(context)!.settings.arguments as String;
-    Map request = Global.requests.firstWhere((request) => request['numberRequest'] == numberRequest);
     final height = MediaQuery.of(context).size.height;
     final width = MediaQuery.of(context).size.width;
+    final numberOrder = ModalRoute.of(context)!.settings.arguments as String; //Получаем аргументы с предыдущего окна
+    Map order = Global.orders.firstWhere((order) => order['numberOrder'] == numberOrder);
     return Scaffold(
         appBar: AppBar(
           toolbarHeight: height * 0.09,
-          backgroundColor: const Color.fromARGB(255, 51, 156, 255),
+          backgroundColor: const Color.fromARGB(255, 247, 147, 48),
           automaticallyImplyLeading: false,
           title: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
+            children:  [
               Text(
-                'Обращение №$numberRequest',
+                'Наряд №$numberOrder',
                 style: const TextStyle(
                     fontSize: 25,
                     fontWeight: FontWeight.w400,
                     color: Color.fromARGB(255, 255, 255, 255)),
               ),
               Text(
-                "от ${Global.convertTime(
-                    DateTime.fromMillisecondsSinceEpoch(request['dataTime']))}",
+                "от ${Global.convertTime(DateTime.fromMillisecondsSinceEpoch(order["dataTime"]))}",
                 style: const TextStyle(
                     fontSize: 25,
                     fontWeight: FontWeight.w400,
@@ -44,7 +41,7 @@ class DetailedRequest extends StatelessWidget {
                   size: width * 0.1,
                 ),
                 onPressed: () {
-                  Navigator.pushNamed(context, '/myRequestsWindow');
+                  Navigator.pop(context);
                 }),
           ],
         ),
@@ -53,107 +50,105 @@ class DetailedRequest extends StatelessWidget {
             Expanded(
               child: SingleChildScrollView(
                   child: Padding(
-                padding: EdgeInsets.all(width * 0.04),
-                child: Column(
-                  children: [
-                    const Text(
-                      'Состояние',
-                      style: TextStyle(
-                          fontSize: 14,
-                          fontWeight: FontWeight.w300,
-                          color: Color.fromARGB(185, 0, 0, 0)),
+                    padding: EdgeInsets.all(width * 0.04),
+                    child: Column(
+                      children: [
+                        const Text(
+                          'Инициатор',
+                          style: TextStyle(
+                              fontSize: 14,
+                              fontWeight: FontWeight.w300,
+                              color: Color.fromARGB(185, 0, 0, 0)),
+                        ),
+                        Text(
+                          '${order['initiator']}',
+                          textAlign: TextAlign.center,
+                          style: const TextStyle(
+                              fontSize: 24,
+                              fontWeight: FontWeight.w400,
+                              color: Color.fromARGB(255, 0, 0, 0)),
+                        ),
+                        const Divider(color: Color.fromARGB(255, 163, 164, 174)),
+                        const Text(
+                          'Организация',
+                          style: TextStyle(
+                              fontSize: 14,
+                              fontWeight: FontWeight.w300,
+                              color: Color.fromARGB(185, 0, 0, 0)),
+                        ),
+                        Text(
+                          '${order['organization']}',
+                          textAlign: TextAlign.center,
+                          style: const TextStyle(
+                              fontSize: 24,
+                              fontWeight: FontWeight.w400,
+                              color: Color.fromARGB(255, 0, 0, 0)),
+                        ),
+                        const Divider(color: Color.fromARGB(255, 163, 164, 174)),
+                        Service(numberOrder: numberOrder),
+                        const Divider(color: Color.fromARGB(255, 163, 164, 174)),
+                        Application(numberOrder: numberOrder),
+                        const Divider(color: Color.fromARGB(255, 163, 164, 174)),
+                        const Text(
+                          'Состояние',
+                          style: TextStyle(
+                              fontSize: 14,
+                              fontWeight: FontWeight.w300,
+                              color: Color.fromARGB(185, 0, 0, 0)),
+                        ),
+                        Text(
+                          order['status'],
+                          textAlign: TextAlign.center,
+                          style: const TextStyle(
+                              fontSize: 24,
+                              fontWeight: FontWeight.w400,
+                              color: Color.fromARGB(255, 0, 0, 0)),
+                        ),
+                        const Divider(color: Color.fromARGB(255, 163, 164, 174)),
+                        const Text(
+                  'Статус выполнения',
+                  style: TextStyle(
+                  fontSize: 14,
+                      fontWeight: FontWeight.w300,
+                      color: Color.fromARGB(185, 0, 0, 0)),
+            ),
+                        Text(
+              order['executionStatus'],
+              textAlign: TextAlign.center,
+              style: const TextStyle(
+                  fontSize: 24,
+                  fontWeight: FontWeight.w400,
+                  color: Color.fromARGB(255, 0, 0, 0)),
+            ),
+                        const Divider(color: Color.fromARGB(255, 163, 164, 174)),
+                        const Text(
+                          'Важность заявки',
+                          style: TextStyle(
+                              fontSize: 14,
+                              fontWeight: FontWeight.w300,
+                              color: Color.fromARGB(185, 0, 0, 0)),
+                        ),
+                        Text(
+                          order['priority'],
+                          textAlign: TextAlign.center,
+                          style: const TextStyle(
+                              fontSize: 24,
+                              fontWeight: FontWeight.w400,
+                              color: Color.fromARGB(255, 0, 0, 0)),
+                        ),
+                        const Divider(color: Color.fromARGB(255, 163, 164, 174)),
+                      ],
                     ),
-                    Text(
-                      "${request['status']}",
-                      textAlign: TextAlign.center,
-                      style: const TextStyle(
-                          fontSize: 24,
-                          fontWeight: FontWeight.w400,
-                          color: Color.fromARGB(255, 0, 0, 0)),
-                    ),
-                    const Divider(color: Color.fromARGB(255, 163, 164, 174)),
-                    Service(numberRequest: numberRequest),
-                    const Divider(color: Color.fromARGB(255, 163, 164, 174)),
-                    const Text(
-                      'Инициатор',
-                      style: TextStyle(
-                          fontSize: 14,
-                          fontWeight: FontWeight.w300,
-                          color: Color.fromARGB(185, 0, 0, 0)),
-                    ),
-                    Text(
-                      "${request['initiator']}",
-                      textAlign: TextAlign.center,
-                      style: const TextStyle(
-                          fontSize: 24,
-                          fontWeight: FontWeight.w400,
-                          color: Color.fromARGB(255, 0, 0, 0)),
-                    ),
-                    const Divider(color: Color.fromARGB(255, 163, 164, 174)),
-                    const Text(
-                      'Должность',
-                      style: TextStyle(
-                          fontSize: 14,
-                          fontWeight: FontWeight.w300,
-                          color: Color.fromARGB(185, 0, 0, 0)),
-                    ),
-                    Text(
-                      "${request['post']}",
-                      textAlign: TextAlign.center,
-                      style: const TextStyle(
-                          fontSize: 24,
-                          fontWeight: FontWeight.w400,
-                          color: Color.fromARGB(255, 0, 0, 0)),
-                    ),
-                    const Divider(color: Color.fromARGB(255, 163, 164, 174)),
-                    const Text(
-                      'Организация',
-                      style: TextStyle(
-                          fontSize: 14,
-                          fontWeight: FontWeight.w300,
-                          color: Color.fromARGB(185, 0, 0, 0)),
-                    ),
-                    Text(
-                      "${request['organization']}",
-                      textAlign: TextAlign.center,
-                      style: const TextStyle(
-                          fontSize: 24,
-                          fontWeight: FontWeight.w400,
-                          color: Color.fromARGB(255, 0, 0, 0)),
-                    ),
-                    const Divider(color: Color.fromARGB(255, 163, 164, 174)),
-                    Application(numberRequest: numberRequest),
-                    const Divider(color: Color.fromARGB(255, 163, 164, 174)),
-                    const Text(
-                      'Важность заявки',
-                      style: TextStyle(
-                          fontSize: 14,
-                          fontWeight: FontWeight.w300,
-                          color: Color.fromARGB(185, 0, 0, 0)),
-                    ),
-                    Text(
-                      "${request['priority']}",
-                      textAlign: TextAlign.center,
-                      style: const TextStyle(
-                          fontSize: 24,
-                          fontWeight: FontWeight.w400,
-                          color: Color.fromARGB(255, 0, 0, 0)),
-                    ),
-                    const Divider(color: Color.fromARGB(255, 163, 164, 174)),
-                  ],
-                ),
-              )),
+                  )),
             ),
           ],
         ));
   }
 }
 
-
 class Service extends StatefulWidget {
-  const Service({Key? key, required this.numberRequest}) : super(key: key);
-  final String numberRequest;
-
+  const Service({Key? key, required this.numberOrder}):super(key: key);
+  final String numberOrder;
   @override
   State<Service> createState() => _ServiceState();
 }
@@ -161,11 +156,9 @@ class Service extends StatefulWidget {
 class _ServiceState extends State<Service> {
   bool expend = false;
   bool textOverFlow = true;
-
   @override
   Widget build(BuildContext context) {
-    Map request = Global.requests.firstWhere(
-        (request) => request['numberRequest'] == widget.numberRequest);
+    Map order = Global.orders.firstWhere((order) => order['numberOrder'] == widget.numberOrder);
     final width = MediaQuery.of(context).size.width;
     return Column(
       children: [
@@ -174,12 +167,12 @@ class _ServiceState extends State<Service> {
           children: [
             Container(
               alignment: Alignment.center,
-              padding: EdgeInsets.only(left: width * 0.03, right: width * 0.08),
+              padding: EdgeInsets.only(left: width*0.03, right: width*0.08),
               child: Column(
                 children: [
                   Padding(
                     padding: EdgeInsets.only(left: width * 0.04),
-                    child: const Text(
+                    child:  const Text(
                       'Услуга',
                       textAlign: TextAlign.center,
                       style: TextStyle(
@@ -189,7 +182,7 @@ class _ServiceState extends State<Service> {
                     ),
                   ),
                   Text(
-                    request['service'],
+                    order['service'],
                     textAlign: TextAlign.center,
                     overflow: textOverFlow ? TextOverflow.ellipsis : null,
                     style: const TextStyle(
@@ -203,7 +196,7 @@ class _ServiceState extends State<Service> {
             changingIcon(width),
           ],
         ),
-        detailedDescription(width, request['compositionService']),
+        detailedDescription(width,order['compositionService']),
       ],
     );
   }
@@ -213,8 +206,9 @@ class _ServiceState extends State<Service> {
     switch (expend) {
       case true:
         widget = Positioned(
-          left: width * 0.8,
-          child: IconButton(
+          left: width*0.8,
+          child:
+          IconButton(
             onPressed: () {
               setState(() {
                 expend = false;
@@ -260,11 +254,9 @@ class _ServiceState extends State<Service> {
     switch (expend) {
       case true:
         widget = Container(
-          padding: EdgeInsets.only(
-            top: width * 0.02,
-          ),
+          padding: EdgeInsets.only(top: width*0.02),
           child: Column(
-            children: [
+            children:  [
               const Text(
                 'Состав услуги',
                 style: TextStyle(
@@ -297,9 +289,8 @@ class _ServiceState extends State<Service> {
 }
 
 class Application extends StatefulWidget {
-  const Application({Key? key, required this.numberRequest}) : super(key: key);
-  final String numberRequest;
-
+  const Application({Key? key, required this.numberOrder}) : super(key: key);
+  final String numberOrder;
   @override
   State<Application> createState() => _ApplicationState();
 }
@@ -310,17 +301,16 @@ class _ApplicationState extends State<Application> {
 
   @override
   Widget build(BuildContext context) {
-    Map request = Global.requests.firstWhere(
-        (request) => request['numberRequest'] == widget.numberRequest);
     final width = MediaQuery.of(context).size.width;
-    return Column(
+    Map order = Global.orders.firstWhere((order) => order['numberOrder'] == widget.numberOrder);
+    return  Column(
       children: [
         Stack(
           alignment: AlignmentDirectional.center,
           children: [
             Container(
               alignment: Alignment.center,
-              padding: EdgeInsets.only(left: width * 0.03, right: width * 0.08),
+              padding: EdgeInsets.only(left: width*0.03, right: width*0.08),
               child: Column(
                 children: [
                   Padding(
@@ -335,7 +325,7 @@ class _ApplicationState extends State<Application> {
                     ),
                   ),
                   Text(
-                    request['application'],
+                    order['application'],
                     textAlign: TextAlign.center,
                     overflow: textOverFlow ? TextOverflow.ellipsis : null,
                     style: const TextStyle(
@@ -349,37 +339,7 @@ class _ApplicationState extends State<Application> {
             changingIcon(width),
           ],
         ),
-        Row(
-          crossAxisAlignment: CrossAxisAlignment.center,
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            IconButton(
-              onPressed: () {
-                Navigator.push(
-                  context,
-                  MaterialPageRoute(
-                    builder: (context) =>  RelatedDocuments(
-                      numberDocument: widget.numberRequest,
-                      typeDocument: "Обращение",
-                    ),
-                  ),
-                );
-              },
-              icon: Image.asset('assets/images/buttonIcon/relatedDocument.png'),
-              iconSize: width * 0.1,
-              alignment: Alignment.topRight,
-            ),
-            IconButton(
-              onPressed: () {
-                Navigator.pushNamed(context, '');
-              },
-              icon: Image.asset('assets/images/buttonIcon/attachedFiles.png'),
-              iconSize: width * 0.1,
-              alignment: Alignment.topRight,
-            ),
-          ],
-        ),
-        detailedDescription(width, request['description']),
+        detailedDescription(width, order['description'], order['solution']),
       ],
     );
   }
@@ -389,8 +349,9 @@ class _ApplicationState extends State<Application> {
     switch (expend) {
       case true:
         widget = Positioned(
-          left: width * 0.8,
-          child: IconButton(
+          left: width*0.8,
+          child:
+          IconButton(
             onPressed: () {
               setState(() {
                 expend = false;
@@ -431,14 +392,14 @@ class _ApplicationState extends State<Application> {
     return widget;
   }
 
-  Widget detailedDescription(double width, String description) {
+  Widget detailedDescription(double width, String description, String solution) {
     Widget widget;
     switch (expend) {
       case true:
         widget = Padding(
-          padding: EdgeInsets.only(top: width * 0.02),
+          padding: EdgeInsets.only(top: width*0.02),
           child: Column(
-            children: [
+            children:  [
               const Text(
                 'Описание',
                 style: TextStyle(
@@ -448,6 +409,24 @@ class _ApplicationState extends State<Application> {
               ),
               Text(
                 description,
+                textAlign: TextAlign.center,
+                style: const TextStyle(
+                    fontSize: 24,
+                    fontWeight: FontWeight.w400,
+                    color: Color.fromARGB(255, 0, 0, 0)),
+              ),
+              Padding(
+                padding: EdgeInsets.only(top: width*0.02),
+                child:  const Text(
+                  'Решение',
+                  style: TextStyle(
+                      fontSize: 14,
+                      fontWeight: FontWeight.w300,
+                      color: Color.fromARGB(185, 0, 0, 0)),
+                ),
+              ),
+              Text(
+                solution,
                 textAlign: TextAlign.center,
                 style: const TextStyle(
                     fontSize: 24,

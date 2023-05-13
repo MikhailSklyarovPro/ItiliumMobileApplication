@@ -1,8 +1,23 @@
+import 'package:firstapp/database/database.dart';
+
 class Global{
   static late List<Map> orders;
+  static late List<Map> linkedOrders;
+
   static late List<Map> requests;
+  static late List<Map> linkedRequests;
+
   static late List<Map> approvals;
+  static late List<Map> linkedApprovals;
+
   static late List<Map> files;
+
+  static late List<Map> linkedDocuments;
+
+  static late double width;
+  static late double height;
+
+  static  late DataBase dataBase;
 
   static String convertDate(DateTime date){
     int day = date.day;
@@ -13,7 +28,7 @@ class Global{
       newDate = "0$day.";
     }else
     {
-      newDate = "$day";
+      newDate = "$day.";
     }
     if(month<10){
       newDate = "${newDate}0$month.";
@@ -35,4 +50,5 @@ class Global{
     newDate = second < 10 ? "${newDate}0$second" : "$newDate$second";
     return newDate;
   }
+
 }

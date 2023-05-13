@@ -1,4 +1,3 @@
-import 'package:flutter/widgets.dart';
 import 'package:path/path.dart';
 import 'package:sqflite/sqflite.dart';
 
@@ -22,76 +21,7 @@ class DataBase{
     return localdb;
   }
   _onUpgrade(Database db, int oldVersion, int newVersion) async{
-    await db.execute('''
-    CREATE TABLE "order" (
-    "id" INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT,
-    "numberOrder" INTEGER NOT NULL,
-    "dataTime" DATETIME NOT NULL ,
-    "name" VARCHAR NOT NULL ,
-    "surname" VARCHAR NOT NULL ,
-    "middleName" VARCHAR NOT NULL ,
-    "organization" VARCHAR NOT NULL,
-    "service" VARCHAR NOT NULL,
-    "compositionService" VARCHAR NOT NULL,
-    "application" VARCHAR NOT NULL,
-    "description" VARCHAR NOT NULL,
-    "solution" VARCHAR NOT NULL,
-    "status" VARCHAR NOT NULL,
-    "executionStatus" VARCHAR NOT NULL,
-    "importanceApplication" VARCHAR NOT NULL,
-    "belong" INTEGER NOT NULL
-    )
-    ''');
 
-    await db.execute('''
-    CREATE TABLE "request" (
-    "id" INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT,
-    "numberRequest" INTEGER NOT NULL,
-    "dataTime" DATETIME NOT NULL ,
-    "name" VARCHAR NOT NULL ,
-    "surname" VARCHAR NOT NULL ,
-    "middleName" VARCHAR NOT NULL ,
-    "organization" VARCHAR NOT NULL,
-    "service" VARCHAR NOT NULL,
-    "compositionService" VARCHAR NOT NULL,
-    "application" VARCHAR NOT NULL,
-    "description" VARCHAR NOT NULL,
-    "status" VARCHAR NOT NULL,
-    "post" VARCHAR NOT NULL,
-    "importanceApplication" VARCHAR NOT NULL,
-    "belong" INTEGER NOT NULL
-    )
-    ''');
-
-    await db.execute('''
-    CREATE TABLE "approval" (
-    "id" INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT,
-    "numberApproval" INTEGER NOT NULL,
-    "dataTime" DATETIME NOT NULL ,
-    "name" VARCHAR NOT NULL ,
-    "surname" VARCHAR NOT NULL ,
-    "middleName" VARCHAR NOT NULL ,
-    "organization" VARCHAR NOT NULL,
-    "application" VARCHAR NOT NULL,
-    "description" VARCHAR NOT NULL,
-    "approvalStatus" VARCHAR NOT NULL,
-    "comment" VARCHAR NOT NULL,
-    "belong" INTEGER NOT NULL
-    )
-    ''');
-
-    await db.execute('''
-    CREATE TABLE "file" (
-    "id" INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT,
-    "typeFile" VARCHAR NOT NULL ,
-    "name" VARCHAR NOT NULL ,
-    "location" VARCHAR NOT NULL ,
-    "typeDocument" INTEGER NOT NULL,
-    "numberDocument" INTEGER NOT NULL
-    )
-    ''');
-
-    print("база данных обновлена ====================");
   }
   _onCreate(Database db, int version) async{
     await db.execute('''
@@ -99,9 +29,6 @@ class DataBase{
     "id" INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT,
     "password" VARCHAR NOT NULL ,
     "login" VARCHAR NOT NULL ,
-    "name" VARCHAR NOT NULL ,
-    "surname" VARCHAR NOT NULL ,
-    "middleName" VARCHAR NOT NULL ,
     "role" VARCHAR NOT NULL
     )
     ''');
@@ -109,11 +36,9 @@ class DataBase{
     await db.execute('''
     CREATE TABLE "order" (
     "id" INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT,
-    "numberOrder" INTEGER NOT NULL,
+    "numberOrder" VARCHAR NOT NULL,
     "dataTime" DATETIME NOT NULL ,
-    "name" VARCHAR NOT NULL ,
-    "surname" VARCHAR NOT NULL ,
-    "middleName" VARCHAR NOT NULL ,
+    "initiator" VARCHAR NOT NULL ,
     "organization" VARCHAR NOT NULL,
     "service" VARCHAR NOT NULL,
     "compositionService" VARCHAR NOT NULL,
@@ -122,19 +47,17 @@ class DataBase{
     "solution" VARCHAR NOT NULL,
     "status" VARCHAR NOT NULL,
     "executionStatus" VARCHAR NOT NULL,
-    "importanceApplication" VARCHAR NOT NULL,
-    "belong" INTEGER NOT NULL
+    "priority" VARCHAR NOT NULL,
+    "linked" BOOLEAN NOT NULL
     )
     ''');
 
     await db.execute('''
     CREATE TABLE "request" (
     "id" INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT,
-    "numberRequest" INTEGER NOT NULL,
+    "numberRequest" VARCHAR NOT NULL,
     "dataTime" DATETIME NOT NULL ,
-    "name" VARCHAR NOT NULL ,
-    "surname" VARCHAR NOT NULL ,
-    "middleName" VARCHAR NOT NULL ,
+    "initiator" VARCHAR NOT NULL ,
     "organization" VARCHAR NOT NULL,
     "service" VARCHAR NOT NULL,
     "compositionService" VARCHAR NOT NULL,
@@ -142,36 +65,43 @@ class DataBase{
     "description" VARCHAR NOT NULL,
     "status" VARCHAR NOT NULL,
     "post" VARCHAR NOT NULL,
-    "importanceApplication" VARCHAR NOT NULL,
-    "belong" INTEGER NOT NULL
+    "priority" VARCHAR NOT NULL,
+    "linked" BOOLEAN NOT NULL
     )
     ''');
 
     await db.execute('''
     CREATE TABLE "approval" (
     "id" INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT,
-    "numberApproval" INTEGER NOT NULL,
+    "numberApproval" VARCHAR NOT NULL,
     "dataTime" DATETIME NOT NULL ,
-    "name" VARCHAR NOT NULL ,
-    "surname" VARCHAR NOT NULL ,
-    "middleName" VARCHAR NOT NULL ,
+    "initiator" VARCHAR NOT NULL ,
     "organization" VARCHAR NOT NULL,
     "application" VARCHAR NOT NULL,
     "description" VARCHAR NOT NULL,
     "approvalStatus" VARCHAR NOT NULL,
     "comment" VARCHAR NOT NULL,
-    "belong" INTEGER NOT NULL
+    "linked" BOOLEAN NOT NULL
+    )
+    ''');
+
+    await db.execute('''
+    CREATE TABLE "linkedDocuments" (
+    "id" INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT,
+    "typeDocument" VARCHAR NOT NULL ,
+    "numberDocument" VARCHAR NOT NULL ,
+    "typeLinkedDocument" VARCHAR NOT NULL ,
+    "numberLinkedDocument" VARCHAR NOT NULL
     )
     ''');
 
     await db.execute('''
     CREATE TABLE "file" (
     "id" INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT,
-    "typeFile" VARCHAR NOT NULL ,
     "name" VARCHAR NOT NULL ,
     "location" VARCHAR NOT NULL ,
-    "typeDocument" INTEGER NOT NULL,
-    "numberDocument" INTEGER NOT NULL
+    "typeDocument" VARCHAR NOT NULL,
+    "numberDocument" VARCHAR NOT NULL
     )
     ''');
     print("создана база данных и таблица пользователей ==========================");
