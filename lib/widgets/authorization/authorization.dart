@@ -1,6 +1,8 @@
+import 'package:firstapp/api/api.dart';
 import 'package:firstapp/database/database.dart';
 import 'package:firstapp/globalVariable/Global.dart';
 import 'package:flutter/material.dart';
+import 'package:sqflite/sqflite.dart';
 
 class AuthorizationForm extends StatefulWidget {
   const AuthorizationForm({Key? key}) : super(key: key);
@@ -14,8 +16,8 @@ class _AuthorizationFormState extends State<AuthorizationForm> {
   bool _obscurePassword = true;
   bool _checkLogin = false;
   bool _checkPassword = false;
-  final  _loginController = TextEditingController();
-  final  _passwordController = TextEditingController();
+  final _loginController = TextEditingController();
+  final _passwordController = TextEditingController();
 
   @override
   void initState() {
@@ -23,6 +25,7 @@ class _AuthorizationFormState extends State<AuthorizationForm> {
     // TODO: implement initState
     super.initState();
   }
+
   @override
   Widget build(BuildContext context) {
     return Container(
@@ -55,24 +58,31 @@ class _AuthorizationFormState extends State<AuthorizationForm> {
             ),
           ),
           const SizedBox(height: 15),
-           TextField(
+          TextField(
             controller: _loginController,
-            decoration:  InputDecoration(
-              enabledBorder:  OutlineInputBorder(
-                borderRadius: const BorderRadius.all(Radius.circular(9.0)),
-                borderSide: BorderSide(
-                  color: _checkLogin ? const Color.fromARGB(255, 191, 0, 0): const Color.fromARGB(127, 0, 0, 0),
-                )
-              ),
-              focusedBorder:  OutlineInputBorder(
+            decoration: InputDecoration(
+              enabledBorder: OutlineInputBorder(
+                  borderRadius: const BorderRadius.all(Radius.circular(9.0)),
+                  borderSide: BorderSide(
+                    color: _checkLogin
+                        ? const Color.fromARGB(255, 191, 0, 0)
+                        : const Color.fromARGB(127, 0, 0, 0),
+                  )),
+              focusedBorder: OutlineInputBorder(
                 borderRadius: const BorderRadius.all(Radius.circular(20)),
-                borderSide:
-                BorderSide(color: _checkLogin ? const Color.fromARGB(255, 191, 0, 0): const Color.fromARGB(255, 247, 147, 48),),
+                borderSide: BorderSide(
+                  color: _checkLogin
+                      ? const Color.fromARGB(255, 191, 0, 0)
+                      : const Color.fromARGB(255, 247, 147, 48),
+                ),
               ),
               disabledBorder: OutlineInputBorder(
                 borderRadius: const BorderRadius.all(Radius.circular(9)),
-                borderSide:
-                BorderSide(color: _checkLogin ? const Color.fromARGB(255, 191, 0, 0): const Color.fromARGB(127, 0, 0, 0),),
+                borderSide: BorderSide(
+                  color: _checkLogin
+                      ? const Color.fromARGB(255, 191, 0, 0)
+                      : const Color.fromARGB(127, 0, 0, 0),
+                ),
               ),
               counterText: "",
               hintStyle: const TextStyle(color: Color.fromARGB(127, 0, 0, 0)),
@@ -92,21 +102,28 @@ class _AuthorizationFormState extends State<AuthorizationForm> {
               controller: _passwordController,
               obscureText: _obscurePassword,
               decoration: InputDecoration(
-                enabledBorder:  OutlineInputBorder(
+                enabledBorder: OutlineInputBorder(
                     borderRadius: const BorderRadius.all(Radius.circular(9.0)),
                     borderSide: BorderSide(
-                      color: _checkPassword ? const Color.fromARGB(255, 191, 0, 0): const Color.fromARGB(127, 0, 0, 0),
-                    )
-                ),
-                focusedBorder:  OutlineInputBorder(
+                      color: _checkPassword
+                          ? const Color.fromARGB(255, 191, 0, 0)
+                          : const Color.fromARGB(127, 0, 0, 0),
+                    )),
+                focusedBorder: OutlineInputBorder(
                   borderRadius: const BorderRadius.all(Radius.circular(20)),
-                  borderSide:
-                  BorderSide(color: _checkPassword ? const Color.fromARGB(255, 191, 0, 0): const Color.fromARGB(255, 247, 147, 48),),
+                  borderSide: BorderSide(
+                    color: _checkPassword
+                        ? const Color.fromARGB(255, 191, 0, 0)
+                        : const Color.fromARGB(255, 247, 147, 48),
+                  ),
                 ),
                 disabledBorder: OutlineInputBorder(
                   borderRadius: const BorderRadius.all(Radius.circular(9)),
-                  borderSide:
-                  BorderSide(color: _checkPassword ? const Color.fromARGB(255, 191, 0, 0): const Color.fromARGB(127, 0, 0, 0),),
+                  borderSide: BorderSide(
+                    color: _checkPassword
+                        ? const Color.fromARGB(255, 191, 0, 0)
+                        : const Color.fromARGB(127, 0, 0, 0),
+                  ),
                 ),
                 counterText: "",
                 hintStyle: const TextStyle(color: Color.fromARGB(127, 0, 0, 0)),
@@ -116,7 +133,10 @@ class _AuthorizationFormState extends State<AuthorizationForm> {
                   iconSize: 20.0,
                   icon: _obscurePassword
                       ? const Icon(Icons.visibility_off, color: Colors.grey)
-                      : const Icon(Icons.visibility, color: Colors.black,),
+                      : const Icon(
+                          Icons.visibility,
+                          color: Colors.black,
+                        ),
                   onPressed: () {
                     setState(() {
                       _obscurePassword = !_obscurePassword;
@@ -134,55 +154,8 @@ class _AuthorizationFormState extends State<AuthorizationForm> {
           ),
           _checkPassword ? checkPassword() : const SizedBox(height: 25),
           ElevatedButton(
-              onPressed: () async{
-                if(_loginController.text ==  (await Global.dataBase.readData("SELECT login FROM 'user'")).first['login']&&_passwordController.text ==  (await Global.dataBase.readData("SELECT password FROM 'user'")).first['password']){
-                  Global.orders =  await Global.dataBase.readData("SELECT * FROM 'order' WHERE linked='false'");
-                  Global.linkedOrders =  await Global.dataBase.readData("SELECT * FROM 'order'");
-
-                  Global.requests =  await Global.dataBase.readData("SELECT * FROM 'request' WHERE linked='false'");
-                  Global.linkedRequests =  await Global.dataBase.readData("SELECT * FROM 'request'");
-
-                  Global.approvals =  await Global.dataBase.readData("SELECT * FROM 'approval' WHERE linked='false'");
-                  Global.linkedApprovals =  await Global.dataBase.readData("SELECT * FROM 'approval'");
-
-                  Global.linkedDocuments =  await Global.dataBase.read("linkedDocuments");
-
-                  Global.width = MediaQuery.of(context).size.width;
-                  Global.width = MediaQuery.of(context).size.height;
-
-                  //Global.files =  await dataBase.read("file");
-                  //print("${Global.orders}");// для отладки
-                  //print("Количество нарядов:${Global.linkedOrders.length}");// для отладки
-                  //print("${Global.linkedOrders}");
-                  //print("${Global.linkedDocuments}");
-                  //print("${Global.requests}");// для отладки
-                  //print("${Global.approvals}");// для отладки
-                  //print("${Global.files}");// для отладки
-                  Navigator.pushNamed(context, '/myRequestsWindow');
-                }
-                else{
-                  if(_passwordController.text ==  (await Global.dataBase.readData("SELECT password FROM 'user'")).first['password']) {
-                    setState(() {
-                      _checkPassword = false;
-                    });
-                  }
-                  else{
-                    setState(() {
-                      _checkPassword = true;
-                    });
-                  }
-                  if(_loginController.text ==  (await Global.dataBase.readData("SELECT login FROM 'user'")).first['login'])
-                  {
-                    setState(() {
-                      _checkLogin = false;
-                    });
-                  }
-                  else{
-                    setState(() {
-                      _checkLogin = true;
-                    });
-                  }
-                }
+              onPressed: () async {
+                await getData(context);
               },
               style: ElevatedButton.styleFrom(
                   shape: RoundedRectangleBorder(
@@ -217,9 +190,203 @@ class _AuthorizationFormState extends State<AuthorizationForm> {
     );
   }
 
-  initField() async{
-    //dataBase.deleteDataBase();
+  // Получение данных из Итилиум
+  Future<void> getData(BuildContext context) async {
+    var api = ItiliumAPI.connect('192.168.126.224');
 
+    // Получение пользователей
+    api.getUsers().then((result) async {
+      var apiUsers =
+          api.parseXml(result.body, ItiliumAPI.docName['Пользователь']!);
+
+      print('Список пользователей: $apiUsers');
+
+      for (var user in apiUsers) {
+        await Global.dataBase.insertData("INSERT OR REPLACE INTO 'user' ("
+            "login,"
+            "password,"
+            "role)"
+            " VALUES ("
+            "'${user['Name']}',"
+            "'12345',"
+            "'Исполнитель')");
+      }
+
+      List<Map> users = await Global.dataBase.readData("SELECT * FROM 'user'"
+          " WHERE login = '${_loginController.text}'"
+          " AND password = '${_passwordController.text}'");
+
+      Map user = users[0];
+
+      setState(() {
+        _checkLogin = user['login'] != _loginController.text;
+        _checkPassword = user['password'] != _passwordController.text;
+      });
+
+      if (!_checkLogin && !_checkPassword) {
+        api.getDocuments(user['login']).then((result) async {
+          // Получение обращений
+          var apiIncidents =
+              api.parseXml(result.body, ItiliumAPI.docName['Обращение']!);
+
+          print('Список обращений: $apiIncidents');
+
+          for (var incident in apiIncidents) {
+            await Global.dataBase
+                .insertData("INSERT OR REPLACE INTO 'request' ("
+                    "numberRequest,"
+                    "dataTime,"
+                    "initiator,"
+                    "organization,"
+                    "service,"
+                    "compositionService,"
+                    "application,"
+                    "description,"
+                    "status,"
+                    "post,"
+                    "priority,"
+                    "linked)"
+                    " VALUES ("
+                    "'${incident['Number']}',"
+                    "'${incident['Date']}',"
+                    "'${incident['Initiator']}',"
+                    "'${incident['Company']}',"
+                    "'${incident['Service']}',"
+                    "'${incident['ServiceContent']}',"
+                    "'${incident['Theme']}',"
+                    "'${incident['Description']}',"
+                    "'${incident['Status']}','',"
+                    "'${incident['Priority']}',"
+                    "'false')");
+          }
+
+          // Получение нарядов
+          var apiOrders =
+              api.parseXml(result.body, ItiliumAPI.docName['Наряд']!);
+
+          print('Список нарядов: $apiOrders');
+
+          for (var order in apiOrders) {
+            await Global.dataBase.insertData("INSERT OR REPLACE INTO 'order' ("
+                "numberOrder,"
+                "dataTime,"
+                "initiator,"
+                "organization,"
+                "service,"
+                "compositionService,"
+                "application,"
+                "description,"
+                "solution,"
+                "status,"
+                "executionStatus,"
+                "priority,"
+                "linked)"
+                " VALUES ("
+                "'${order['Number']}',"
+                "'${order['Date']}',"
+                "'${order['Initiator']}',"
+                "'${order['Company']}',"
+                "'${order['Service']}',"
+                "'${order['ServiceContent']}',"
+                "'${order['Theme']}',"
+                "'${order['Description']}',"
+                "'${order['Solution']}',"
+                "'${order['Status']}',"
+                "'${order['ClosingCode']}',"
+                "'${order['Priority']}',"
+                "'false')");
+          }
+
+          // Получение согласований
+          var apiApprovals =
+              api.parseXml(result.body, ItiliumAPI.docName['Согласование']!);
+
+          print('Список согласований: $apiApprovals');
+
+          for (var approval in apiApprovals) {
+            await Global.dataBase
+                .insertData("INSERT OR REPLACE INTO 'approval' ("
+                    "numberApproval,"
+                    "dataTime,"
+                    "initiator,"
+                    "organization,"
+                    "application,"
+                    "description,"
+                    "approvalStatus,"
+                    "comment,"
+                    "linked)"
+                    " VALUES ("
+                    "'${approval['Number']}',"
+                    "'${approval['Date']}',"
+                    "'${approval['Initiator']}',"
+                    "'${approval['Company']}',"
+                    "'${approval['Theme']}',"
+                    "'${approval['Description']}',"
+                    "'${approval['Status']}',"
+                    "'${approval['Comment']}',"
+                    "'false')");
+          }
+
+          // Получение данных из локальной БД
+          Global.requests = await Global.dataBase
+              .readData("SELECT * FROM 'request' WHERE linked='false'");
+          Global.linkedRequests =
+              await Global.dataBase.readData("SELECT * FROM 'request'");
+
+          Global.orders = await Global.dataBase
+              .readData("SELECT * FROM 'order' WHERE linked='false'");
+          Global.linkedOrders =
+              await Global.dataBase.readData("SELECT * FROM 'order'");
+
+          Global.approvals = await Global.dataBase
+              .readData("SELECT * FROM 'approval' WHERE linked='false'");
+          Global.linkedApprovals =
+              await Global.dataBase.readData("SELECT * FROM 'approval'");
+
+          List incidentNumbers = Global.requests
+              .map((incident) => incident['numberRequest'])
+              .toList();
+          List orderNumbers =
+              Global.orders.map((order) => order['numberOrder']).toList();
+
+          // Получение связанных документов
+          api
+              .getLinkedDocs(incidents: incidentNumbers, orders: orderNumbers)
+              .then((result) async {
+            var apiLinks = api.parseXml(
+                result.body, ItiliumAPI.docName['Связанный документ']!);
+
+            print('Список связанных документов: $apiLinks');
+
+            for (var link in apiLinks) {
+              await Global.dataBase
+                  .insertData("INSERT OR REPLACE INTO 'linkedDocuments' ("
+                  "typeDocument,"
+                  "numberDocument,"
+                  "typeLinkedDocument,"
+                  "numberLinkedDocument)"
+                  " VALUES ("
+                  "'${link['LinkedType']}',"
+                  "'${link['LinkedNumber']}',"
+                  "'${link['DocType']}',"
+                  "'${link['DocNumber']}')");
+            }
+
+            Global.linkedDocuments = await Global.dataBase.read("linkedDocuments");
+
+            // Global.files =  await dataBase.read("file");
+
+            Global.width = MediaQuery.of(context).size.width;
+            Global.width = MediaQuery.of(context).size.height;
+
+            Navigator.pushNamed(context, '/myRequestsWindow');
+          });
+        });
+      }
+    });
+  }
+
+  initField() async {
     //int responseDelete = await dataBase.deleteData('DELETE FROM "order" WHERE id = 2');
     //int responseDelete1 = await dataBase.deleteData('DELETE FROM "order" WHERE id = 3');
     //int responseInsert =  await dataBase.insertData(
@@ -239,10 +406,10 @@ class _AuthorizationFormState extends State<AuthorizationForm> {
     //);
     //print("$responseUser");
 
-   // int responseInsert =  await dataBase.insertData(
-   //    "INSERT INTO 'request' (numberRequest,dataTime,initiator,organization,service,compositionService,application,description,status,post,priority,linked)"
-   //      " VALUES ('009564371','1683000000000','Храмцов Константин Иванович','Эн+ диджитал','Корпоративная  услуга','Разработать ТЗ на разработку мобльного приложения для Итилиума','Составление ТЗ','Появилась потребность в разработки мобильного приложения для сотрудников для повышения их мобильности','В работе','Разработчик веб и мобильных приложений','Очень высокая','false')"
-   // );
+    // int responseInsert =  await dataBase.insertData(
+    //    "INSERT INTO 'request' (numberRequest,dataTime,initiator,organization,service,compositionService,application,description,status,post,priority,linked)"
+    //      " VALUES ('009564371','1683000000000','Храмцов Константин Иванович','Эн+ диджитал','Корпоративная  услуга','Разработать ТЗ на разработку мобльного приложения для Итилиума','Составление ТЗ','Появилась потребность в разработки мобильного приложения для сотрудников для повышения их мобильности','В работе','Разработчик веб и мобильных приложений','Очень высокая','false')"
+    // );
 
     //int response =  await dataBase.insertData(
     //  "INSERT INTO 'approval' (numberApproval,dataTime,initiator,organization,application,description,approvalStatus,comment,linked)"
@@ -254,16 +421,20 @@ class _AuthorizationFormState extends State<AuthorizationForm> {
     //    " VALUES ('Согласование','126358573','Обращение','009564371')"
     //);
 
+    // await dataBase.deleteDataBase();
+    // await dataBase.initDataBase();
+
     Global.dataBase = dataBase;
-    List<Map> responseAuthorization =  await dataBase.read("user");
-   _loginController.text = responseAuthorization.first['login'];
-    _passwordController.text = responseAuthorization.first['password'];
-    print("$responseAuthorization");
+
+    // List<Map> responseAuthorization = await dataBase.read("user");
+    // _loginController.text = responseAuthorization.first['login'];
+    // _passwordController.text = responseAuthorization.first['password'];
+    // print("$responseAuthorization");
   }
 
   Widget checkLogin() {
     return const Padding(
-        padding: EdgeInsets.only(bottom: 15),
+      padding: EdgeInsets.only(bottom: 15),
       child: Text(
         'Пользователь не найден!',
         textAlign: TextAlign.center,
@@ -275,6 +446,7 @@ class _AuthorizationFormState extends State<AuthorizationForm> {
       ),
     );
   }
+
   Widget checkPassword() {
     return const Padding(
       padding: EdgeInsets.only(bottom: 15),
@@ -318,5 +490,3 @@ class AuthorizationWindow extends StatelessWidget {
     );
   }
 }
-
-

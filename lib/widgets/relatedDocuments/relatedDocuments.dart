@@ -551,7 +551,7 @@ class _OrdersState extends State<Orders> {
           )),
       if (expend)
         Container(
-          height: linkedOrders.isNotEmpty ? height * 0.465 : null,
+          height: linkedOrders.isNotEmpty ? height * 0.48 : null,
           width: width * 1,
           margin: EdgeInsets.symmetric(
             horizontal: width * 0.02,

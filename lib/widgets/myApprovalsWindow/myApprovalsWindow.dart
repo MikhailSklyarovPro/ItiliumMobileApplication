@@ -214,7 +214,8 @@ class _MyApprovalsWindowState extends State<MyApprovalsWindow> {
                                     color: Color.fromARGB(255, 163, 164, 174)),
                               ),
                               Text(
-                                '${Global.approvals[index]['approvalStatus']}',
+                                Global.approvals[index]['approvalStatus'] != ''
+                                    ? '${Global.approvals[index]['approvalStatus']}' : '-',
                                 textAlign: TextAlign.center,
                                 style: const TextStyle(
                                     fontSize: 24,

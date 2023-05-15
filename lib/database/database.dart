@@ -14,21 +14,21 @@ class DataBase{
     }
   }
 
-  initDataBase() async{
+  initDataBase() async {
     String dataBasePath = await getDatabasesPath();
     String path = join(dataBasePath, 'local.db');
     Database localdb = await openDatabase(path, onCreate: _onCreate, version: 1, onUpgrade: _onUpgrade);
     return localdb;
   }
-  _onUpgrade(Database db, int oldVersion, int newVersion) async{
+  _onUpgrade(Database db, int oldVersion, int newVersion) async {
 
   }
   _onCreate(Database db, int version) async{
     await db.execute('''
     CREATE TABLE "user" (
     "id" INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT,
+    "login" VARCHAR NOT NULL UNIQUE,
     "password" VARCHAR NOT NULL ,
-    "login" VARCHAR NOT NULL ,
     "role" VARCHAR NOT NULL
     )
     ''');
@@ -36,7 +36,7 @@ class DataBase{
     await db.execute('''
     CREATE TABLE "order" (
     "id" INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT,
-    "numberOrder" VARCHAR NOT NULL,
+    "numberOrder" VARCHAR NOT NULL UNIQUE,
     "dataTime" DATETIME NOT NULL ,
     "initiator" VARCHAR NOT NULL ,
     "organization" VARCHAR NOT NULL,
@@ -55,7 +55,7 @@ class DataBase{
     await db.execute('''
     CREATE TABLE "request" (
     "id" INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT,
-    "numberRequest" VARCHAR NOT NULL,
+    "numberRequest" VARCHAR NOT NULL UNIQUE,
     "dataTime" DATETIME NOT NULL ,
     "initiator" VARCHAR NOT NULL ,
     "organization" VARCHAR NOT NULL,
@@ -73,7 +73,7 @@ class DataBase{
     await db.execute('''
     CREATE TABLE "approval" (
     "id" INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT,
-    "numberApproval" VARCHAR NOT NULL,
+    "numberApproval" VARCHAR NOT NULL UNIQUE,
     "dataTime" DATETIME NOT NULL ,
     "initiator" VARCHAR NOT NULL ,
     "organization" VARCHAR NOT NULL,
@@ -91,7 +91,8 @@ class DataBase{
     "typeDocument" VARCHAR NOT NULL ,
     "numberDocument" VARCHAR NOT NULL ,
     "typeLinkedDocument" VARCHAR NOT NULL ,
-    "numberLinkedDocument" VARCHAR NOT NULL
+    "numberLinkedDocument" VARCHAR NOT NULL,
+    UNIQUE("typeLinkedDocument", "numberLinkedDocument", "typeDocument", "numberDocument")
     )
     ''');
 
@@ -101,19 +102,20 @@ class DataBase{
     "name" VARCHAR NOT NULL ,
     "location" VARCHAR NOT NULL ,
     "typeDocument" VARCHAR NOT NULL,
-    "numberDocument" VARCHAR NOT NULL
+    "numberDocument" VARCHAR NOT NULL,
+    UNIQUE("name", "location")
     )
     ''');
     print("создана база данных и таблица пользователей ==========================");
   }
 
-  readData(String sql) async{
+  readData(String sql) async {
     Database? localdb = await db;
     List<Map> response = await localdb!.rawQuery(sql);
     return response;
   }
 
-  insertData(String sql) async{
+  insertData(String sql) async {
     Database? localdb = await db;
     int response = await localdb!.rawInsert(sql);
     return response;
@@ -135,6 +137,7 @@ class DataBase{
     String dataBasePath = await getDatabasesPath();
     String path = join(dataBasePath, 'local.db');
     await deleteDatabase(path);
+    print('База данных удалена!');
   }
 
 

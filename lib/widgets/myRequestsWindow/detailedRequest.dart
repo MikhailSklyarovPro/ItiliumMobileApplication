@@ -98,7 +98,7 @@ class DetailedRequest extends StatelessWidget {
                           color: Color.fromARGB(185, 0, 0, 0)),
                     ),
                     Text(
-                      "${request['post']}",
+                      request['post'] != '' ? "${request['post']}" : '-',
                       textAlign: TextAlign.center,
                       style: const TextStyle(
                           fontSize: 24,

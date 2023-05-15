@@ -259,7 +259,8 @@ class _MyRequestsWindowState extends State<MyRequestsWindow> {
                                                   255, 163, 164, 174)),
                                         ),
                                         Text(
-                                          "${Global.requests[index]['post']}",
+                                          Global.requests[index]['post'] != ''
+                                              ? "${Global.requests[index]['post']}" : '-',
                                           textAlign: TextAlign.center,
                                           overflow: TextOverflow.fade,
                                           softWrap: false,

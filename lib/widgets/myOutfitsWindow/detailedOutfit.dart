@@ -5,10 +5,13 @@ import 'package:flutter/material.dart';
 
 class DetailedOutfit extends StatelessWidget {
   const DetailedOutfit({Key? key}) : super(key: key);
+
   @override
   Widget build(BuildContext context) {
-    final numberOrder = ModalRoute.of(context)!.settings.arguments as String; //Получаем аргументы с предыдущего окна
-    Map order = Global.orders.firstWhere((order) => order['numberOrder'] == numberOrder);
+    final numberOrder = ModalRoute.of(context)!.settings.arguments
+        as String; //Получаем аргументы с предыдущего окна
+    Map order = Global.orders
+        .firstWhere((order) => order['numberOrder'] == numberOrder);
     _StatusState.newStatus = order['status'];
     _StatusState.newExecutionStatus = order['executionStatus'];
     final height = MediaQuery.of(context).size.height;
@@ -20,7 +23,7 @@ class DetailedOutfit extends StatelessWidget {
           automaticallyImplyLeading: false,
           title: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
-            children:  [
+            children: [
               Text(
                 'Наряд №$numberOrder',
                 style: const TextStyle(
@@ -28,7 +31,7 @@ class DetailedOutfit extends StatelessWidget {
                     fontWeight: FontWeight.w400,
                     color: Color.fromARGB(255, 255, 255, 255)),
               ),
-               Text(
+              Text(
                 "от ${Global.convertTime(DateTime.fromMillisecondsSinceEpoch(order["dataTime"]))}",
                 style: const TextStyle(
                     fontSize: 25,
@@ -115,7 +118,9 @@ class DetailedOutfit extends StatelessWidget {
                 ),
               )),
             ),
-             ButtonsBottom(numberOrder: order['numberOrder'],),
+            ButtonsBottom(
+              numberOrder: order['numberOrder'],
+            ),
           ],
         ));
   }
@@ -123,6 +128,7 @@ class DetailedOutfit extends StatelessWidget {
 
 class Status extends StatefulWidget {
   const Status({Key? key}) : super(key: key);
+
   @override
   State<Status> createState() => _StatusState();
 }
@@ -130,6 +136,7 @@ class Status extends StatefulWidget {
 class _StatusState extends State<Status> {
   static late String newStatus;
   static late String newExecutionStatus;
+
   @override
   Widget build(BuildContext context) {
     return Column(
@@ -154,24 +161,24 @@ class _StatusState extends State<Status> {
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
             IconButton(
-              onPressed: newStatus != "Закрыт" ? () {
-                newStatus = 'В работе';
-                setState(() {
-                });
-              } : null,
-              icon:
-              Image.asset('assets/images/buttonIcon/play.png'),
+              onPressed: newStatus != "Закрыт"
+                  ? () {
+                      newStatus = 'В работе';
+                      setState(() {});
+                    }
+                  : null,
+              icon: Image.asset('assets/images/buttonIcon/play.png'),
               iconSize: Global.width * 0.06,
               alignment: Alignment.topRight,
             ),
             IconButton(
-              onPressed: newStatus != "Закрыт" ? () {
-                newStatus = 'Приостановлен';
-                setState(() {
-                });
-              } : null,
-              icon:
-              Image.asset('assets/images/buttonIcon/pause.png'),
+              onPressed: newStatus != "Закрыт"
+                  ? () {
+                      newStatus = 'Приостановлен';
+                      setState(() {});
+                    }
+                  : null,
+              icon: Image.asset('assets/images/buttonIcon/pause.png'),
               iconSize: Global.width * 0.05,
               alignment: Alignment.topRight,
             ),
@@ -186,7 +193,7 @@ class _StatusState extends State<Status> {
               color: Color.fromARGB(185, 0, 0, 0)),
         ),
         Text(
-          newExecutionStatus,
+          newExecutionStatus != '' ? newExecutionStatus : '-',
           textAlign: TextAlign.center,
           style: const TextStyle(
               fontSize: 24,
@@ -201,11 +208,9 @@ class _StatusState extends State<Status> {
               onPressed: () {
                 newExecutionStatus = "Выполнен";
                 newStatus = "Закрыт";
-                setState(() {
-                });
-              } ,
-              icon: Image.asset(
-                  'assets/images/buttonIcon/checkMark.png'),
+                setState(() {});
+              },
+              icon: Image.asset('assets/images/buttonIcon/checkMark.png'),
               iconSize: Global.width * 0.06,
               alignment: Alignment.topRight,
             ),
@@ -213,12 +218,9 @@ class _StatusState extends State<Status> {
               onPressed: () {
                 newExecutionStatus = "Отклонен";
                 newStatus = "Закрыт";
-                setState(() {
-
-                });
+                setState(() {});
               },
-              icon: Image.asset(
-                  'assets/images/buttonIcon/redClose.png'),
+              icon: Image.asset('assets/images/buttonIcon/redClose.png'),
               iconSize: Global.width * 0.055,
               alignment: Alignment.topRight,
             ),
@@ -226,12 +228,9 @@ class _StatusState extends State<Status> {
               onPressed: () {
                 newExecutionStatus = "Не может быть реализован";
                 newStatus = "Закрыт";
-                setState(() {
-
-                });
+                setState(() {});
               },
-              icon: Image.asset(
-                  'assets/images/buttonIcon/blueClose.png'),
+              icon: Image.asset('assets/images/buttonIcon/blueClose.png'),
               iconSize: Global.width * 0.055,
               alignment: Alignment.topRight,
             ),
@@ -239,12 +238,9 @@ class _StatusState extends State<Status> {
               onPressed: () {
                 newExecutionStatus = "-";
                 newStatus = "Приостановлен";
-                setState(() {
-
-                });
+                setState(() {});
               },
-              icon: Image.asset(
-                  'assets/images/buttonIcon/eraser.png'),
+              icon: Image.asset('assets/images/buttonIcon/eraser.png'),
               iconSize: Global.width * 0.055,
               alignment: Alignment.topRight,
             ),
@@ -258,6 +254,7 @@ class _StatusState extends State<Status> {
 class ButtonsBottom extends StatefulWidget {
   const ButtonsBottom({Key? key, required this.numberOrder}) : super(key: key);
   final String numberOrder;
+
   @override
   State<ButtonsBottom> createState() => _ButtonsBottomState();
 }
@@ -278,16 +275,18 @@ class _ButtonsBottomState extends State<ButtonsBottom> {
                   context: context,
                   backgroundColor: const Color.fromARGB(255, 247, 147, 48),
                   shape: const RoundedRectangleBorder(
-                    borderRadius: BorderRadius.only(topRight: Radius.circular(30), topLeft: Radius.circular(30)),
+                    borderRadius: BorderRadius.only(
+                        topRight: Radius.circular(30),
+                        topLeft: Radius.circular(30)),
                   ),
                   builder: (BuildContext context) {
                     return SizedBox(
-                      height: height*0.4,
+                      height: height * 0.4,
                       child: Column(
                         mainAxisAlignment: MainAxisAlignment.end,
                         children: [
                           Padding(
-                            padding: EdgeInsets.only(bottom: height*0.01),
+                            padding: EdgeInsets.only(bottom: height * 0.01),
                             child: const Text(
                               "Изменение наряда",
                               textAlign: TextAlign.center,
@@ -298,8 +297,9 @@ class _ButtonsBottomState extends State<ButtonsBottom> {
                             ),
                           ),
                           Container(
-                            height: height*0.33,
-                            margin: EdgeInsets.only(left: width*0.03, right: width* 0.03),
+                            height: height * 0.33,
+                            margin: EdgeInsets.only(
+                                left: width * 0.03, right: width * 0.03),
                             color: const Color.fromARGB(255, 255, 255, 255),
                             child: Center(
                               child: Column(
@@ -308,7 +308,8 @@ class _ButtonsBottomState extends State<ButtonsBottom> {
                                 children: <Widget>[
                                   const Text('Модальное окошечко'),
                                   ElevatedButton(
-                                    child: const Text('Закрыть модальное окошечко'),
+                                    child: const Text(
+                                        'Закрыть модальное окошечко'),
                                     onPressed: () => Navigator.pop(context),
                                   ),
                                 ],
@@ -348,8 +349,7 @@ class _ButtonsBottomState extends State<ButtonsBottom> {
             width: width * 0.06,
           ),
           ElevatedButton(
-            onPressed: () {
-            },
+            onPressed: () {},
             style: ElevatedButton.styleFrom(
                 shape: RoundedRectangleBorder(
                     borderRadius: BorderRadius.circular(30)),
@@ -376,8 +376,9 @@ class _ButtonsBottomState extends State<ButtonsBottom> {
 }
 
 class Service extends StatefulWidget {
-  const Service({Key? key, required this.numberOrder}):super(key: key);
+  const Service({Key? key, required this.numberOrder}) : super(key: key);
   final String numberOrder;
+
   @override
   State<Service> createState() => _ServiceState();
 }
@@ -385,167 +386,26 @@ class Service extends StatefulWidget {
 class _ServiceState extends State<Service> {
   bool expend = false;
   bool textOverFlow = true;
+
   @override
   Widget build(BuildContext context) {
-    Map order = Global.orders.firstWhere((order) => order['numberOrder'] == widget.numberOrder);
+    Map order = Global.orders
+        .firstWhere((order) => order['numberOrder'] == widget.numberOrder);
     final width = MediaQuery.of(context).size.width;
     return Column(
-      children: [
-      Stack(
-      alignment: AlignmentDirectional.center,
-      children: [
-        Container(
-          alignment: Alignment.center,
-          padding: EdgeInsets.only(left: width*0.03, right: width*0.08),
-          child: Column(
-            children: [
-               Padding(
-                padding: EdgeInsets.only(left: width * 0.04),
-                child:  const Text(
-                  'Услуга',
-                  textAlign: TextAlign.center,
-                  style: TextStyle(
-                      fontSize: 14,
-                      fontWeight: FontWeight.w300,
-                      color: Color.fromARGB(185, 0, 0, 0)),
-                ),
-              ),
-             Text(
-                order['service'],
-                textAlign: TextAlign.center,
-                overflow: textOverFlow ? TextOverflow.ellipsis : null,
-                style: const TextStyle(
-                    fontSize: 24,
-                    fontWeight: FontWeight.w400,
-                    color: Color.fromARGB(255, 0, 0, 0)),
-              ),
-            ],
-          ),
-        ),
-        changingIcon(width),
-      ],
-    ),
-      detailedDescription(width,order['compositionService']),
-      ],
-    );
-  }
-
-  Widget changingIcon(double width) {
-    Widget widget;
-    switch (expend) {
-      case true:
-        widget = Positioned(
-          left: width*0.8,
-            child:
-            IconButton(
-              onPressed: () {
-                setState(() {
-                  expend = false;
-                  textOverFlow = true;
-                });
-              },
-              icon: Icon(
-                Icons.arrow_drop_up,
-                size: width * 0.1,
-              ),
-              alignment: Alignment.centerRight,
-              color: const Color.fromARGB(200, 0, 0, 0),
-            ),
-        );
-        break;
-      case false:
-        widget = Positioned(
-          left: width * 0.8,
-          child: IconButton(
-            onPressed: () {
-              setState(() {
-                expend = true;
-                textOverFlow = false;
-              });
-            },
-            icon: Icon(
-              Icons.arrow_drop_down,
-              size: width * 0.1,
-            ),
-            alignment: Alignment.centerRight,
-            color: const Color.fromARGB(200, 0, 0, 0),
-          ),
-        );
-        break;
-      default:
-        widget = Container();
-    }
-    return widget;
-  }
-
-  Widget detailedDescription(double width, String compositionService) {
-    Widget widget;
-    switch (expend) {
-      case true:
-        widget = Container(
-          padding: EdgeInsets.only(top: width*0.02),
-          child: Column(
-            children:  [
-              const Text(
-                'Состав услуги',
-                style: TextStyle(
-                    fontSize: 14,
-                    fontWeight: FontWeight.w300,
-                    color: Color.fromARGB(185, 0, 0, 0)),
-              ),
-              Text(
-                compositionService,
-                textAlign: TextAlign.center,
-                style: const TextStyle(
-                    fontSize: 24,
-                    fontWeight: FontWeight.w400,
-                    color: Color.fromARGB(255, 0, 0, 0)),
-              ),
-            ],
-          ),
-        );
-        break;
-      case false:
-        widget = const SizedBox(
-          width: 0,
-        );
-        break;
-      default:
-        widget = Container();
-    }
-    return widget;
-  }
-}
-
-class Application extends StatefulWidget {
-  const Application({Key? key, required this.numberOrder}) : super(key: key);
-  final String numberOrder;
-  @override
-  State<Application> createState() => _ApplicationState();
-}
-
-class _ApplicationState extends State<Application> {
-  bool expend = false;
-  bool textOverFlow = true;
-
-  @override
-  Widget build(BuildContext context) {
-    Map order = Global.orders.firstWhere((order) => order['numberOrder'] == widget.numberOrder);
-    final width = MediaQuery.of(context).size.width;
-    return  Column(
       children: [
         Stack(
           alignment: AlignmentDirectional.center,
           children: [
             Container(
               alignment: Alignment.center,
-              padding: EdgeInsets.only(left: width*0.03, right: width*0.08),
+              padding: EdgeInsets.only(left: width * 0.03, right: width * 0.08),
               child: Column(
                 children: [
                   Padding(
                     padding: EdgeInsets.only(left: width * 0.04),
                     child: const Text(
-                      'Заявка',
+                      'Услуга',
                       textAlign: TextAlign.center,
                       style: TextStyle(
                           fontSize: 14,
@@ -554,7 +414,7 @@ class _ApplicationState extends State<Application> {
                     ),
                   ),
                   Text(
-                    order['application'],
+                    order['service'],
                     textAlign: TextAlign.center,
                     overflow: textOverFlow ? TextOverflow.ellipsis : null,
                     style: const TextStyle(
@@ -568,47 +428,7 @@ class _ApplicationState extends State<Application> {
             changingIcon(width),
           ],
         ),
-        Row(
-          crossAxisAlignment: CrossAxisAlignment.center,
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            IconButton(
-              onPressed: () {
-                Navigator.push(
-                    context,
-                  MaterialPageRoute(
-                      builder: (context) =>  RelatedDocuments(
-                        numberDocument: widget.numberOrder,
-                        typeDocument: "Наряд",
-                      ),
-                  ),
-                );
-              },
-              icon: Image.asset(
-                  'assets/images/buttonIcon/relatedDocument.png'),
-              iconSize: width * 0.1,
-              alignment: Alignment.topRight,
-            ),
-            IconButton(
-              onPressed: () {
-                Navigator.push(
-                  context,
-                  MaterialPageRoute(
-                    builder: (context) =>  AttachedFiles(
-                      id: order['id'],
-                      typeDocument: "Наряд",
-                    ),
-                  ),
-                );
-              },
-              icon: Image.asset(
-                  'assets/images/buttonIcon/attachedFiles.png'),
-              iconSize: width * 0.1,
-              alignment: Alignment.topRight,
-            ),
-          ],
-        ),
-        detailedDescription(width, order['description'], order['solution']),
+        detailedDescription(width, order['compositionService']),
       ],
     );
   }
@@ -618,9 +438,8 @@ class _ApplicationState extends State<Application> {
     switch (expend) {
       case true:
         widget = Positioned(
-          left: width*0.8,
-          child:
-          IconButton(
+          left: width * 0.8,
+          child: IconButton(
             onPressed: () {
               setState(() {
                 expend = false;
@@ -661,14 +480,197 @@ class _ApplicationState extends State<Application> {
     return widget;
   }
 
-  Widget detailedDescription(double width, String description, String solution) {
+  Widget detailedDescription(double width, String compositionService) {
+    Widget widget;
+    switch (expend) {
+      case true:
+        widget = Container(
+          padding: EdgeInsets.only(top: width * 0.02),
+          child: Column(
+            children: [
+              const Text(
+                'Состав услуги',
+                style: TextStyle(
+                    fontSize: 14,
+                    fontWeight: FontWeight.w300,
+                    color: Color.fromARGB(185, 0, 0, 0)),
+              ),
+              Text(
+                compositionService,
+                textAlign: TextAlign.center,
+                style: const TextStyle(
+                    fontSize: 24,
+                    fontWeight: FontWeight.w400,
+                    color: Color.fromARGB(255, 0, 0, 0)),
+              ),
+            ],
+          ),
+        );
+        break;
+      case false:
+        widget = const SizedBox(
+          width: 0,
+        );
+        break;
+      default:
+        widget = Container();
+    }
+    return widget;
+  }
+}
+
+class Application extends StatefulWidget {
+  const Application({Key? key, required this.numberOrder}) : super(key: key);
+  final String numberOrder;
+
+  @override
+  State<Application> createState() => _ApplicationState();
+}
+
+class _ApplicationState extends State<Application> {
+  bool expend = false;
+  bool textOverFlow = true;
+
+  @override
+  Widget build(BuildContext context) {
+    Map order = Global.orders
+        .firstWhere((order) => order['numberOrder'] == widget.numberOrder);
+    final width = MediaQuery.of(context).size.width;
+    return Column(
+      children: [
+        Stack(
+          alignment: AlignmentDirectional.center,
+          children: [
+            Container(
+              alignment: Alignment.center,
+              padding: EdgeInsets.only(left: width * 0.03, right: width * 0.08),
+              child: Column(
+                children: [
+                  Padding(
+                    padding: EdgeInsets.only(left: width * 0.04),
+                    child: const Text(
+                      'Заявка',
+                      textAlign: TextAlign.center,
+                      style: TextStyle(
+                          fontSize: 14,
+                          fontWeight: FontWeight.w300,
+                          color: Color.fromARGB(185, 0, 0, 0)),
+                    ),
+                  ),
+                  Text(
+                    order['application'] != '' ? order['application'] : '-',
+                    textAlign: TextAlign.center,
+                    overflow: textOverFlow ? TextOverflow.ellipsis : null,
+                    style: const TextStyle(
+                        fontSize: 24,
+                        fontWeight: FontWeight.w400,
+                        color: Color.fromARGB(255, 0, 0, 0)),
+                  ),
+                ],
+              ),
+            ),
+            changingIcon(width),
+          ],
+        ),
+        Row(
+          crossAxisAlignment: CrossAxisAlignment.center,
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            IconButton(
+              onPressed: () {
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                    builder: (context) => RelatedDocuments(
+                      numberDocument: widget.numberOrder,
+                      typeDocument: "Наряд",
+                    ),
+                  ),
+                );
+              },
+              icon: Image.asset('assets/images/buttonIcon/relatedDocument.png'),
+              iconSize: width * 0.1,
+              alignment: Alignment.topRight,
+            ),
+            IconButton(
+              onPressed: () {
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                    builder: (context) => AttachedFiles(
+                      id: order['id'],
+                      typeDocument: "Наряд",
+                    ),
+                  ),
+                );
+              },
+              icon: Image.asset('assets/images/buttonIcon/attachedFiles.png'),
+              iconSize: width * 0.1,
+              alignment: Alignment.topRight,
+            ),
+          ],
+        ),
+        detailedDescription(width, order['description'], order['solution']),
+      ],
+    );
+  }
+
+  Widget changingIcon(double width) {
+    Widget widget;
+    switch (expend) {
+      case true:
+        widget = Positioned(
+          left: width * 0.8,
+          child: IconButton(
+            onPressed: () {
+              setState(() {
+                expend = false;
+                textOverFlow = true;
+              });
+            },
+            icon: Icon(
+              Icons.arrow_drop_up,
+              size: width * 0.1,
+            ),
+            alignment: Alignment.centerRight,
+            color: const Color.fromARGB(200, 0, 0, 0),
+          ),
+        );
+        break;
+      case false:
+        widget = Positioned(
+          left: width * 0.8,
+          child: IconButton(
+            onPressed: () {
+              setState(() {
+                expend = true;
+                textOverFlow = false;
+              });
+            },
+            icon: Icon(
+              Icons.arrow_drop_down,
+              size: width * 0.1,
+            ),
+            alignment: Alignment.centerRight,
+            color: const Color.fromARGB(200, 0, 0, 0),
+          ),
+        );
+        break;
+      default:
+        widget = Container();
+    }
+    return widget;
+  }
+
+  Widget detailedDescription(
+      double width, String description, String solution) {
     Widget widget;
     switch (expend) {
       case true:
         widget = Padding(
-          padding: EdgeInsets.only(top: width*0.02),
+          padding: EdgeInsets.only(top: width * 0.02),
           child: Column(
-            children:  [
+            children: [
               const Text(
                 'Описание',
                 style: TextStyle(
@@ -676,8 +678,8 @@ class _ApplicationState extends State<Application> {
                     fontWeight: FontWeight.w300,
                     color: Color.fromARGB(185, 0, 0, 0)),
               ),
-               Text(
-                 description,
+              Text(
+                description != '' ? description : '-',
                 textAlign: TextAlign.center,
                 style: const TextStyle(
                     fontSize: 24,
@@ -685,8 +687,8 @@ class _ApplicationState extends State<Application> {
                     color: Color.fromARGB(255, 0, 0, 0)),
               ),
               Padding(
-                  padding: EdgeInsets.only(top: width*0.02),
-                child:  const Text(
+                padding: EdgeInsets.only(top: width * 0.02),
+                child: const Text(
                   'Решение',
                   style: TextStyle(
                       fontSize: 14,
@@ -694,8 +696,8 @@ class _ApplicationState extends State<Application> {
                       color: Color.fromARGB(185, 0, 0, 0)),
                 ),
               ),
-               Text(
-                solution,
+              Text(
+                solution != '' ? solution : '-',
                 textAlign: TextAlign.center,
                 style: const TextStyle(
                     fontSize: 24,

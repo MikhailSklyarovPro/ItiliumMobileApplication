@@ -31,7 +31,7 @@ dependencies:
   flutter:
     sdk: flutter
   http: ^0.13.5
-  xml_map_converter: ^1.0.0+1
+  xml_parser: 1.0.0
   sqflite:
   path:
   pedantic_mono: any

@@ -7,10 +7,10 @@ class DetailedApprovals extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final numberApproval = ModalRoute.of(context)!.settings.arguments as String;
-    print(numberApproval);
+
     Map approval = Global.approvals
         .firstWhere((approval) => approval['numberApproval'] == numberApproval);
-    print(approval);
+
     final height = MediaQuery.of(context).size.height;
     final width = MediaQuery.of(context).size.width;
     return Scaffold(

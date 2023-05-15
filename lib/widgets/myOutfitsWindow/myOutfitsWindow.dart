@@ -236,7 +236,7 @@ class _MyOutfitsWindowState extends State<MyOutfitsWindow> {
                                     child: Column(
                                       children: [
                                         const Text(
-                                          'Статус наряда',
+                                          'Состояние',
                                           overflow: TextOverflow.ellipsis,
                                           style: TextStyle(
                                               fontSize: 14,
@@ -270,7 +270,7 @@ class _MyOutfitsWindowState extends State<MyOutfitsWindow> {
                                     child: Column(
                                       children: [
                                         const Text(
-                                          'Состояние',
+                                          'Статус выполнения',
                                           textAlign: TextAlign.center,
                                           softWrap: true,
                                           overflow: TextOverflow.ellipsis,
@@ -281,7 +281,8 @@ class _MyOutfitsWindowState extends State<MyOutfitsWindow> {
                                                   255, 163, 164, 174)),
                                         ),
                                         Text(
-                                          "${Global.orders[index]['executionStatus']}",
+                                          Global.orders[index]['executionStatus'] != ''
+                                              ? "${Global.orders[index]['executionStatus']}" : '-',
                                           textAlign: TextAlign.center,
                                           //softWrap: true,
                                           overflow: TextOverflow.ellipsis,
